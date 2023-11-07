@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>自定义动画</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(function(){
+      $('.box').animate({
+        left:300,
+        top:300,
+        width:200,
+        height:200,
+        opacity:0.4,
+      },2000,'linear',function(){
+        console.log('动画结束')
+      })	
+    })
+  </script>
+  <style>
+    .box{
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+  <div class="box"></div>
+</body>
+</html>

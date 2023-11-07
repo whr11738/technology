@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChatGPT</title>
+    <link
+      rel="shortcut icon"
+      href="https://img1.baidu.com/it/u=1629479163,3719818209&fm=253&fmt=auto&app=138&f=JPEG?w=473&h=399"
+    />
+    <!-- vue -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="main">
+        <!-- 菜单 -->
+        <div
+          class="tonone"
+          style="
+            background-color: rgb(32, 33, 35);
+            padding: 8px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+          "
+        >
+          <div style="flex: auto"></div>
+          <!-- 清空消息按钮 -->
+          <div
+            style="height: 44px; width: 260px; display: flex; align-items: center; cursor: pointer"
+            class="menu1"
+            @click="m.clear"
+          >
+            <svg
+              v-if="!d.clear"
+              style="margin: 16px"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#ffffff"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              <line x1="10" y1="11" x2="10" y2="17"></line>
+              <line x1="14" y1="11" x2="14" y2="17"></line>
+            </svg>
+            <svg
+              v-else
+              style="margin: 16px"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#ffffff"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <p style="font-size: 14px; line-height: 20px; color: white">
+              {{d.clear?'Confirm clear conversations':'Clear conversations'}}
+            </p>
+          </div>
+
+          <!-- 切换样式按钮 -->
+          <div
+            style="height: 44px; width: 260px; display: flex; align-items: center; cursor: pointer"
+            class="menu1"
+            @click="m.toInvert"
+          >
+            <svg
+              v-if="d.invert"
+              style="margin: 16px"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#ffffff"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            <svg
+              v-else
+              style="margin: 16px"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#ffffff"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="5" />
+              <path
+                d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"
+              />
+            </svg>
+            <p style="font-size: 14px; line-height: 20px; color: white">{{d.invert?'Dark mode':'Light mode'}}</p>
+          </div>
+        </div>
+        <div :class="{'invert':d.invert}" style="display: flex; flex: auto; position: relative">
+          <!-- 聊天室 -->
+          <div
+            style="
+              background-color: rgb(68, 70, 84);
+              flex-direction: column;
+              overflow-y: auto;
+              overflow-x: hidden;
+              height: 100%;
+              width: 100%;
+            "
+            class="room"
+          >
+            <div v-for="(item,index) in d.list" :key="item">
+              <div
+                style="display: flex; width: 100%; justify-content: center; padding: 24px 0; box-sizing: border-box"
+                :class="{'he':!item.me,'me':item.me}"
+              >
+                <div class="msg-room" style="width: 47%; display: flex">
+                  <div>
+                    <img
+                      :class="{'invert':d.invert}"
+                      src="https://img0.baidu.com/it/u=3934932366,2288999595&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=500"
+                      style="width: 30px; height: 30px; border-radius: 2px"
+                      alt=""
+                    />
+                  </div>
+                  <div>
+                    <p
+                      style="
+                        margin: 0 24px;
+                        font-size: 16px;
+                        line-height: 20px;
+                        color: rgb(209, 213, 219);
+                        white-space: pre-wrap;
+                        word-spacing: 0.3em;
+                      "
+                      :class="'typing'+index"
+                    >
+                      {{item.msg}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              v-if="!d.list.length"
+              style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center"
+            >
+              <p style="font-size: 36px; color: rgb(236, 236, 241)">ChatGPT</p>
+            </div>
+            <div v-if="d.list.length" style="height: 140px; background-color: rgb(68, 70, 84)" class="blank"></div>
+          </div>
+
+          <!-- 输入区域 -->
+          <div
+            class="input-area"
+            style="
+              position: absolute;
+              width: 100%;
+              height: 100px;
+              align-items: center;
+              bottom: 0px;
+              flex-direction: column;
+              display: flex;
+              background: linear-gradient(to top, black, #fff0);
+            "
+          >
+            <!-- 重新回答 -->
+            <div
+              @click="m.reSend"
+              style="
+                position: absolute;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: rgb(52, 53, 65);
+                border: 1px solid rgb(86, 88, 105);
+                padding: 8px 12px;
+                border-radius: 4px;
+                color: rgb(217, 217, 227);
+                font-size: 14px;
+                cursor: pointer;
+                transform: translate(0, -50px);
+              "
+              class="menu2"
+            >
+              <svg
+                style="margin-right: 8px"
+                xmlns="http://www.w3.org/2000/svg"
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#ffffff"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M2.5 2v6h6M21.5 22v-6h-6" />
+                <path d="M22 11.5A10 10 0 0 0 3.2 7.2M2 12.5a10 10 0 0 0 18.8 4.2" />
+              </svg>
+              Regenerate response
+            </div>
+            <!-- 输入框 -->
+            <div
+              class="main-input"
+              style="
+                background-color: rgb(64, 65, 79);
+                width: 47%;
+                height: 50px;
+                border-radius: 6px;
+                padding: 16px 36px 12px 16px;
+                box-sizing: border-box;
+              "
+            >
+              <textarea
+                @keydown.enter="m.send"
+                v-model="d.inputInner"
+                placeholder="Send a message..."
+                style="
+                  height: 100%;
+                  width: 100%;
+                  background-color: rgb(64, 65, 79);
+                  outline: none;
+                  color: rgb(209, 213, 219);
+                  font-size: 16px;
+                  font-weight: bolder;
+                  resize: none;
+                "
+              ></textarea>
+              <svg
+                @click="m.send"
+                style="position: absolute; margin-left: 4px; cursor: pointer"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#ffffff"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M10 9l-6 6 6 6" />
+                <path d="M20 4v7a4 4 0 0 1-4 4H5" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <!-- 工具 -->
+  <script>
+    const { createApp, onMounted, reactive } = Vue
+    // 封装storage
+    const storage = {
+      set(key, value) {
+        localStorage.setItem(key, JSON.stringify(value))
+      },
+      get(key) {
+        return JSON.parse(localStorage.getItem(key))
+      },
+      del(key) {
+        localStorage.removeItem(key)
+      }
+    }
+    // WebSocket封装
+    const newWebSocket = {
+      websocket: null,
+      heartbeat_timer: null, // 用于心跳检测
+      active_close: false, // 是否主动关闭
+      init: (params) => {
+        newWebSocket.websocket = new WebSocket(params.url)
+        newWebSocket.websocket.onopen = (data) => {
+          newWebSocket.heartbeat()
+          if (params.onopen) {
+            params.onopen('webSocket已连接', data)
+          }
+        }
+        newWebSocket.websocket.onmessage = (data) => {
+          if (params.onmessage) {
+            params.onmessage(data.data)
+          }
+        }
+        newWebSocket.websocket.onclose = () => {
+          clearInterval(newWebSocket.heartbeat_timer)
+          if (newWebSocket.active_close) {
+            if (params.onclose) {
+              params.onclose('连接已手动关闭')
+            }
+          } else {
+            newWebSocket.reconnect(params)
+            if (params.onclose) {
+              params.onclose('连接已关闭, 正在重连')
+            }
+          }
+        }
+        newWebSocket.websocket.onerror = () => {
+          clearInterval(newWebSocket.heartbeat_timer)
+          if (params.onerror) {
+            params.message('连接发生错误！等待五秒后重连')
+            setTimeout(() => {
+              newWebSocket.reconnect(params)
+            }, 5000)
+          }
+        }
+      },
+      heartbeat: () => {
+        console.log('执行心跳')
+        if (newWebSocket.heartbeat_timer) {
+          clearInterval(newWebSocket.heartbeat_timer)
+        }
+        newWebSocket.heartbeat_timer = setInterval(function () {
+          newWebSocket.websocket.send('ping')
+        }, 10000)
+      },
+      reconnect: (params) => {
+        console.log('执行重连')
+        newWebSocket.active_close = false
+        if (newWebSocket.websocket) {
+          newWebSocket.websocket.close()
+        }
+        newWebSocket.init(params)
+      },
+      close: () => {
+        console.log('手动关闭，无需重连')
+        clearInterval(newWebSocket.heartbeat_timer)
+        newWebSocket.active_close = true
+        newWebSocket.websocket.close()
+      },
+      send: (data) => {
+        console.log('发送：' + data)
+        if (newWebSocket.websocket.readyState == WebSocket.CONNECTING) {
+          newWebSocket.reconnect(newWebSocket.params)
+        }
+        newWebSocket.websocket.send(data)
+      }
+    }
+    // 使溢出滚动的div滚动到指定位置
+    const divScroll = (el, val = 0, topOrBottom = 'top') => {
+      if (!el) return
+      let { scrollHeight, offsetHeight } = el
+      scrollHeight = Math.round(scrollHeight)
+      offsetHeight = Math.round(offsetHeight)
+      if (topOrBottom === 'top') {
+        el.scrollTop = val
+      } else {
+        el.scrollTop = scrollHeight - offsetHeight - val
+      }
+    }
+  </script>
+
+  <!-- Vue实例主体 -->
+  <script>
+    let app = {
+      setup() {
+        const d = reactive({
+          clear: false,
+          invert: false,
+          inputInner: null,
+          list: []
+        })
+        const m = reactive({
+          init() {
+            const bf = storage.get('bf')
+            if (bf && bf.length) {
+              d.list.push(...bf)
+            }
+            const invertBF = storage.get('invertBF')
+            if (invertBF) {
+              d.invert = invertBF === 2
+            }
+            newWebSocket.init({
+              url: 'ws://192.168.5.100:9000',
+              onopen: (msg, data) => {
+                console.log(msg, data)
+              },
+              onmessage: async (data) => {
+                if (data !== 'pong') {
+                  const t = new Date().getTime()
+                  d.list.push({
+                    me: false,
+                    msg: '',
+                    t
+                  })
+                  // 字符串转数组
+                  const strToArr = (str, tag = '') => {
+                    return str.split(tag)
+                  }
+                  // 代码中间插入延迟
+                  const wait = async (time = 1000) => {
+                    return new Promise((resolve) => setTimeout(resolve, time))
+                  }
+                  const strArr = strToArr(data)
+                  for (const p of strArr) {
+                    for (const i of d.list) {
+                      if (i.t === t) {
+                        await wait(100)
+                        i.msg += p
+                        m.scroll()
+                      }
+                      storage.set('bf', d.list)
+                    }
+                  }
+                  m.scroll()
+                }
+              },
+              onclose: (data) => {
+                console.log(data)
+              }
+            })
+          },
+          send() {
+            if (!d.inputInner) return
+            newWebSocket.websocket.send(d.inputInner)
+            d.list.push({
+              me: true,
+              msg: d.inputInner
+            })
+            storage.set('bf', d.list)
+            setTimeout(() => {
+              d.inputInner = ''
+            }, 100)
+            const room = document.getElementsByClassName('room')[0]
+            m.scroll()
+          },
+          reSend() {
+            let lastMyMsg = null
+            for (const i of d.list) {
+              if (i.me) lastMyMsg = i.msg
+            }
+            if (!lastMyMsg) return
+            d.inputInner = lastMyMsg
+            m.send()
+          },
+          clear() {
+            if (d.clear) {
+              d.list.length = 0
+              storage.del('bf')
+              d.clear = false
+            } else {
+              d.clear = true
+            }
+          },
+          toInvert() {
+            d.invert = !d.invert
+            storage.set('invertBF', d.invert ? 2 : 1)
+          },
+          scroll() {
+            setTimeout(() => {
+              const room = document.getElementsByClassName('room')[0]
+              divScroll(room, 0, 'bottom')
+            }, 100)
+          }
+        })
+
+        onMounted(() => {
+          try {
+            m.init()
+          } catch (error) {
+            alert('接口无效')
+          }
+          m.scroll()
+        })
+
+        return { d, m }
+      }
+    }
+  </script>
+
+  <!-- 创建Vue实例 -->
+  <script>
+    const App = createApp(app)
+    App.mount('#app')
+  </script>
+
+  <style>
+    /* 初始化 */
+    * {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: 100%;
+      font-weight: normal;
+      vertical-align: baseline;
+    }
+
+    html,
+    body {
+      width: 100%;
+    }
+
+    /* 主视图 */
+    .main {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+    }
+
+    .he {
+      background-color: rgb(68, 70, 84);
+    }
+
+    .me {
+      background-color: rgb(52, 53, 65);
+    }
+
+    ::-webkit-scrollbar {
+      width: 0;
+    }
+
+    input::-webkit-input-placeholder {
+      font-size: 16px;
+      color: rgb(142, 142, 160);
+    }
+
+    .menu1:hover {
+      background-color: rgb(43, 44, 47);
+      border-radius: 8px;
+    }
+    .menu2:hover {
+      background-color: rgb(64, 65, 79) !important;
+    }
+    .invert {
+      filter: invert(100%);
+    }
+
+    @media all and (max-width: 1000px) {
+      .tonone {
+        width: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      .main-input {
+        width: 96% !important;
+      }
+      .msg-room {
+        width: 90% !important;
+      }
+      .input-area {
+        height: 60px !important;
+      }
+      .blank {
+        height: 100px !important;
+      }
+      p {
+        font-size: 0.8rem !important;
+      }
+    }
+  </style>
+</html>

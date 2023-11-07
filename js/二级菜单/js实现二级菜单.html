@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>js实现二级菜单</title>
+  </head>
+  <body>
+    <div class="x">
+      <div>一级菜单</div>
+      <ul class="y">
+        <li>二级菜单</li>
+        <li>二级菜单</li>
+      </ul>
+    </div>
+    <script>
+      var x = document.getElementsByClassName("x")[0];
+      var y = document.getElementsByClassName("y")[0];
+      x.onmouseover = function () {
+        y.style.display = "block";
+      };
+      x.onmouseout = function () {
+        y.style.display = "none";
+      };
+    </script>
+  </body>
+</html>

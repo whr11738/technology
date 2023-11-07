@@ -1,0 +1,95 @@
+function * gen(){
+yield 1;
+yield 2;
+}
+let x=gen();
+console.log(x.next());
+console.log(x.next());
+console.log(x.next());
+生成器函数，异步执行，每次往下一段 
+
+let 只在块级作用域有效
+const 不能修改的常量值，数组可以
+
+let x='y';
+let z=`${x}m`//ym
+``中内容可以出现换行符，且可以进行变量拼接
+
+let x1=function(){console.log("this.name");}
+let x2=()=>{console.log("this.name");}
+windows.name="y"
+const z.name="z"
+x1.call(z);//z 获取参数z的属性了
+x2.call(z);//y 箭头函数，this始终指向所在作用域的值，此时是windows
+箭头函数不能构造实例化对象，也不能使用argument变量
+只有一个形参可以省略()只有一句话可以省略{}
+
+function fn(...args){console.log(args);}
+fn(1,2,3.4.5);
+rest参数能使函数返回一个数组
+
+const a=[1,2,3];
+function h(){console.log(arguments);}
+h(...a);
+... 扩展运算符能将数组转换为逗号分隔得参数序列
+
+let x=Symbol("ans");
+let z={[x]:"1"}
+console.log(z);
+第六种基本类型 Symbol 他的值都是不相等的，所以 Symbol 可以作为对象的属性名
+
+const arr=['x','y','z','m']
+for(let v in arr){console.log(v)}//0,1,2,3
+for(let v of arr){console.log(v)}//x,y,z,m
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

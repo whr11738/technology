@@ -1,0 +1,10 @@
+html部分：
+        <div class="btn" data-clipboard-text="内容"></div>
+
+
+js部分：
+import ClipboardJS from '@/utils/copyTool'
+new ClipboardJS('.btn')
+
+官网：
+https://clipboardjs.com/

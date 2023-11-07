@@ -1,0 +1,96 @@
+cmd:
+
+mongod 		启动数据库，用下面的函数详细设置启动参数,后面会自动设置成开机自启动
+mongo 		连接数据库，打开客户端连接也行
+
+mongod --dbpath 数据库路径 --port 端口号
+端口号不要超过65535
+
+例子
+mongod --dbpath C:\Users\Administrator\Desktop\data\db --port 23333
+
+show dbs 			显示所有数据库
+use 数据库名字  	 		进入到指定数据库中
+db				当前数据库名
+show collections			显示数据库中所有的集合
+
+
+CDUD(增删改查)
+
+
+db.<collection>.insert(doc)	向集合中插入一个文档
+db.stus.insert({name:"x",age:"18"})	
+向stus集合中插入一个新的对象{name:"x",age:"18"}，多个需要写成数组，_id可以自己指定id
+for(var i=1;i<=200;i++){
+db.stus.insert({num:i})
+}				插入200条数据
+
+
+db.stus.find()			查询所有文档
+db.stus.find().limit(10)		查询前十条文档
+db.stus.find().skip(10).limit(10)	查询前十到二十条文档
+db.stus.find({name:"x"})		查询符合条件的文档
+db.stus.findone({name:"x"})		查询符合条件的第一个文档
+db.stus.find({name:"x"}).count()	查询符合条件的文档的数量
+db.stus.find({age:{$lt:20}})		查询age小于20的的文档
+db.stus.find({age:{$lt:20,$gt:10}})	查询age小于20大于10的的文档
+db.stus.find
+(
+  {
+    $or:
+    [
+      {age:{$lt:10}},
+      {age:{$gt:20}}
+    ]
+  }
+)					查询age小于10或大于20的的文档
+db.stus.updateMany({age:{$lte:4}},{$inc:{age:4}})	让age小于4的文档自增4
+
+
+db.stus.update({name:"x"},{name:"y"})	修改符合条件的文档，前者是查询条件，后者直接覆盖文档所有属性
+db.stus.update(
+{name:"x"},
+{$set{name:"y"}})			修改符合条件的文档，前者是查询条件，后者添加进去的新属性
+db.stus.update(
+{name:"x"},
+{$unset{name:1}})			修改符合条件的文档，前者是查询条件，后者删除属性，值写啥都行
+				db.stus.updateOne与db.stus.update都只改一个
+				db.stus.updateMany改多个
+$push添加新元素
+
+
+db.dropDatabase()			删除数据库
+db.stus.drop()			删除stus集合
+db.stus.remove({})			删除所有文档
+db.stus.remove({name:"x"})		删除所有符合条件的文档
+db.stus.remove({name:"x"},true)	删除第一个符合条件的文档
+
+
+db.stus.find().sort({age:1})		age排序，1是升序，-1是降序
+db.stus.find().sort({age:1,id:-1})	age升序，id后降序
+db.stus.find({}.{age:1})		只显示age
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,3 @@
+需要开启 Live Server 解决引入跨域
+这是Vue2框架下的引入
+引入的组件export default需改成module.exports

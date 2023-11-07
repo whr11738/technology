@@ -1,0 +1,2 @@
+1，先确认是否有高度
+2，高度由 flex:auto 得到时，其父元素需要有 flex-direction: column，且其需要有属性height（可以是0）

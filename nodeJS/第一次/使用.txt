@@ -1,0 +1,8 @@
+初始化仓库（创建package.json）
+npm init
+
+安装依赖（安装node_modules）
+npm i
+
+运行（package.json中的main需要配置入口）
+node .

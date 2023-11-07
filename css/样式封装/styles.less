@@ -1,0 +1,159 @@
+// lessc styles.less styles.css
+
+// prettier-ignore
+@numberArr: range(1,100,1);
+@fontWeight: 100, 200, 300, 400, 500, 600, 700, 800, 900;
+@priorityArr: -1, 0, 1, 2, 10, 100, 500, 1000, 9999;
+@colorArr: aqua, #00ccff, #d0d0d0, #aedd81, #84af9b, #26a65b, #eb7347, #fc9d99, #d24d57, #2c3e50;
+
+//宽度 w
+.loop4(w,width,@numberArr);
+.loop5(w,width,@numberArr);
+.loop6(w,width,@numberArr);
+.loop7(w,width,@numberArr);
+
+//高度 h
+.loop4(h,height,@numberArr);
+.loop5(h,height,@numberArr);
+.loop6(h,height,@numberArr);
+.loop7(h,height,@numberArr);
+
+//外边距 m
+.loop4(m,margin,@numberArr);
+.loop4(mt,margin-top,@numberArr);
+.loop4(mr,margin-right,@numberArr);
+.loop4(mb,margin-bottom,@numberArr);
+.loop4(ml,margin-left,@numberArr);
+.loop5(m,margin,@numberArr);
+.loop5(mt,margin-top,@numberArr);
+.loop5(mr,margin-right,@numberArr);
+.loop5(mb,margin-bottom,@numberArr);
+.loop5(ml,margin-left,@numberArr);
+.loop6(m,margin,@numberArr);
+.loop6(mt,margin-top,@numberArr);
+.loop6(mr,margin-right,@numberArr);
+.loop6(mb,margin-bottom,@numberArr);
+.loop6(ml,margin-left,@numberArr);
+.loop7(m,margin,@numberArr);
+.loop7(mt,margin-top,@numberArr);
+.loop7(mr,margin-right,@numberArr);
+.loop7(mb,margin-bottom,@numberArr);
+.loop7(ml,margin-left,@numberArr);
+
+//内边距 p
+.loop4(p,padding,@numberArr);
+.loop4(pt,padding-top,@numberArr);
+.loop4(pr,padding-right,@numberArr);
+.loop4(pb,padding-bottom,@numberArr);
+.loop4(pl,padding-left,@numberArr);
+.loop5(p,padding,@numberArr);
+.loop5(pt,padding-top,@numberArr);
+.loop5(pr,padding-right,@numberArr);
+.loop5(pb,padding-bottom,@numberArr);
+.loop5(pl,padding-left,@numberArr);
+.loop6(p,padding,@numberArr);
+.loop6(pt,padding-top,@numberArr);
+.loop6(pr,padding-right,@numberArr);
+.loop6(pb,padding-bottom,@numberArr);
+.loop6(pl,padding-left,@numberArr);
+.loop7(p,padding,@numberArr);
+.loop7(pt,padding-top,@numberArr);
+.loop7(pr,padding-right,@numberArr);
+.loop7(pb,padding-bottom,@numberArr);
+.loop7(pl,padding-left,@numberArr);
+
+//字体 fz
+.loop5(fz,font-size,@numberArr);
+
+//字重 fw
+.loop2(fw,font-weight,@fontWeight);
+
+//背景颜色 bc
+.loop2(bc,background-color,@colorArr);
+
+//颜色 c
+.loop2(c,color,@colorArr);
+
+//透明度 o
+.loop3(o,opacity);
+
+//优先级 z
+.loop1(z,z-index,@priorityArr);
+
+// 以值为单位
+// 标题一，标题二，键名，键值（数组）
+.loop1(@styleTitle,@styleName,@arr,@index: 1) when(@index<=length(@arr)) {
+  // 根据索引获取数组中的值
+  // prettier-ignore
+  @item:extract(@arr,@index);
+  // 生成对应的css代码
+  .@{styleTitle}@{item} {
+    @{styleName}: @item;
+  }
+  // 递归调用
+  .loop1(@styleTitle,@styleName,@arr,@index+1);
+}
+
+// 无单位
+// 标题一，标题二，键名，键值（数组）
+.loop2(@styleTitle,@styleName,@arr,@index: 1) when(@index<=length(@arr)) {
+  // prettier-ignore
+  @item:extract(@arr,@index);
+  .@{styleTitle}@{index} {
+    @{styleName}: @item;
+  }
+  .loop2(@styleTitle,@styleName,@arr,@index+1);
+}
+
+// 以小数为单位
+// 标题一，标题二，键名
+.loop3(@styleTitle,@styleName,@length:10,@index: 1) when(@index<=@length) {
+  .@{styleTitle}@{index} {
+    @{styleName}: @index*0.1;
+  }
+  .loop3(@styleTitle,@styleName,@length:10,@index+1);
+}
+
+// 以百分比为单位
+// 标题一，标题二，键名，键值（数组）
+.loop4(@styleTitle,@styleName,@arr,@index: 1) when(@index<=length(@arr)) {
+  // prettier-ignore
+  @item:extract(@arr,@index);
+  .@{styleTitle}@{item}p {
+    @{styleName}: @item*1%;
+  }
+  .loop4(@styleTitle,@styleName,@arr,@index+1);
+}
+
+// 以px为单位
+// 标题一，标题二，键名，键值（数组）
+.loop5(@styleTitle,@styleName,@arr,@index: 1) when(@index<=length(@arr)) {
+  // prettier-ignore
+  @item:extract(@arr,@index);
+  .@{styleTitle}@{item} {
+    @{styleName}: @item*1px;
+  }
+  .loop5(@styleTitle,@styleName,@arr,@index+1);
+}
+
+// 以vh为单位
+// 标题一，标题二，键名，键值（数组）
+.loop6(@styleTitle,@styleName,@arr,@index: 1) when(@index<=length(@arr)) {
+  // prettier-ignore
+  @item:extract(@arr,@index);
+  .@{styleTitle}@{item}h {
+    @{styleName}: @item*1vh;
+  }
+  .loop6(@styleTitle,@styleName,@arr,@index+1);
+}
+
+// 以vw为单位
+// 标题一，标题二，键名，键值（数组）
+.loop7(@styleTitle,@styleName,@arr,@index: 1) when(@index<=length(@arr)) {
+  // prettier-ignore
+  @item:extract(@arr,@index);
+  .@{styleTitle}@{item}w {
+    @{styleName}: @item*1vw;
+  }
+  .loop7(@styleTitle,@styleName,@arr,@index+1);
+}

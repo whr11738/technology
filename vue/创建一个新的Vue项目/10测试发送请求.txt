@@ -1,0 +1,8 @@
+src文件夹下创建apis文件夹
+apis文件夹下创建home.js文件
+
+import { post, get } from '@/utils/axios.js'
+
+const getData = (params) => post('/api/wallet/app/v1/order/list', params)
+
+export { getData }

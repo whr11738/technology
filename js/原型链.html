@@ -1,0 +1,60 @@
+<DOCTYPE html>
+    <html>
+        <head>
+        <meta charset="UTF-8">
+            <title>原型链</title>
+            <script type="text/javascript">
+                //__proto__类似原型链指向父类的链子，prototype类似创造函数时的伴生函数
+                function A(){};
+                var a=new A();
+                console.log("图鉴------------------------------------------------------");
+                console.log(A);//父类
+                console.log(a);//子类
+                console.log(Object.prototype);//万物始祖
+
+
+
+                console.log("原型链前段--------------------------------------------------");
+                console.log(a.__proto__);
+                console.log(a.__proto__===A.prototype);//（子类的__proto__） 等于 （父类的prototype）
+
+
+                
+                console.log("原型链中段--------------------------------------------------");
+                console.log(a.__proto__.__proto__);
+                console.log(a.__proto__.__proto__===A.prototype.__proto__);
+                console.log(a.__proto__.__proto__===Object.prototype);//（子类的__proto__.__proto__） 等于 （父类的__proto__） 等于 （最后一个对象Object的prototype）
+
+
+                
+                console.log("原型链后段--------------------------------------------------");
+                //父类的prototype函数虽然是一个函数,但万物皆对象，所以他也有原型链，与子类的原型链是同一条原型链
+                console.log(A.prototype.__proto__);//父类的__proto__指向最后一个对象Object（万物始祖）
+
+
+                
+                console.log("原型链末段--------------------------------------------------");
+                console.log(a.__proto__.__proto__.__proto__);//对象的原型链终点null,每个对象的原型链终点都指向同一片null
+                console.log(a.prototype);//函数的原型链终点undefined,每个函数的原型链终点都指向同一片undefined
+
+
+
+                console.log("原型链功能1-------------------------------------------------");
+                a.__proto__.x="Ax";
+                a.x="ax";
+                console.log(a.__proto__.x);
+                console.log(a.x);//子类在创建新属性名x时不会理原型链
+
+
+
+                console.log("原型链功能2-------------------------------------------------");
+                a.__proto__.y="Ay";
+                console.log(a.__proto__.y);
+                console.log(a.y);//子类自己身上没有找到y时，就会顺着原型链去找父类的y
+                A.prototype.__proto__.z="AAz";
+                console.log(a.__proto__.z);//父类身上没有时，子类会追根溯源到最后一个对象Object中找到m
+            </script>
+        </head>
+        <body>
+        </body>
+    <html>

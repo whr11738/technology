@@ -1,0 +1,16 @@
+报错：Uncaught ReferenceError: process is not defined
+解决方法来源：http://events.jianshu.io/p/cbe657781dc9
+
+安装process依赖：
+npm i --save-dev process
+
+修改webpack.config.js文件：
+const webpack = require('webpack');
+module.exports = {
+  ...
+  plugins: [
+      new webpack.ProvidePlugin({
+             process: 'process/browser',
+      }),
+  ],
+}

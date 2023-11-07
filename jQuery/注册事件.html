@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>注册事件</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(function(){
+
+      $('#btn1').on('click',function(){
+        $('#box').on({//注册事件
+          'click':function(){
+            console.log('单击事件')
+          },
+          'mouseenter':function(){
+            console.log('移动事件')
+          }
+        })
+      })
+      $('#btn2').on('click',function(){
+        $('#box').off()//解绑事件
+      })
+
+    })
+  </script>
+  <style>
+    .box{
+      width: 400px;
+      height: 400px;
+      left: 100px;
+      top: 100px;
+      background-color: aqua;
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+  <div class="box" id="box"></div>
+  <button id="btn1">按钮1</button>
+  <button id="btn2">按钮2</button>
+</body>
+</html>

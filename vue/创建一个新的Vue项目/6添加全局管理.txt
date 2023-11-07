@@ -1,0 +1,25 @@
+src下面创建store文件夹
+store文件夹下面创建index.js文件
+
+// store.js
+import { createPinia } from 'pinia'
+
+const pinia = createPinia()
+
+export default pinia
+
+store文件夹下面创建user.js文件
+
+import { defineStore } from 'pinia'
+import pinia from './index'
+
+const userStore = defineStore('user', {
+  state: () => {
+    return {
+      isVIP: '',
+      menu: ''
+    }
+  }
+})
+
+export default userStore(pinia)

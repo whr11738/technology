@@ -1,0 +1,136 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+$(function(){});	函数入口
+
+$("#btn")		获取对象（参数填id）
+$("#btn>div,#btn>p")	获取id为btn这个元素的所有子div以及所有子p
+$("#btn div")	获取id为btn这个元素的所有后代div
+
+$("li:odd")	获取奇数行li标签
+$("li:even")	获取偶数行li标签
+$("li:eq(0)")	获取首行li标签
+
+$("ul").children("li")		相当于$("ul-li"),子代选择器
+$("ul").find("li")		相当于$("ul li"),后代选择器
+$("#first").siblings("li")	查找兄弟节点，不包括自己
+$("#first").parent()		查找父亲
+$("#first").next()		查找下一个兄弟
+$("#first").prev()		查找上一个兄弟
+
+$("#btn").text()	获取文本
+$("#btn").click(function(){})	点击事件
+$("#btn").css('height')	获取高度
+
+$(this).index()	获取元素在兄弟标签中的排行
+
+$('#div1').addClass('fontSize ')			添加类
+$('#div1').addClass('fontSize width200')		添加多个类
+$('#div1').removeClass('fontSize ')		移除类
+$('#div1').removeClass('fontSize width200')	移除多个类
+$('#div1').hasClass('fontSize')			判断有没有那个类（ture或false）
+$('#div1').toggleClass('fontSize')		切换类（有就删，无就加）
+
+$('#div1').show()		动画显示，第一个参数是动画速度，第二个参数是回调函数
+$('#div1').hide()		动画隐藏，同上
+$('#div1').toggle()		切换动画，参数可以填动画速度
+$('#div1').slideDown()	滑入动画
+$('#div1').slideUp()		滑出动画
+$('#div1').slideToggle()	切换动画（滑入滑出），参数可以填动画速度
+$('#div1').fadeIn()		淡入动画
+$('#div1').fadeOut()		淡出动画
+$('#div1').fadeToggle()	切换动画（淡入淡出）
+$('#div1').fadeTo(1000，0.5)	淡入到0.5，第一个是速度，第二个是入到多少
+$('#div1').animate()		
+自定义动画，第一个参数写动画的属性（多个属性需放入代码块），第二个写动画的时长，第三个写缓懂(swing)或匀速(linear)，第四个写回调函数
+$('#div1').stop(true,true)	停止动画，第一个参数是否清除队列，第二个参数是否转到最终效果 	
+
+$('#div1').html('<a>内容</a>')			覆盖html内容以及元素
+
+var $link=$('<a>内容</a>');
+$('#div1').append($link)	创建元素，但只在内存中，需要页面显示就得加后面那句
+
+var $li3=$(#'li3');
+$('ul1').append($li3);	作为最后一个子元素添加，(父元素).append(子元素)
+$('ul1').appendTo($li3);	把子元素作为最后一个父元素的子元素添加，(子元素).append(父元素)
+
+var $li3=$(#'li3');
+$('ul1').prepend($li3);	把标签剪切后作为第一个子元素添加
+
+元素A.before(元素B)		把元素B作为兄弟元素插入到元素A前面
+元素A.after(元素B)		把元素B作为兄弟元素插入到元素A后面
+ 
+$('ul1').remove(）		移除元素节点
+
+var $clonDiv=$('#div').clone();
+$('body').append($cloneDiv);		克隆节点，包括后代节点参数里填是否克隆事件(ture或false)
+
+$('#txt').val()		获取表单中的值，参数填内容变成设置表单的值
+
+$("img').attr({src:'1.gif',aaa:"hahaha"})	无就添加属性，有就修改属性，不填值就是获取属性（html用attr，dom用prop（布尔值类型的属性））
+$("img').removeattr('aaa src')		移除属性（多个属性用空格隔开）
+
+$("img').width(300)		返回或设置元素宽(不包括内外边距)
+$("img').heigth(300)	返回或 设置元素高(不包括内外边距)
+$("img').innerWidth()	返回元素宽(包括内边距)
+$("img').innerHeigth()	返回元素高(包括内边距)
+$("img').outerWidth()	返回元素宽(包括内外边距和边框)
+$("img').outerHeigth()	返回元素宽(包括内外边距和边框)
+
+console.log($('#son').offset())		获取元素距离 document的位置
+console.log($('#son').position())	获取元素距离 有定位的父元素的位置
+console.log($('div').scrollLeft())	获取横向滑块滑动的长度，填参数可以设置位置
+console.log($('div').position())		获取纵向滑块滑动的长度，填参数可以设置位置
+
+$('div').on('click',function(){console.log('1')})	不支持动态注册的单击事件（参数：事件，动作）
+$('body').on('click','div,span',function(){console.log('1')})	支持动态注册的单击事件（参数：事件，触发者，动作）
+$('#box').off()	解绑事件，没有参数就是解绑所有类型事件
+$('#one').trigger()	触发器触发自定义事件
+
+
+$('#one').on('click',function(e){
+console.log("screenX"+e.screnX+":"+e.screenY);
+console.log("clientX"+e.clientX+":"+e.clientY);
+console.log("pageX"+e.pageX+":"+e.pageY);
+})
+screenX与screenY		屏幕最左上角的值
+clientX与clientY		可视区左上角的值
+pageX与pageY		页面左上角的值
+
+e.stopPropagation()		阻止事件冒泡
+e.preventDefault()		阻止标签跳转
+return fasle;		阻止上面两者行为
+
+$(document).on('keydown',function(e){
+console.log(e.keyCode)
+})
+键盘监听
+
+end()			回到上一个对象
+$(x).each(function(index,element){})	遍历jq对象并匹配索引
+
+var list=[]
+list.push("<li>")
+list.push("</ li>")		输出html内容
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

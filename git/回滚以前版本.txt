@@ -1,0 +1,12 @@
+第一步：选择回退版本，用下面两行其中之一，版本代号得用8位数那个(gitlab)
+git reset 版本代号  // 回到版本状态
+git reset HEAD^  // 回到上一版本状态
+
+第二步：本地回到版本状态
+git reset --hard
+
+第三步：强制提交分支
+git push origin 分支名 --force
+
+第四步：可选
+// 用git status 查看多余的变更（比如文件需要手动删除）

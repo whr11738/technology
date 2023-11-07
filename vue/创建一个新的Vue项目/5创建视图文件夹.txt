@@ -1,0 +1,10 @@
+src下添加views文件夹
+views文件夹下添加home文件夹
+home文件夹下添加index.vue组件
+
+<template>
+  <div>1</div>
+</template>
+
+<script setup></script>
+<style scoped></style>

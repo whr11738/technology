@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <style type="text/css">
+      * {
+        padding: 0px;
+        margin: 0px;
+      }
+      body {
+        height: 100%;
+        width: 100%;
+        background: aqua;
+      }
+      .js {
+        width: 300px;
+        height: 300px;
+        border: 10px solid white;
+        margin: 80px auto;
+      }
+    </style>
+    <script type="text/javascript">
+        $(function () {
+            $(".js").on("touchstart", function (e) {
+                e.preventDefault();
+                (startX = e.originalEvent.changedTouches[0].pageX),
+                (startY = e.originalEvent.changedTouches[0].pageY);
+            });
+            $(".js").on("touchmove", function (e) {
+            e.preventDefault();
+                (moveEndX = e.originalEvent.changedTouches[0].pageX),
+                (moveEndY = e.originalEvent.changedTouches[0].pageY),
+                (X = moveEndX - startX),
+                (Y = moveEndY - startY);
+                if (Math.abs(X) > Math.abs(Y) && X > 0) {
+                    console.log("左向右");
+                } else if (Math.abs(X) > Math.abs(Y) && X < 0) {
+                    console.log("右向左");
+                } else if (Math.abs(Y) > Math.abs(X) && Y > 0) {
+                    console.log("上到下");
+                } else if (Math.abs(Y) > Math.abs(X) && Y < 0) {
+                    console.log("下到上");
+                } else {
+                    console.log("继续");
+                }
+            });
+        });
+    </script>
+  </head>
+  <body>
+    <div class="js"></div>
+  </body>
+</html>

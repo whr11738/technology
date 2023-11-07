@@ -1,0 +1,107 @@
+<html>
+  <head>
+    <title>二级菜单</title>
+    <meta charset="utf-8" />
+    <style type="text/css">
+      body {
+        /*为了使菜单居中*/
+        padding-top: 300px;
+        text-align: center;
+      }
+      .menuDiv a {
+        /* 去掉a标签的下划线 */
+        text-decoration: none;
+      }
+      .menuDiv {
+        border: 2px solid #aac;
+        overflow: hidden;
+        display: inline-block;
+      }
+      .menuDiv ul,
+      .menuDiv li {
+        /* 设置ul和li的样式 */
+        list-style: none;/*不使用项目符号*/
+        margin: 0;
+        padding: 0;
+        float: left;/*横向浮动*/
+      }
+      .menuDiv > ul > li > ul {
+        /* 设置二级菜单绝对定位，并隐藏 */
+        position: absolute;
+        display: none;
+      }
+      .menuDiv > ul > li > ul > li {
+        /* 设置二级菜单的li的样式 */
+        float: none;
+      }
+      .menuDiv > ul > li:hover ul {
+        /* 鼠标放在一级菜单上，显示二级菜单 */
+        display: block;
+      }
+      .menuDiv > ul > li > a {
+        /* 一级菜单 */
+        width: 120px;
+        line-height: 40px;
+        color: black;
+        background-color: #cfe;
+        text-align: center;
+        border-left: 1px solid #bbf;
+        display: block;
+      }
+      .menuDiv > ul > li:first-child > a {
+        /* 在一级菜单中，第一个不设置左边框 */
+        border-left: none;
+      }
+      .menuDiv > ul > li > a:hover {
+        /* 在一级菜单中，鼠标放上去的样式 */
+        color: #f0f;
+        background-color: #bcf;
+      }
+
+      
+      .menuDiv > ul > li > ul > li > a {
+        /* 二级菜单 */
+        width: 120px;
+        line-height: 40px;
+        color: #456;
+        background-color: #eff;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-top: none;
+        display: block;
+      }
+      .menuDiv > ul > li > ul > li:first-child > a {
+        /* 在二级菜单中，第一个设置顶边框 */
+        border-top: 1px solid #ccc;
+      }
+      .menuDiv > ul > li > ul > li > a:hover {
+        /* 在二级菜单中，鼠标放上去的样式 */
+        color: #a4f;
+        background-color: #cdf;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="menuDiv">
+      <ul>
+
+        <li>
+          <a href="#">菜单一</a>
+          <ul>
+            <li><a href="#">二级菜单</a></li>
+            <li><a href="#">二级菜单</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="#">菜单二</a>
+          <ul>
+            <li><a href="#">二级菜单</a></li>
+            <li><a href="#">二级菜单</a></li>
+          </ul>
+        </li>
+        
+      </ul>
+    </div>
+  </body>
+</html>

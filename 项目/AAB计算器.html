@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AAB计算器</title>
+    <link
+      rel="shortcut icon"
+      href="https://img1.baidu.com/it/u=1629479163,3719818209&fm=253&fmt=auto&app=138&f=JPEG?w=473&h=399"
+    />
+
+    <!-- vue -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+
+  <body>
+    <div id="app" class="main">1</div>
+  </body>
+
+  <!-- 工具 -->
+  <script>
+    const { createApp, onMounted, reactive } = Vue
+    // 封装storage
+    const storage = {
+      set(key, value) {
+        localStorage.setItem(key, JSON.stringify(value))
+      },
+      get(key) {
+        return JSON.parse(localStorage.getItem(key))
+      },
+      del(key) {
+        localStorage.removeItem(key)
+      }
+    }
+  </script>
+
+  <!-- Vue实例主体 -->
+  <script>
+    let app = {
+      setup() {
+        const d = reactive({
+          // name 付款人，value 付款金额，relation 哪些人AA
+          list: [
+            { name: 'a', value: 10, relation: ['b'] },
+            { name: 'a', value: 20, relation: ['b', 'c'] },
+            { name: 'a', value: 30, relation: ['a', 'b'] }
+          ]
+        })
+        const m = reactive({
+          // 多数组合并并去重(参数：对象数组,数组在对象中的属性名)
+          arrsAdd(arrs, key) {
+            let res = []
+            for (const i of arrs) {
+              if (!res.length) res = i[key]
+              else {
+                res = [...new Set([...i[key], ...res])]
+              }
+            }
+            return res
+          },
+          aabCompute(list) {
+            const result = {} // 结果
+            const peopleMap = this.arrsAdd(list, 'relation')
+            // 避免缺少付款人
+            for (const i of list) {
+              if (peopleMap.indexOf(i.name) === -1) peopleMap.push(i.name)
+            }
+            // 初始化结果
+            for (const i of peopleMap) {
+              result[i] = 0
+            }
+            for (const i of list) {
+              const part = i.value / i.relation.length // 单次人均
+              const payer = i.relation.findIndex((item) => i.name === item) // 付款人
+              if (payer !== -1) {
+                // 承担者中有付款人
+                result[i.name] += part * (i.relation.length - 1) // 付款人得 单次人均*(承担人数-1)
+                i.relation.splice(payer, 1) // 承担者去除付款人
+              } else {
+                // 承担者中无付款人
+                result[i.name] += i.value // 付款人得 付款总额
+              }
+              for (const item of i.relation) {
+                result[item] -= part // 付款人出 单次人均
+              }
+            }
+            return result
+          }
+        })
+
+        onMounted(() => {
+          console.log(m.aabCompute(d.list))
+        })
+
+        return { d, m }
+      }
+    }
+  </script>
+
+  <!-- 创建Vue实例 -->
+  <script>
+    const App = createApp(app)
+    App.mount('#app')
+  </script>
+
+  <style>
+    /* 初始化 */
+    * {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: 100%;
+      font-weight: normal;
+      vertical-align: baseline;
+    }
+    html,
+    body {
+      width: 100%;
+    }
+
+    /* 主视图 */
+    .main {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</html>

@@ -1,0 +1,15 @@
+安装依赖：vite-plugin-commonjs
+
+仓库https://www.npmjs.com/package/@originjs/vite-plugin-commonjs
+
+cmd:
+npm install @originjs/vite-plugin-commonjs --save-dev
+
+
+vite.config.js:
+import { viteCommonjs } from '@originjs/vite-plugin-commonjs'
+export default {
+    plugins: [
+        viteCommonjs()
+    ]
+}

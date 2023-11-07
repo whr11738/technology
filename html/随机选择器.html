@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>>>>随机选择器<<<</title>
+    <style>
+        /*body{
+            width: 1525px;
+            height: 715px;
+        }*/
+        .back1{
+            display: flex;
+            position: absolute;   /*定位元素*/
+            width: 760px;
+            height: 700px;
+            left: 50%;
+            margin: 0 0 0 -380px;   /*四个外边距（上右下左）*/
+            background-color: rgb(209, 208, 208);
+            align-items: center;
+            justify-content: center;
+        }
+        .box{   /*盒子*/
+            position: absolute;   /*定位元素*/
+            display: flex;
+            width: 300px;    /*宽度*/
+            height: 300px;   /*高度*/
+            border-radius: 20px;   /*圆角边框*/
+            background-color: aqua;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+        .box input{   /*输入框*/
+            width: 250px;   /*宽度*/
+            height: 20px;   /*高度*/
+            outline: none;   /*点击时反馈*/
+            padding: 10px;   /*输入框大小*/
+            font-size: 14px;   /*字体大小*/
+            color: black;   /*背景颜色*/
+            border-top: 1px solid #312E3D;   /*上边框样式*/
+            border-left: 1px solid #312E3D;   /*左边框样式*/
+            border-right: 1px solid #312E3D;   /*右边框样式*/
+            border-bottom: 1px solid #56536A;   /*下边框样式*/
+            border-radius: 4px;   /*圆角边框*/
+            margin: 40px 0 0 0;   /*四个外边距（上右下左）*/
+        }
+        .box button{   /*按钮*/
+            width: 250px;   /*宽度*/
+            height: 40px;   /*高度*/
+            background-color: green;   /*背景色*/
+            border: 1px solid #3762bc;   /*边缘*/
+            color: #fff;   /*字体颜色*/
+            font-weight:bold; /*字体粗细*/
+            letter-spacing:4px;/*字体间距*/
+            font-size: 17px;   /*字体大小*/
+            border-radius: 5px;   /*圆角边框*/
+        }
+        .box div{   /*输出框*/
+            display: flex;
+            width: 200px;
+            height: 50px;
+            background-color: rgb(91, 206, 165);
+            border-radius: 10px;
+            margin: 0 0 40px 0;   /*四个外边距（上右下左）*/
+        }
+        .box div a{     /*输出框中的文字*/
+            flex: 1;
+            text-align: center;
+            line-height: 44px;
+            color: #fff;
+            font-size: 24px;
+            text-shadow: 1px 1px rgba(0, 0, 0, .2);
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload=function(){
+            var choice=document.getElementById("choice");
+            var btn=document.getElementById("btn");
+            var outer=document.getElementById("outer");
+            var choicegs=/^[+]{0,1}(\d+)$/;
+            var result;
+            btn.onclick=function(){
+                if(!choice.value){
+                    result="请输入";
+                }
+                else{
+                    var i=parseInt(choice.value);
+                    if(choicegs.test(choice.value)){
+                        result=(Math.round((i-1)*Math.random())+1);
+                    }
+                    else{
+                        result="不是正整数";
+                    }
+                }
+                outer.innerHTML=result;
+            }
+        }
+    </script>
+</head>
+<body><div class="back1">
+        <div class="box">
+            <input class="input" id="choice" placeholder="请输入你有多少种选择"></input>
+            <button class="button" id="btn">输出结果</button>
+            <div class="div">
+                <a class="a" id="outer">请输入</a>
+            </div>
+        </div>
+</div>
+</body>
+</html>

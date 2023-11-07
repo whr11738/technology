@@ -1,0 +1,22 @@
+[{
+  "username":"user",
+  "password":"123123",
+  "power":0
+},
+{
+  "username":"admin",
+  "password":"123123",
+  "power":1
+},
+{
+  "username":"manager",
+  "password":"123123",
+  "power":2
+},
+{
+  "username":"1",
+  "password":"1",
+  "power":2
+}]
+
+

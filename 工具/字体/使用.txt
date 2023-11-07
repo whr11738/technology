@@ -1,0 +1,8 @@
+@font-face {
+  font-family: myFont;
+  src: url('./Inter.ttf');
+}
+
+p {
+  font-family: myFont, sans-serif;
+}

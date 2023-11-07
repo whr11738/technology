@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="http://code.jquery.com/jquery-1.5.2.min.js"></script>
+    <title></title>
+    <style>
+      #main {
+        width: 100px;
+        height: 100px;
+        background: #ccc;
+        position: absolute;
+      }
+    </style>
+  </head>
+  <body style="flex">
+    <div id="main"></div>
+  </body>
+  <script>
+    const longTouch = (dom) => {
+      let x, y
+      let timeOutEvent = 0
+      dom.addEventListener('touchstart', (e) => {
+        // 指针相对dom位置
+        x = e.targetTouches[0].clientX - e.target.offsetLeft
+        y = e.targetTouches[0].clientY - e.target.offsetTop
+        e.preventDefault()
+        timeOutEvent = setTimeout(() => {
+          timeOutEvent = 0
+          console.log('长按')
+        }, 500)
+      })
+      dom.addEventListener('touchmove', (e) => {
+        clearTimeout(timeOutEvent)
+        timeOutEvent = 0
+        dom.style.left = e.targetTouches[0].clientX - x + 'px'
+        dom.style.top = e.targetTouches[0].clientY - y + 'px'
+        console.log('拖动')
+      })
+      dom.addEventListener('touchend', (e) => {
+        clearTimeout(timeOutEvent)
+        if (timeOutEvent !== 0) {
+          console.log('点击')
+        }
+        return false
+      })
+    }
+    const dom = document.getElementById('main')
+    longTouch(dom)
+  </script>
+</html>

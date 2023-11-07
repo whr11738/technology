@@ -1,0 +1,10 @@
+检查输出的生命周期该dom是否已经存在，加载完成前获取不到
+需要return 抛出
+
+vue3
+    <input ref="audioInput" type="file" name="" @change="onChange" />
+const audioInput = ref();
+console.log(audioInput);
+const onChange = () => {
+  console.log(audioInput.value.files[0]);
+};

@@ -1,0 +1,5 @@
+全局
+npm install -g less  
+
+项目中
+npm install --save-dev less-loader less  

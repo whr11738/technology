@@ -1,0 +1,17 @@
+初始化
+
+cd 项目地址
+git init  // 把这个目录变成Git可以管理的仓库
+git remote add 仓库地址  // 将项目与仓库链接
+
+
+仓库提交的方式
+
+git add .
+git commit -m "Initial commit"
+
+
+其他方式
+
+git checkout -b 分支名字  // 创建新的分支
+git push -u origin 分支名字  // 将新分支提交到远程仓库  【第一次要用-u 以后不需要】

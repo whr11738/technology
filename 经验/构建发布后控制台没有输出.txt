@@ -1,0 +1,2 @@
+vue.config.js文件
+configureWebpack方法中把console字段的行注释掉，warning同理

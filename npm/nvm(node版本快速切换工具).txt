@@ -1,0 +1,14 @@
+安装最后版本
+nvm install  latest
+
+安装指定版本
+nvm install  14.17.0
+
+删除指定版本
+nvm uninstall  14.17.0
+
+查看拥有的版本
+nvm list
+
+使用版本
+nvm use 14.17.0

@@ -1,0 +1,20 @@
+{
+  // prettier配置
+  "prettier.printWidth": 200, //每行最多显示的字符数
+  "prettier.tabWidth": 2, //tab的宽度 2个字符
+  "prettier.useTabs": false, //使用tab代替空格
+  "prettier.semi": true, //结尾使用分号
+  "prettier.singleQuote": true, //使用单引号代替双引号
+  "prettier.quoteProps": "as-needed", // 对象中属性何时添加引号
+  "prettier.jsxSingleQuote": true, //在 JSX 中使用单引号而不是双引号
+  "prettier.trailingComma": "all", //结尾是否添加逗号
+  "prettier.bracketSpacing": true, //对象括号俩边是否用空格隔开
+  "prettier.bracketSameLine": true, //组件最后的尖括号不另起一行
+  "prettier.arrowParens": "always", //箭头函数参数始终添加括号
+  "prettier.insertPragma": false, // 文件开头添加格式化的提醒
+  "prettier.proseWrap": "preserve", // Markdown文本是否根据printWidth换行
+  "prettier.htmlWhitespaceSensitivity": "css", //html存在空格是不敏感的
+  "prettier.vueIndentScriptAndStyle": false, //vue 的script和style的内容是否缩进
+  "prettier.endOfLine": "auto", //行结尾形式 mac和linux是\n  windows是\r\n
+  "prettier.singleAttributePerLine": false //组件或者标签的属性是否控制一行只显示一个属性
+}

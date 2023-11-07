@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>接口测试</title>
+    <link
+      rel="shortcut icon"
+      href="https://img1.baidu.com/it/u=1629479163,3719818209&fm=253&fmt=auto&app=138&f=JPEG?w=473&h=399"
+    />
+
+    <!-- vue -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- element-ui css -->
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css" />
+    <!-- element-ui js -->
+    <script src="https://unpkg.com/element-plus"></script>
+    <!-- axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+
+  <body>
+    <div id="app" class="main">
+      <div>
+        <el-table :data="data.table" border>
+          <el-table-column label="接口地址" width="500" prop="api">
+            <template v-slot="{ row }">
+              <div>{{row.api}}</div>
+            </template>
+          </el-table-column>
+          <el-table-column label="执行" width="120" align="center">
+            <template v-slot="{ row }">
+              <el-button type="primary" :loading="row.loading" @click="method.toApi(row)">{{ '执行' }}</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </div>
+  </body>
+
+  <!-- 工具 -->
+  <script>
+    const { createApp, onMounted, reactive } = Vue
+    const { ElMessage } = ElementPlus
+    // 封装storage
+    const storage = {
+      set(key, value) {
+        localStorage.setItem(key, JSON.stringify(value))
+      },
+      get(key) {
+        return JSON.parse(localStorage.getItem(key))
+      },
+      del(key) {
+        localStorage.removeItem(key)
+      }
+    }
+    // post请求方法
+    const post = (url, data) => {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'post',
+          url,
+          data,
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Access-Control-Allow-Origin': '*'
+          }
+        })
+          .then((res) => {
+            resolve(res.data)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
+    }
+    // get请求方法
+    const get = (url, params) => {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'get',
+          url,
+          params,
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Access-Control-Allow-Origin': '*'
+          }
+        })
+          .then((res) => {
+            resolve(res.data)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
+    }
+  </script>
+
+  <!-- Vue实例主体 -->
+  <script>
+    let app = {
+      setup() {
+        const data = reactive({
+          checkStatus: [],
+          table: [
+            {
+              method: 'post',
+              api: 'http://wallet-gateway-service-dev.pay-blox.com:40027/wallet/merchant/v1/config/country/list',
+              data: {},
+              loading: false
+            },
+            {
+              method: 'get',
+              api: 'http://wallet-gateway-service-dev.pay-blox.com:40027/wallet/merchant/v1/config/country/list',
+              data: {},
+              loading: false
+            }
+          ]
+        })
+        const method = reactive({
+          // 发送请求
+          toApi: (res) => {
+            for (const i of data.table) {
+              if (i.api === res.api) {
+                i.loading = true
+              }
+            }
+            let method = null
+            if (res.method === 'post') {
+              method = post
+            } else if (res.method === 'get') {
+              method = get
+            }
+
+            method(res.api, res.data)
+              .then(
+                (r) => {
+                  console.log(r)
+                  ElMessage({
+                    message: r,
+                    type: 'success'
+                  })
+                },
+                (e) => {
+                  console.log(r)
+                  ElMessage({
+                    message: e,
+                    type: 'error'
+                  })
+                }
+              )
+              .finally(() => {
+                for (const i of data.table) {
+                  if (i.api === res.api) {
+                    i.loading = false
+                  }
+                }
+              })
+          }
+        })
+
+        onMounted(() => {})
+
+        return { data, method }
+      }
+    }
+  </script>
+
+  <!-- 创建Vue实例 -->
+  <script>
+    const App = createApp(app)
+    App.use(ElementPlus)
+    App.mount('#app')
+  </script>
+
+  <style>
+    /* 初始化 */
+    * {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: 100%;
+      font-weight: normal;
+      vertical-align: baseline;
+    }
+    html,
+    body {
+      width: 100%;
+    }
+
+    /* 主视图 */
+    .main {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</html>

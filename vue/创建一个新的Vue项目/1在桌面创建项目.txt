@@ -1,0 +1,5 @@
+在创建项目的路径 cmd 进入命令行
+Vue UI 打开Vue的UI界面
+根据提示创建项目
+完成后右键项目选使用 VSCode 打开
+npm run serve 启动项目

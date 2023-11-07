@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>1</title>
+    <script src="https://cn.vuejs.org/js/vue.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div id='root'>
+        <!-- 使用组件 -->
+        <people></people>
+    </div>
+</body>
+<script type="text/javascript">
+    //编写组件
+    const people=Vue.extend({
+        template:`
+            <div>
+                <h1>name:{{name}}</h1>
+                <h1>age:{{age}}</h1>
+            </div>
+        `,
+        data(){
+            return{
+                name:'x',
+                age:21
+            }
+        }
+    })
+    //Vue.component('people',people)//全局注册组件
+    //局部注册组件
+    new Vue({
+        el:'#root',
+        components:{
+            people:people
+            //people
+        }
+    })
+</script>
+</html>

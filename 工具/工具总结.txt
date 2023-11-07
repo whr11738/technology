@@ -1,0 +1,63 @@
+Snipaste
+f1键可截图测距离
+
+ApowerREC
+录屏
+
+安装 npm install rimraf -g
+删除 rimraf node_modules
+快速删除node_modules
+
+npm i postcss-loader autoprefixer@8.0.0  
+屏幕自适应
+
+nvm
+切换node版本
+
+vue-element-admin
+后台管理系统模板
+
+element ui
+网站快速成型工具
+
+bootcdn
+cdn库
+
+mdn
+https://developer.mozilla.org/zh-CN/docs/Web/Guide
+代码学习平台
+
+vue-element-admin
+后台系统模板
+
+echarts
+图标工具
+
+vue-count-to
+数字滚动
+
+iconfont
+图标工具
+
+vsc中添加折叠
+#region
+#endregion
+
+内网穿透
+localtunnel：npm i -g localtunnel
+ngrok :https://dashboard.ngrok.com/get-started/setup
+
+node项目热更新
+nodemon
+
+
+
+
+
+
+
+
+
+
+
+

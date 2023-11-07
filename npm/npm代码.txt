@@ -1,0 +1,35 @@
+https://www.npmjs.com/
+
+如果安装依赖无缘无故报错 后面加--legacy-peer-deps以绕过peerDependency里依赖的自动安装
+--legacy-peer-deps
+npm i *** --legacy-peer-deps
+
+安装依赖名后面加@latest安装最新版本
+@latest
+npm i ***@latest
+
+账号:whr1173816413
+密码:Whr1173816413
+
+在该文件夹中初始化npm（创建package.json）
+npm init
+
+登录npm账号
+npm login
+
+发布包
+npm publish
+
+发布团队包
+npm publish --access public
+
+软连接依赖
+
+依赖中
+npm link
+
+项目中
+npm link common（common为依赖中package.json的name属性值）
+
+解除依赖
+npm unlink common（common为依赖中package.json的name属性值）

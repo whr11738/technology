@@ -1,0 +1,10 @@
+import messageError from '@/assets/svg/messageError.svg'
+
+          <svg aria-hidden="true">
+            <use xlink:href="#svg-messageError"></use>
+          </svg>
+
+变量名必须与文件名相同
+报错就试试别的变量名
+
+ <img src="@/assets/svg/close_2.svg" alt=""/>

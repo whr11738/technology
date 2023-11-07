@@ -1,0 +1,2 @@
+.name:hover  控制子元素
+.name :hover 不控制子元素

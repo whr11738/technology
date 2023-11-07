@@ -1,0 +1,4 @@
+import * as i18n from "@/i18n/index";
+const { setLang, getLang, t } = i18n;
+
+{{ t("i.yes") }}

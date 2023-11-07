@@ -1,0 +1,32 @@
+安装 axios 路由 全局管理
+npm i axios vue-router vuex pinia
+安装组件库(移动端)
+npm i vant
+
+在app中引入
+
+import { createApp } from 'vue'
+import App from './App.vue'
+
+const app = createApp(App)
+
+// Vant
+// 1. 引入你需要的组件
+import { Button } from 'vant'
+const com = [Button]
+// 2. 引入组件样式
+import 'vant/lib/index.css'
+// 3. 注册你需要的组件
+for (const i of com) {
+  app.use(i)
+}
+
+// 路由
+import router from './router'
+app.use(router)
+
+// pinia
+import { createPinia } from 'pinia'
+app.use(createPinia())
+
+app.mount('#app')

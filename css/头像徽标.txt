@@ -1,0 +1,35 @@
+
+    <!-- 头像 -->
+    <div class="img-url">
+      <img :src="status.imgUrl" alt="" style="width: 84px; height: 84; border-radius: 50%" />
+      <div class="corner">
+        <div class="code">1</div>
+      </div>
+    </div>
+
+
+.img-url {
+  position: relative;
+  margin-top: 16px;
+}
+.corner {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: white;
+}
+.code {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #15af9f;
+}

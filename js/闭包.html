@@ -1,0 +1,86 @@
+<DOCTYPE html>
+    <html>
+        <head>
+        <meta charset="UTF-8">
+            <title>闭包</title>
+            <script type="text/javascript">
+                //闭包是什么：在本质上，闭包就是将函数内部于函数外部链接起来的一座桥梁，
+                //闭包的作用：避免污染全局作用域
+                //闭包的形成：1，内部函数必须调用外部函数的变量。2，外部函数必须被调用。
+                /*function x(){
+                    var a=1;
+                    function y(){
+                        a++;
+                        console.log(a);
+                    }
+                    return y;
+                }
+                x()();
+                x=null;//闭包死亡*/
+                /*var z=x();
+                z();*/
+
+
+
+                /*function x(){
+                    var a=1;
+                    function y(){
+                        a++;
+                        console.log(a);
+                    }
+                    function z(){
+                        a--;
+                        console.log(a);
+                    }
+                    return{
+                        y:y,
+                        z:z
+                    }
+                }
+                var m=x();
+                m.y();
+                m.z();*/
+
+
+
+                /*(function(){
+                    var a=1;
+                    function y(){
+                        a++;
+                        console.log(a);
+                    }
+                    function z(){
+                        a--;
+                        console.log(a);
+                    }
+                    window.v={
+                        y:y,
+                        z:z
+                    }
+                })()
+                v.y()
+                v.z()*/
+
+
+                (function(window){
+                    var a=1;
+                    function y(){
+                        a++;
+                        console.log(a);
+                    }
+                    function z(){
+                        a--;
+                        console.log(a);
+                    }
+                    v={
+                        y:y,
+                        z:z
+                    }
+                })(window)
+                v.y()
+                v.z()
+            </script>
+        </head>
+        <body>
+        </body>
+    <html>

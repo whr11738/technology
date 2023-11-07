@@ -1,0 +1,9 @@
+ <a download="KoiHi Product Brochure" href="/static/productBrochure.pdf"> down</a>
+
+download：下载后显示的文件名
+href：文件在项目中的绝对路径
+
+文件要放在项目中/public/static目录下，这个位置不会被npm run build打包编译
+
+参考资料
+https://juejin.cn/post/7007791264921993253

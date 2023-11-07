@@ -1,0 +1,5 @@
+js代码写
+
+    // prettier-ignore
+
+可以让下一行代码不被格式化

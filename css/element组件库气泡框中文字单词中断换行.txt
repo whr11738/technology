@@ -1,0 +1,13 @@
+
+            <el-popover v-if="row.introduction" :width="400" trigger="hover">
+              <p> {{ row.introduction }}</p>
+              <template #reference>
+                <p class="oh e" style="width: 100%; height: 20px"> {{ row.introduction }}</p>
+              </template>
+            </el-popover>
+
+
+
+  .el-popover p {
+    word-break: break-word;
+  }

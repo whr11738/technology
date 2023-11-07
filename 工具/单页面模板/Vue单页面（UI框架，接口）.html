@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue单页面</title>
+    <link
+      rel="shortcut icon"
+      href="https://img1.baidu.com/it/u=1629479163,3719818209&fm=253&fmt=auto&app=138&f=JPEG?w=473&h=399"
+    />
+
+    <!-- vue -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- element-ui css -->
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css" />
+    <!-- element-ui js -->
+    <script src="https://unpkg.com/element-plus"></script>
+    <!-- axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+
+  <body>
+    <div id="app" class="main">
+      <div>
+        <el-button style="margin: 20px 0" type="primary" @click="method.allApi">{{ '执行已选' }}</el-button>
+        <el-table :data="data.table" border @selection-change="method.handleSelectionChange">
+          <el-table-column type="selection" width="50"> </el-table-column>
+          <el-table-column label="标题" prop="name" width="150" align="center">
+            <template v-slot="{ row }">
+              <div>{{row.name}}</div>
+            </template>
+          </el-table-column>
+          <el-table-column label="任务名称" prop="task" width="100" align="center">
+            <template v-slot="{ row }">
+              <div>{{row.task}}</div>
+            </template>
+          </el-table-column>
+          <el-table-column label="更新时间" prop="time" width="180">
+            <template v-slot="{ row }">
+              <div>{{row.time}}</div>
+            </template>
+          </el-table-column>
+          <el-table-column label="状态标志" prop="status" width="100" align="center">
+            <template v-slot="{ row }">
+              <div v-if="row.status"><el-tag type="success">√</el-tag></div>
+              <div v-else><el-tag type="danger">×</el-tag></div>
+            </template>
+          </el-table-column>
+          <el-table-column label="执行" width="120" align="center">
+            <template v-slot="{ row }">
+              <el-button type="primary" :loading="row.loading" @click="method.toApi(row.api)">{{ '执行' }}</el-button>
+            </template>
+          </el-table-column>
+          <el-table-column label="接口地址" width="500" prop="api">
+            <template v-slot="{ row }">
+              <div>{{row.api}}</div>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </div>
+  </body>
+
+  <!-- 工具 -->
+  <script>
+    const { createApp, onMounted, reactive } = Vue
+    const { ElMessage } = ElementPlus
+    // 封装storage
+    const storage = {
+      set(key, value) {
+        localStorage.setItem(key, JSON.stringify(value))
+      },
+      get(key) {
+        return JSON.parse(localStorage.getItem(key))
+      },
+      del(key) {
+        localStorage.removeItem(key)
+      }
+    }
+
+    // post请求方法
+    const post = (url, data, header = {}) => {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'post',
+          url,
+          data,
+          headers: Object.assign(header, {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Access-Control-Allow-Origin': '*'
+          })
+        })
+          .then((res) => {
+            resolve(res.data)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
+    }
+    // get请求方法
+    const get = (url, params, header = {}) => {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'get',
+          url,
+          params,
+          headers: Object.assign(header, {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Access-Control-Allow-Origin': '*'
+          })
+        })
+          .then((res) => {
+            resolve(res.data)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
+    }
+  </script>
+
+  <!-- Vue实例主体 -->
+  <script>
+    let app = {
+      setup() {
+        const data = reactive({
+          checkStatus: [],
+          table: [
+            {
+              name: '工时数据检查',
+              task: 'timesheet',
+              time: '',
+              status: 0,
+              api: 'http://192.168.4.32:8080/export/queryCheckList',
+              loading: false
+            },
+            {
+              name: '任务数据检查',
+              task: 'task',
+              time: '',
+              status: 0,
+              api: 'http://192.168.4.32:8080/export/task',
+              loading: false
+            },
+            {
+              name: 'bug数据检查',
+              task: 'bug',
+              time: '',
+              status: 0,
+              api: 'http://192.168.4.32:8080/export/bug',
+              loading: false
+            }
+          ]
+        })
+        const method = reactive({
+          // 选择表格
+          handleSelectionChange: (res) => {
+            data.checkStatus.length = 0
+            for (const i of res) {
+              data.checkStatus.push(i.api)
+            }
+          },
+          // 发送请求
+          toApi: (res) => {
+            for (const i of data.table) {
+              if (i.api === res) {
+                i.loading = true
+                const time = new Date()
+                i.time = time.toLocaleString()
+              }
+            }
+            get(res, {})
+              .then(
+                (r) => {
+                  ElMessage({
+                    message: '接口调用成功',
+                    type: 'success'
+                  })
+                },
+                (e) => {
+                  ElMessage({
+                    message: '接口调用失败',
+                    type: 'error'
+                  })
+                }
+              )
+              .finally(() => {
+                for (const i of data.table) {
+                  if (i.api === res) {
+                    i.loading = false
+                  }
+                }
+              })
+          },
+          // 发送已选请求
+          allApi: () => {
+            if (data.checkStatus.length === 0) return
+            for (const i of data.checkStatus) {
+              method.toApi(i)
+            }
+          }
+        })
+
+        onMounted(() => {})
+
+        return { data, method }
+      }
+    }
+  </script>
+
+  <!-- 创建Vue实例 -->
+  <script>
+    const App = createApp(app)
+    App.use(ElementPlus)
+    App.mount('#app')
+  </script>
+
+  <style>
+    /* 初始化 */
+    * {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: 100%;
+      font-weight: normal;
+      vertical-align: baseline;
+    }
+    html,
+    body {
+      width: 100%;
+    }
+
+    /* 主视图 */
+    .main {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</html>

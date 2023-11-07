@@ -1,0 +1,18 @@
+{
+  "name": "@sasaiweb/progress-bar",
+  "version": "0.0.7",
+  "description": "slide bar",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "slide",
+    "bar"
+  ],
+  "author": "wuhaoran",
+  "license": "ISC"
+}

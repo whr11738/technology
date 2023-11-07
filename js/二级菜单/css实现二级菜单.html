@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <title>二级菜单原理</title>
+    <meta charset="utf-8" />
+    <style type="text/css">
+      .menuDiv {
+        overflow: hidden;
+        display: inline-block;
+      }
+      .menuDiv > ul > li > ul {
+        /* 设置二级菜单绝对定位，并隐藏 */
+        position: absolute;
+        display: none;
+      }
+      .menuDiv > ul > li > ul > li {
+        /* 设置二级菜单的li的样式 */
+        float: none;
+      }
+      .menuDiv > ul > li:hover ul {
+        /* 鼠标放在一级菜单上，显示二级菜单 */
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="menuDiv">
+      <ul>
+
+        <li>
+          <a>菜单一</a>
+          <ul>
+            <li><a>二级菜单</a></li>
+            <li><a>二级菜单</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a>菜单二</a>
+          <ul>
+            <li><a>二级菜单</a></li>
+            <li><a>二级菜单</a></li>
+          </ul>
+        </li>
+        
+      </ul>
+    </div>
+  </body>
+</html>

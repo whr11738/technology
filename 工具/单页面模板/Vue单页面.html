@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue单页面</title>
+    <link
+      rel="shortcut icon"
+      href="https://img1.baidu.com/it/u=1629479163,3719818209&fm=253&fmt=auto&app=138&f=JPEG?w=473&h=399"
+    />
+
+    <!-- vue -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+
+  <body>
+    <div id="app" class="main">1</div>
+  </body>
+
+  <!-- 工具 -->
+  <script>
+    const { createApp, onMounted, reactive } = Vue
+    // 封装storage
+    const storage = {
+      set(key, value) {
+        localStorage.setItem(key, JSON.stringify(value))
+      },
+      get(key) {
+        return JSON.parse(localStorage.getItem(key))
+      },
+      del(key) {
+        localStorage.removeItem(key)
+      }
+    }
+  </script>
+
+  <!-- Vue实例主体 -->
+  <script>
+    let app = {
+      setup() {
+        const d = reactive({})
+        const m = reactive({})
+
+        onMounted(() => {})
+
+        return { d, m }
+      }
+    }
+  </script>
+
+  <!-- 创建Vue实例 -->
+  <script>
+    const App = createApp(app)
+    App.mount('#app')
+  </script>
+
+  <style>
+    /* 初始化 */
+    * {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: 100%;
+      font-weight: normal;
+      vertical-align: baseline;
+    }
+    html,
+    body {
+      width: 100%;
+    }
+
+    /* 主视图 */
+    .main {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</html>

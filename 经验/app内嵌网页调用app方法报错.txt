@@ -1,0 +1,9 @@
+可能需要转换成JSON格式
+
+案例:
+      window.SasaiCall.htmlServiceEncrypt(JSON.stringify(temp));
+提示returnHtmlServiceEncrypt方法undefined
+下方定义一个来接收返回的内容
+      window.returnHtmlServiceEncrypt = (jsonData) => {
+        console.log(jsonData);
+      };

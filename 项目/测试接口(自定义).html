@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>接口测试</title>
+    <link
+      rel="shortcut icon"
+      href="https://img1.baidu.com/it/u=1629479163,3719818209&fm=253&fmt=auto&app=138&f=JPEG?w=473&h=399"
+    />
+
+    <!-- vue -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- element-ui css -->
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css" />
+    <!-- element-ui js -->
+    <script src="https://unpkg.com/element-plus"></script>
+    <!-- axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+
+  <body>
+    <div id="app" class="main">
+      <div>
+        <!-- 请求方法选择 -->
+        <el-select v-model="d.method" style="width: 100px; margin-right: 12px">
+          <el-option label="POST" value="post"> </el-option>
+          <el-option label="GET" value="get"> </el-option>
+        </el-select>
+        <!-- api -->
+        <el-input placeholder="接口" v-model="d.api" style="width: 1000px; margin-right: 12px"></el-input>
+        <!-- 执行 -->
+        <el-button type="primary" :loading="d.loading" @click="m.toApi()" style="width: 100px">{{ '执行' }}</el-button>
+      </div>
+      <div style="display: flex; flex-direction: column">
+        <!-- 请求头输入 -->
+        <el-input
+          placeholder="请求头"
+          resize="none"
+          type="textarea"
+          :autosize="{ minRows: 10}"
+          v-model="d._header"
+          style="width: 1224px; margin-top: 12px"
+        ></el-input>
+        <!-- 参数输入 -->
+        <el-input
+          placeholder="参数"
+          resize="none"
+          type="textarea"
+          :autosize="{ minRows: 10}"
+          v-model="d._data"
+          style="width: 1224px; margin-top: 12px"
+        ></el-input>
+      </div>
+    </div>
+  </body>
+
+  <!-- 工具 -->
+  <script>
+    const { createApp, onMounted, reactive, watch } = Vue
+    const { ElMessage } = ElementPlus
+    // 封装storage
+    const storage = {
+      set(key, value) {
+        localStorage.setItem(key, JSON.stringify(value))
+      },
+      get(key) {
+        return JSON.parse(localStorage.getItem(key))
+      },
+      del(key) {
+        localStorage.removeItem(key)
+      }
+    }
+    // post请求方法
+    const post = (url, data, header = {}) => {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'post',
+          url,
+          data,
+          headers: Object.assign(header, {
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+            // 'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          })
+        })
+          .then((res) => {
+            resolve(res.data)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
+    }
+    // get请求方法
+    const get = (url, params, header = {}) => {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'get',
+          url,
+          params,
+          headers: Object.assign(header, {
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+            // 'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          })
+        })
+          .then((res) => {
+            resolve(res.data)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
+    }
+    // 字符串转对象（兼容是否有花括号）
+    const strToObj = (val) => {
+      let res = {}
+      try {
+        let data = val.replace(/^\s*|\s*$/g, '')
+        if (data[0] !== '{') data = `{${val}}`
+        res = eval('(' + data + ')')
+      } catch (e) {
+        console.log(e)
+      }
+      return res
+    }
+    // 保留响应式给对象赋值
+    const copyObj = (arr, target) => {
+      for (const i in target) {
+        arr[i] = target[i]
+      }
+    }
+  </script>
+
+  <!-- Vue实例主体 -->
+  <script>
+    let app = {
+      setup() {
+        const d = reactive({
+          method: 'post',
+          api: '',
+          data: {},
+          header: {},
+          _data: '',
+          _header: '',
+          loading: false
+        })
+        const BF = storage.get('BF')
+        if (BF) {
+          // copyObj(BF, d)
+          copyObj(d, BF)
+        }
+        watch(d, () => {
+          d.data = strToObj(d._data)
+          d.header = strToObj(d._header)
+          storage.set('BF', d)
+        })
+        const m = reactive({
+          // 发送请求
+          toApi: () => {
+            d.loading = true
+            let method = null
+            if (d.method === 'post') {
+              method = post
+            } else if (d.method === 'get') {
+              method = get
+            }
+            method(d.api, d.data, d.header)
+              .then(
+                (r) => {
+                  console.log(r)
+                  ElMessage({
+                    message: r,
+                    type: 'success'
+                  })
+                },
+                (e) => {
+                  console.log(r)
+                  ElMessage({
+                    message: e,
+                    type: 'error'
+                  })
+                }
+              )
+              .finally(() => {
+                d.loading = false
+              })
+          }
+        })
+
+        onMounted(() => {})
+
+        return { d, m }
+      }
+    }
+  </script>
+
+  <!-- 创建Vue实例 -->
+  <script>
+    const App = createApp(app)
+    App.use(ElementPlus)
+    App.mount('#app')
+  </script>
+
+  <style>
+    /* 初始化 */
+    * {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: 100%;
+      font-weight: normal;
+      vertical-align: baseline;
+    }
+    html,
+    body {
+      width: 100%;
+    }
+
+    /* 主视图 */
+    .main {
+      background-color: rgb(68, 70, 84);
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+  </style>
+</html>

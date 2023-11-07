@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>canvas截图</title>
+    <link
+      rel="shortcut icon"
+      href="https://img1.baidu.com/it/u=1629479163,3719818209&fm=253&fmt=auto&app=138&f=JPEG?w=473&h=399"
+    />
+
+    <!-- vue -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+
+  <body>
+    <div id="app" class="main">
+      <com></com>
+    </div>
+  </body>
+
+  <!-- 工具 -->
+  <script>
+    const { createApp, onMounted, reactive } = Vue
+    // 封装storage
+    const storage = {
+      set(key, value) {
+        localStorage.setItem(key, JSON.stringify(value))
+      },
+      get(key) {
+        return JSON.parse(localStorage.getItem(key))
+      },
+      del(key) {
+        localStorage.removeItem(key)
+      }
+    }
+    // post请求方法
+    const post = (url, data) => {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'post',
+          url,
+          data,
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Access-Control-Allow-Origin': '*'
+          }
+        })
+          .then((res) => {
+            resolve(res.data)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
+    }
+    // get请求方法
+    const get = (url, params) => {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'get',
+          url,
+          params,
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Access-Control-Allow-Origin': '*'
+          }
+        })
+          .then((res) => {
+            resolve(res.data)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
+    }
+  </script>
+
+  <!-- Vue实例主体 -->
+  <script>
+    let app = {
+      setup() {
+        const d = reactive({})
+        const m = reactive({})
+
+        onMounted(() => {})
+
+        return { d, m }
+      }
+    }
+  </script>
+  <!-- Vue组件主体 -->
+  <script>
+    // vue构造器写法
+    let com = {
+      template: `
+  <div>
+    <div v-if="!images" @click="outClick" style="cursor: pointer">截取</div>
+    <div class="canvas-background" v-if="images">
+      <!-- 截取区域 -->
+      <canvas id="canvas-cuts"></canvas>
+      <canvas
+        id="canvas-cut"
+        @mousedown="onmousedown"
+        @mouseup="onmouseup"
+        @mousemove="onmousemove"
+      ></canvas>
+      <!--回显区域-->
+      <div class="canvas-coordinate" v-if="clipArea">
+        <div
+          >x: {{ clipArea.x }}, y: {{ clipArea.y }}, h: {{ clipArea.h }}, w: {{ clipArea.w }}</div
+        >
+      </div>
+      <div class="canvas-img">
+        <img id="cutImg" :src="cutImgSrc" />
+      </div>
+      <div class="canvas-close" @click="closeClick">关闭</div>
+    </div>
+  </div>`,
+      data() {
+        return {
+          images: false,
+          // 图像层
+          imgSrc: 'https://img2.baidu.com/it/u=535434677,197924141&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=281', // 放置原图像
+          ucanvas: null,
+          uctx: null,
+          img: null,
+          // 遮罩层
+          canvas: null,
+          ctx: null,
+          clipArea: null, // 最终坐标点数据
+          start: null, // 绘制过程作为判断节点
+          // 回显区域
+          cutImg: null,
+          cutCtx: null,
+          cutImgSrc: null
+        }
+      },
+
+      methods: {
+        outClick() {
+          let that = this
+          that.images = true
+          setTimeout(() => {
+            // 图像
+            const SRC = that.imgSrc
+            that.ucanvas = document.getElementById('canvas-cuts')
+            that.ucanvas.width = '550'
+            that.ucanvas.height = '400'
+            that.uctx = that.ucanvas.getContext('2d')
+            that.img = new Image()
+            that.img.src = SRC
+            that.img.crossOrigin = '' // 图像跨域处理 （ps:不跨域不用加）
+            that.img.onload = function () {
+              that.uctx.drawImage(that.img, 0, 0, that.ucanvas.width, that.ucanvas.height)
+            }
+            // 遮罩层
+            that.canvas = document.getElementById('canvas-cut')
+            that.canvas.width = '550'
+            that.canvas.height = '400'
+            that.ctx = that.canvas.getContext('2d')
+            that.ctx.fillStyle = 'rgba(0,0,0,0.6)'
+            that.ctx.strokeStyle = 'rgba(255,106,0,1)'
+            // 回显
+            that.cutImg = document.getElementById('cutImg')
+          }, 100)
+        },
+        // 按下
+        onmousedown(e) {
+          this.start = {
+            x: e.offsetX,
+            y: e.offsetY
+          }
+        },
+        // 抬起
+        onmouseup(e) {
+          let that = this
+          if (that.start) {
+            that.start = null
+            var url = that.startClip(that.clipArea)
+            that.cutImg.src = url
+            //生成base64格式的图
+            that.cutImgSrc = url
+          }
+        },
+        // 移动
+        onmousemove(e) {
+          if (this.start) {
+            this.fill(this.start.x, this.start.y, e.offsetX - this.start.x, e.offsetY - this.start.y) // 调起遮罩层
+          }
+        },
+        // 遮罩层
+        fill(x, y, w, h) {
+          let that = this
+          that.ctx.clearRect(0, 0, that.canvas.width, that.canvas.height)
+          that.ctx.beginPath()
+          //遮罩层
+          that.ctx.globalCompositeOperation = 'source-over' //在目标图像上显示源图像
+          that.ctx.fillRect(0, 0, that.canvas.width, that.canvas.height)
+          //画框
+          that.ctx.globalCompositeOperation = 'destination-out' //在目标图像之外显示源图像
+          that.ctx.fillRect(x, y, w, h)
+          //描边
+          that.ctx.globalCompositeOperation = 'source-over' //在目标图像上显示源图像
+          that.ctx.moveTo(x, y)
+          that.ctx.lineTo(x + w, y)
+          that.ctx.lineTo(x + w, y + h)
+          that.ctx.lineTo(x, y + h)
+          that.ctx.lineTo(x, y)
+          that.ctx.stroke()
+          that.ctx.closePath()
+          // 存入最终坐标点数据
+          that.clipArea = {
+            x,
+            y,
+            w,
+            h
+          }
+        },
+        // 图像转化--截取后的图像
+        startClip(area) {
+          let that = this
+          var canvas = document.createElement('canvas')
+          canvas.width = area.w
+          canvas.height = area.h
+          var data = that.uctx.getImageData(area.x, area.y, area.w, area.h)
+          var context = canvas.getContext('2d')
+          context.putImageData(data, 0, 0)
+          return canvas.toDataURL('image/png', 1)
+        },
+        // 关闭截取
+        closeClick() {
+          this.images = false
+          // 数据重置
+          ;(this.imgSrc = ''),
+            (this.ucanvas = null),
+            (this.uctx = null),
+            (this.img = null),
+            (this.canvas = null),
+            (this.ctx = null),
+            (this.clipArea = null),
+            (this.start = null),
+            (this.cutImg = null),
+            (this.cutCtx = null),
+            (this.cutImgSrc = null)
+        }
+      },
+      mounted() {
+        this.outClick()
+      }
+    }
+  </script>
+
+  <!-- 创建Vue实例 -->
+  <script>
+    const App = createApp(app)
+    App.component('com', com)
+    App.mount('#app')
+  </script>
+
+  <style>
+    /* 初始化 */
+    * {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: 100%;
+      font-weight: normal;
+      vertical-align: baseline;
+    }
+    html,
+    body {
+      width: 100%;
+    }
+
+    /* 主视图 */
+    .main {
+      width: 100vw;
+      height: 100vh;
+      /* display: flex;
+      align-items: center;
+      justify-content: center; */
+    }
+
+    .canvas-background {
+      width: 100%;
+      height: 100vh;
+      background: #0000008f;
+      text-align: center;
+      position: absolute;
+    }
+    #canvas-cuts {
+      position: absolute;
+      z-index: 1;
+      left: 37%;
+      top: 7%;
+    }
+    #canvas-cut {
+      position: absolute;
+      z-index: 999;
+      left: 37%;
+      top: 7%;
+    }
+    .canvas-coordinate {
+      color: #ffffff;
+      line-height: 69px;
+      font-family: fangsong;
+      font-size: 18px;
+      position: absolute;
+      left: 44%;
+    }
+    .canvas-img {
+      width: 250px;
+      height: 250px;
+      position: absolute;
+      left: 37%;
+      bottom: 25%;
+    }
+    .canvas-close {
+      color: #ffffff;
+      line-height: 69px;
+      font-family: fangsong;
+      font-size: 18px;
+      position: absolute;
+      bottom: 2%;
+      left: 50%;
+      cursor: pointer;
+    }
+  </style>
+</html>

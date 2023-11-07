@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vue单页面</title>
+  <link rel="shortcut icon"
+    href="https://img1.baidu.com/it/u=1629479163,3719818209&fm=253&fmt=auto&app=138&f=JPEG?w=473&h=399" />
+
+  <!-- vue -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <!-- element-ui css -->
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css" />
+  <!-- element-ui js -->
+  <script src="https://unpkg.com/element-plus"></script>
+</head>
+
+<body>
+  <div id="app" class="main">
+    <el-card style="width: 400px; display: flex; flex-direction: column">
+      <el-row type="flex " class="fc">
+        <el-col :span="8" style="display: flex;align-items: center;">
+          <span>斋</span>
+          <el-switch @change="method.doubleChange" style="margin: 0 10px" v-model="data.double"> </el-switch>
+          <span>飞</span>
+        </el-col>
+        <el-col :span="7" class="fc">
+          <div v-if="data.show">{{ '概率：' }}{{ method.initNum(data.res * 100,1)+'%' }}</div>
+          <div v-else>{{'输入不合理'}}</div>
+        </el-col>
+        <el-col :span="9" class="fc">
+          <span>点数是1</span>
+          <el-switch @change="method.is1Change" style="margin: 0 10px" v-model="data.is1"> </el-switch>
+        </el-col>
+      </el-row style="margin-top:20px">
+      <el-row style="margin-top:20px" type="flex " class="fc">
+        <el-col :span="12">
+          <span>总人数？</span>
+        </el-col>
+        <el-col :span="12">
+          <el-input-number @click="method.getRes" :min="2" type="primary" v-model="data.peopleNumber ">
+          </el-input-number>
+        </el-col>
+      </el-row style="margin-top:20px">
+      <el-row style="margin-top:20px" type="flex " class="fc">
+        <el-col :span="12">
+          <span>每人用几个骰子？</span>
+        </el-col>
+        <el-col :span="12">
+          <el-input-number @click="method.getRes" :min="1" type="primary" v-model="data.diceNumber "></el-input-number>
+        </el-col>
+      </el-row style="margin-top:20px">
+      <el-row style="margin-top:20px" type="flex " class="fc">
+        <el-col :span="12">
+          <span>我有几个对应的骰子？</span>
+        </el-col>
+        <el-col :span="12">
+          <el-input-number @click="method.getRes" :min="0" type="primary" v-model="data.hasNumber "></el-input-number>
+        </el-col>
+      </el-row style="margin-top:20px">
+      <el-row style="margin-top:20px" type="flex " class="fc">
+        <el-col :span="12">
+          <span>骰子数量喊到多少了？</span>
+        </el-col>
+        <el-col :span="12">
+          <el-input-number @click="method.getRes" :min="1" type="primary" v-model="data.numberNumber"></el-input-number>
+        </el-col>
+      </el-row style="margin-top:20px">
+    </el-card>
+  </div>
+</body>
+
+<!-- 工具 -->
+<script>
+  const {
+    createApp,
+    onMounted,
+    reactive
+  } = Vue
+  const {
+    ElMessage
+  } = ElementPlus
+  // 封装storage
+  const storage = {
+    set(key, value) {
+      localStorage.setItem(key, JSON.stringify(value))
+    },
+    get(key) {
+      return JSON.parse(localStorage.getItem(key))
+    },
+    del(key) {
+      localStorage.removeItem(key)
+    }
+  }
+  // 保留响应式给对象赋值
+  const copyObj = (arr, target) => {
+    for (const i in target) {
+      arr[i] = target[i]
+    }
+  }
+</script>
+
+<!-- Vue实例主体 -->
+<script>
+  let app = {
+    setup() {
+      const data = reactive({
+        peopleNumber: 6, //总人数？
+        diceNumber: 5, //每人用几个骰子？
+        hasNumber: 0, //我有几个对应的骰子？
+        numberNumber: 8, //骰子数量喊到多少了？
+        double: true, // 飞
+        is1: false, // 点数是1
+        res: null,
+        show: true
+      })
+      const method = reactive({
+        // 计算组合数C(n, m)
+        combination(n, m) {
+          let result = 1
+          for (let i = 1; i <= m; i++) {
+            result *= (n - m + i) / i
+          }
+          return result
+        },
+        // 返回小数长度
+        decimalLen(num) {
+          const numInstr = num + ''
+          let behindLen = 0
+          numInstr.split('.')[1] && (behindLen = numInstr.split('.')[1].length)
+          return behindLen
+        },
+        // 返回小数保留后几位后的数字(四舍五入)
+        initNum(num, len) {
+          if (method.decimalLen(num) >= len) {
+            return parseFloat(num.toFixed(len))
+          } else {
+            return num
+          }
+        },
+        // 计算投掷x个骰子中，至少y个骰子为某个值的概率
+        diceProbability(x, y) {
+          let probability = 0
+          for (let i = y; i <= x; i++) {
+            probability += method.combination(x, i) * Math.pow(1 / 6, i) * Math.pow(5 / 6, x - i)
+          }
+          return probability
+        },
+        // 计算投掷x个骰子中，至少y个骰子为某2个值的概率
+        diceProbability2(x, y) {
+          let probability = 0
+          for (let i = y; i <= x; i++) {
+            probability += method.combination(x, i) * Math.pow(2 / 6, i) * Math.pow(4 / 6, x - i)
+          }
+          return probability
+        },
+        //计算结果
+        getRes() {
+          const {
+            peopleNumber,
+            diceNumber,
+            hasNumber,
+            numberNumber,
+            double
+          } = data
+          if (hasNumber > diceNumber) {
+            data.show = false
+            return
+          }
+          data.show = true
+          const elseDiceNumber = (peopleNumber - 1) * diceNumber // 其他人一共有多少骰子
+          const goal = numberNumber - hasNumber // 胜利需要的其他人的骰子数
+          if (double) {
+            data.res = method.diceProbability2(elseDiceNumber, goal)
+          } else {
+            data.res = method.diceProbability(elseDiceNumber, goal)
+          }
+          storage.set('oldData', data)
+        },
+        // 为斋时默认点数不为1
+        doubleChange() {
+          if (data.is1) data.is1 = !data.is1
+          method.getRes()
+        },
+        // 点数为1时默认为斋
+        is1Change() {
+          if (data.double) data.double = !data.double
+          method.getRes()
+        }
+      })
+
+      onMounted(() => {
+        const oldData = storage.get('oldData')
+        if (oldData) copyObj(data, oldData)
+        method.getRes()
+      })
+
+      return {
+        data,
+        method
+      }
+    }
+  }
+</script>
+
+<!-- 创建Vue实例 -->
+<script>
+  const App = createApp(app)
+  App.use(ElementPlus)
+  App.mount('#app')
+</script>
+
+<style>
+  /* 初始化 */
+  * {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font-weight: normal;
+    vertical-align: baseline;
+  }
+
+  html,
+  body {
+    width: 100%;
+  }
+
+  /* 主视图 */
+  .main {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(230, 232, 235);
+  }
+
+  .fc {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+
+</html>

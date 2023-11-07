@@ -1,0 +1,21 @@
+vue.config.js文件  （修改后记得重启项目）
+
+const { defineConfig } = require('@vue/cli-service')
+module.exports = defineConfig({
+  transpileDependencies: true,
+  lintOnSave: false,
+
+  devServer: {
+    // port: 8080,
+    // https: true,
+    proxy: {
+      '/api': {
+        target: 'https://apidev.im.sasai.mobi:44399',  // 在此填写代理地址
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': ''
+        }
+      }
+    }
+  }
+})

@@ -1,0 +1,189 @@
+<script src="https://cn.vuejs.org/js/vue.js"></script>
+
+vue create xxxxxx   新建项目
+
+插值语法
+{{name}}
+   
+指令语法
+v-band:href="url"	单向绑定解析表达式
+v-band可以简体成 :
+
+双向绑定（适合用于表单）
+v-model:value="name"
+v-model:value可简写成v-model，因为默认收集value的值
+
+el的第二种写法
+v.$mount('root')
+写在vue外面
+更灵活，可放入定时器中达成神奇的效果
+
+data的第二种写法
+data(){return{name:x}}
+函数写法，如果用箭头函数写，此时的函数里的this是window
+
+object.defineproperty(person,'age',{value:18}
+get(){return 'hello'}
+set(value){number=value})
+该函数可以使对象的属性不可枚举，修改，删除
+无法枚举：无法遍历到
+get函数，在对象被读取时运行
+set函数，在该属性被修改时调用，且会收到具体值
+
+v-on:click="showInfo"
+事件绑定，点击
+可简写成@click="showInfo"
+
+@wheel	滚轮事件（次）
+@scroll	滚轮事件（距离）
+
+事件修饰符 
+@click.prevent 	阻止默认事件
+.stop	阻止冒泡
+.once	事件只触发一次
+.captrue	使用捕获模式
+.self	只有event.target是当前操作的元素时才会触发事件
+.passive	默认行为立即执行，回调函数后执行
+
+键盘事件
+@keyup.enter
+.delete
+.esc
+.space
+.tab
+.up
+.down
+.left
+.right
+上面没有的可以用e.key获取键名(两个单词组成的要全小写并用-连接)
+
+系统修饰键:ctrl,alt,shift,meta
+配合keyup使用，按下修饰键时再按其他键才能触发（ctrl.y指定哪两个键）
+配合keydown使用，正常触发事件
+
+el		获取对象
+data		拥有的属性
+methods		方法函数（html中调用需要加()）
+computed	计算函数（html中调用不需要加()，因为本身是一个函数运行后返回的属性）
+watch		监视属性
+
+  watch:{
+    tableData:{
+      handler(){
+        console.log('1')
+      } 
+    } 
+  }
+deep:true深度监视
+handler函数，当x被修改时会调用
+immediate:true	初始化时就调用
+第二种写法vm.$watch('x',{handler(){}})
+
+检测多级结构中某个属性的变化时要还原本来的写法 某某某.x
+deep:true开启，可以监视结构中多个属性的
+
+样式绑定
+class="basce" :class="x";
+...x:'mood'... 
+等于
+class="basce mood"
+
+v-show="false"	隐藏样式
+v-if		彻底消失
+v-else-if
+v-else		这三个可以联合使用，但不能被打断
+
+
+<template v-if="true">
+	<h1>1</h1>
+	<h1>2</h1>
+	<h1>3</h1>
+</template>
+包含的东西不会改变原本结构，作用是将内容包起来在，只能配合v-if使用
+
+
+遍历时的:key尽量用.id，手机号，身份证号等唯一标识当key，
+这样效率高也不会在逆序添加操作时出现错误dom更新，
+因为虚拟的dom可以直接调用真实的dom而不会重新创建，
+不用对数据进行操作的才可以用index
+
+
+filter()
+创建一个新数组，新数组的元素是通过检查指定元素中符合条件的所有元素
+
+Vue.$set(vm.student,'sex','男')或vue.set...
+添加一个可响应的属性，第一个值是目标，第二个值是属性名，第三个值是属性值
+
+Vue.delete...
+删除一个可响应的属性
+
+对于数组内的对象，用push(),pop(),shift(),unshift(),splice(),sort(),reverse()可以使数组中的对象变得可响应
+
+.trim	去掉空格
+.lazy	失去焦点才获取信息
+.number	限制输入内容为数字
+
+v-text	插值语法
+v-html	与上面类似，可以识别html结构（有安全性问题）
+v-cloak	没有值，与css配合可以解决网速慢时出现{{xxx}}的问题
+v-once	没有值，所在节点在初次渲染后变成静态
+v-pre	没有值，有的语句跳过编译
+
+directives:{
+
+big(element,binding){
+}
+
+}	自定义指令
+
+
+
+
+mounted(){}	vue完成模板的解析并把初始的真实DOM元素放入页面后（挂载完毕）调用mounted
+
+vm生命周期
+beforeCreate()	将要创建
+created()		创建完毕
+beforMount()	将要挂载
+mounted()	挂载完毕
+beforeUpdate()	将要更新
+updated()		更新完毕
+beforeDestroy()	将要销毁
+destoryed()	销毁完毕
+
+Vue.component('hello',hello)	全局注册组件
+
+<..ref="title"..>
+console.log(this.$refs.title)
+vue中获取元素的方法
+
+<..name="李四",age='18'...>
+props:['name','age']
+
+props:{name:String,age:Nubmer}
+限制传入内容的属性
+
+props:{
+name:{
+type:string,
+required:true//必要性
+}
+age:{
+type:string,
+required:true//默认值
+}
+} 
+外面获取属性，传入的属性不能修改
+
+dara:	scrollTop:0
+methods: 		handleScroll(){this.scrollTop=document.documentElement.scrollTop}
+mounted: 	window.addEventListener("scroll",this.handleScroll,true)
+
+v-on="$listeners"
+子组件元素中写这个，父组件给子组件绑定事件时都会绑到这个元素上
+
+
+
+
+
+

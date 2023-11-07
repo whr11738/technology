@@ -1,0 +1,53 @@
+<DOCTYPE html>
+<html>
+	<head>
+	<meta charset="UTF-8">
+		<title>一个程序</title>
+		<script type="text/javascript">
+			function fun(a,b){
+				alert("a="+a);
+				alert("b="+b);
+				alert(this.name);
+			}
+			var obj={
+				name:"I am obj!!!!",
+				sayname:function(){
+					alert(this.name);
+				}}
+			fun.call(obj,2,3);
+			fun.apply(obj,[2,3]);
+
+
+
+
+
+
+
+
+
+
+
+			var obj1={
+				name:"obj1",
+				sayname:function(){
+					alert(this.name);
+				}}
+			var obj2={
+				name:"obj2",
+				sayname:function(){
+					alert(this.name);
+				}}
+				obj1.sayname();
+				obj2.sayname();
+				obj2.sayname.apply();
+				obj1.sayname.apply();
+				obj1.sayname.apply(obj2);
+				obj2.sayname.apply(obj1);
+
+		</script>
+	</head>
+	<body>
+		<h1>hallo world</h1>
+		<p>i love js</p>
+	</body>
+<html>

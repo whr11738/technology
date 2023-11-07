@@ -1,0 +1,15 @@
+html+css 大学时
+javaScript  20天
+js高级  3天
+flex  一天不到
+ES6 2天
+jQuery 3天
+swiper  一天不到
+vue2  5天
+git与github  一天不到
+rem与less  一天不到
+ajax  2天
+node.js 1天
+mongoDB 1天
+promise 1天
+ts 2天
