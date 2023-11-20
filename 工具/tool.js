@@ -1061,6 +1061,7 @@ export const getImg = (obj) => {
 // 使用 downLoadFile(await api(params));
 // name 可能要带上文件类型后缀
 export const downLoadFile = (response, name = "") => {
+  let fileName = "";
   if (name) fileName = name;
   else {
     try {
