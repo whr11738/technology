@@ -1059,12 +1059,15 @@ export const getImg = (obj) => {
 
 // 下载二进制文件 （参数：响应体,文件名） 响应体有config,data,headers,request,status,statusTest 其中data是blob类型
 // 使用 downLoadFile(await api(params));
+// name 可能要带上文件类型后缀
 export const downLoadFile = (response, name = "") => {
-  let fileName = "";
-  try {
-    fileName = response.headers["content-disposition"].split("=")[1];
-  } catch (e) {
-    fileName = "download" + name;
+  if (name) fileName = name;
+  else {
+    try {
+      fileName = response.headers["content-disposition"].split("=")[1];
+    } catch (e) {
+      fileName = "download";
+    }
   }
   const blob = new Blob([response.data]);
   const url = window.URL.createObjectURL(blob);
