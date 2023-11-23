@@ -91,13 +91,9 @@ export const copyArr = (arr, target) => {
   return arr;
 };
 // 查找数组中是否存在val
-export const arrHave = (arr, val) => {
-  return arr.indexOf(val) !== -1;
-};
+export const arrHave = (arr, val) => arr.indexOf(val) !== -1;
 // 查找数组(arr)中属性(name)值为val的目标的索引
-export const arrFindIndex = (arr, name, val) => {
-  return arr.findIndex((item) => item[name] === val);
-};
+export const arrFindIndex = (arr, name, val) => arr.findIndex((item) => item[name] === val);
 // 查找数组(arr)中属性(name)值为val的目标
 export const arrFindItem = (arr, name, val) => {
   const i = arr.findIndex((item) => item[name] === val);
@@ -116,22 +112,14 @@ export const arrFind = (arr, name, val, goal) => {
   return i === -1 ? null : arr[i][goal];
 };
 // 根据索引删除数组中目标
-export const arrDel = (arr, index) => {
-  return arr.splice(index, 1);
-};
+export const arrDel = (arr, index) => arr.splice(index, 1);
 // 将一个数字数组中所有数字相加
 // addArr([1, 2, 3]) // 6
 export const addArr = (arr) => arr.reduce((_, __) => _ + __, 0);
 // 两数组的交集
-export const arrSame = (arr1, arr2) => {
-  return arr1.filter((item) => {
-    return arr2.includes(item);
-  });
-};
+export const arrSame = (arr1, arr2) => arr1.filter((item) => arr2.includes(item));
 // 合并两数组并去重
-export const arrAdd = (arr1, arr2) => {
-  return [...new Set([...arr1, ...arr2])];
-};
+export const arrAdd = (arr1, arr2) => [...new Set([...arr1, ...arr2])];
 // 多数组合并并去重(参数：对象数组,数组在对象中的属性名)
 export const arrsAdd = (arrs, key) => {
   let res = [];
@@ -149,20 +137,14 @@ export const uniqueObjArr = (arr, uniId) => {
   return arr.filter((item) => !res.has(item[uniId]) && res.set(item[uniId], 1));
 };
 // 数组转字符串
-export const arrToStr = (val, tag = ";") => {
-  return val.join(tag);
-};
+export const arrToStr = (val, tag = ";") => val.join(tag);
 // 字符串转数组
-export const strToArr = (str, tag = "") => {
-  return str.split(tag);
-};
+export const strToArr = (str, tag = "") => str.split(tag);
 // #endregion
 
 // #region 字符串
 // 字符串转数字
-export const strToNum = (val) => {
-  return parseInt(val, 10);
-};
+export const strToNum = (val) => parseInt(val, 10);
 // 字符串转对象（兼容是否有花括号）
 export const strToObj = (val) => {
   let res = {};
@@ -176,9 +158,7 @@ export const strToObj = (val) => {
   return res;
 };
 // 数字转字符串
-export const numToStr = (val) => {
-  return `${val}`;
-};
+export const numToStr = (val) => `${val}`;
 // 首字母大写,其余小写
 export const titleCase = (str) => {
   const newStr = str.toLowerCase();
@@ -301,9 +281,7 @@ export const dateTool = (data, replace) => {
     seconds: newDate.getSeconds(), //秒
     milliseconds: newDate.getMilliseconds(), //毫秒
   };
-  const getZero = (n) => {
-    return n < 10 ? "0" + n : n;
-  };
+  const getZero = (n) => (n < 10 ? "0" + n : n);
   const base2 = {
     year0: getZero(base1.year), //年 一位数时前面加0
     month0: getZero(base1.month), //月 一位数时前面加0
@@ -416,9 +394,7 @@ export const formatSeconds = (value) => {
       minute = parseInt(minute % 60);
     }
   }
-  const getZero = (v) => {
-    return v < 10 ? "0" + v : v;
-  };
+  const getZero = (v) => (v < 10 ? "0" + v : v);
   const h = getZero(parseInt(hour));
   const m = getZero(parseInt(minute));
   const s = getZero(parseInt(second));
@@ -594,31 +570,21 @@ export const getSelection = (textarea) => {
 export const getFileTagByUrl = (url) => {
   const type = url.split(".").pop();
   const typeArr = ["jpg", "jpeg", "png", "gif", "jfif"];
-  if (typeArr.findIndex((item) => type === item) !== -1) {
-    return "img";
-  }
-  if (type === "mp4") {
-    return "video";
-  }
+  if (typeArr.findIndex((item) => type === item) !== -1) return "img";
+  if (type === "mp4") return "video";
 };
 // 判断类型
 export const getType = (value) => {
-  if (Number.isNaN(value)) {
-    return "NaN";
-  }
+  if (Number.isNaN(value)) return "NaN";
   const type = toString.call(value);
   // eslint-disable-next-line no-useless-escape
   const reg = /\\|\/|\?|\？|\*|\"|\“|\”|\'|\‘|\’|\<|\>|\{|\}|\[|\]|\【|\】|\：|\:|\、|\^|\$|\!|\~|\`|\|/g;
   return type.replace(reg, "").split(" ")[1];
 };
 // 判断工具 如typeTool.isArray([])调用某一类型判断
-export const typeTool = {
-  typeMap: ["Array", "Object", "Number", "String", "Boolean", "Undefined", "Null", "NaN", "Bigint", "Symbol", "Blob"],
-};
+export const typeTool = { typeMap: ["Array", "Object", "Number", "String", "Boolean", "Undefined", "Null", "NaN", "Bigint", "Symbol", "Blob"] };
 typeTool.typeMap.forEach((i) => {
-  typeTool[`is${i}`] = (value) => {
-    return getType(value) === i;
-  };
+  typeTool[`is${i}`] = (value) => getType(value) === i;
 });
 // 判断所有类型
 export const checkAllTypes = (value) => {
@@ -638,30 +604,17 @@ export const checkAllTypes = (value) => {
 
 // #region 数据
 // 初始化选择器
-export const initOptions = (arr, label, value) => {
-  return arr.map((i) => ({
-    label: i[label],
-    value: i[value] || i[label],
-  }));
-};
+export const initOptions = (arr, label, value) => arr.map((i) => ({ label: i[label], value: i[value] || i[label] }));
 // 初始化选择器 使用纯对象
 export const initOptionsObj = (arr, label, value) => {
   const res = [];
   for (const i in arr) {
-    res.push({
-      label: arr[i][label],
-      value: arr[i][value] || arr[i][label],
-    });
+    res.push({ label: arr[i][label], value: arr[i][value] || arr[i][label] });
   }
   return res;
 };
 // 初始化选择器 使用纯数组
-export const initOptionsPure = (arr) => {
-  return arr.map((i) => ({
-    label: i,
-    value: i,
-  }));
-};
+export const initOptionsPure = (arr) => arr.map((i) => ({ label: i, value: i }));
 // 初始化类型数据 (传入defaultKey数组以设置默认属性,避免undefined导致报错)
 // export const couponType = { 0: { t: "i.couponType0" } };
 // initType(couponType, ["t"]);
@@ -710,10 +663,7 @@ export const initRequestDataLimit = (requestData, indexArray, formData) => {
 };
 // 地址路径转对象
 export const getRouteObj = (url) => {
-  const routeObj = {
-    path: url.split("#")[1],
-    query: {},
-  };
+  const routeObj = { path: url.split("#")[1], query: {} };
   const queryStr = routeObj.path.split("?")[1];
   if (queryStr) {
     const queryArr = queryStr.split("&");
@@ -757,13 +707,9 @@ export const fileValidate = (file) => {
   return validate;
 };
 // 加密 加密流程：转JSON -> 作为URI组件进行编码 -> 转base-64
-export const encipher = (data) => {
-  return window.btoa(encodeURIComponent(JSON.stringify(data)));
-};
+export const encipher = (data) => window.btoa(encodeURIComponent(JSON.stringify(data)));
 // 解密
-export const decrypt = (data) => {
-  return JSON.parse(decodeURIComponent(window.atob(data)));
-};
+export const decrypt = (data) => JSON.parse(decodeURIComponent(window.atob(data)));
 // 节流 (参数:回调方法，时间) 在一定时间内，只能触发一次函数。如果这个单位时间内触发多次函数，只有一次生效。
 export const throttle = (fun, delay) => {
   let flag = true;
@@ -868,9 +814,7 @@ export const cookie = {
   },
 };
 // 代码中间插入延迟
-export const wait = async (time = 1000) => {
-  return new Promise((resolve) => setTimeout(resolve, time));
-};
+export const wait = async (time = 1000) => new Promise((resolve) => setTimeout(resolve, time));
 /*
 // 插入延迟使用方法
 const test = async () => {
@@ -889,27 +833,15 @@ export const isStructure = (data, index = 0) => {
 };
 // 返回第一个键值
 export const getFirstValue = (value) => {
-  if (typeTool.isArray(value) || typeTool.isString(value)) {
-    return value[0];
-  }
-  if (typeTool.isNumber(value)) {
-    return value.toString()[0];
-  }
-  if (typeTool.isObject(value)) {
-    return value[Object.keys(value)[0]];
-  }
+  if (typeTool.isArray(value) || typeTool.isString(value)) return value[0];
+  if (typeTool.isNumber(value)) return value.toString()[0];
+  if (typeTool.isObject(value)) return value[Object.keys(value)[0]];
 };
 // 长度判断
 export const getLength = (value) => {
-  if (typeTool.isArray(value) || typeTool.isString(value)) {
-    return value.length;
-  }
-  if (typeTool.isObject(value)) {
-    return Object.keys(value).length;
-  }
-  if (typeTool.isNumber(value)) {
-    return value.toString().length;
-  }
+  if (typeTool.isArray(value) || typeTool.isString(value)) return value.length;
+  if (typeTool.isObject(value)) return Object.keys(value).length;
+  if (typeTool.isNumber(value)) return value.toString().length;
 };
 // console.log拦截再封装
 export const rewritetConsole = () => {
@@ -968,13 +900,9 @@ export const getBrowser = () => {
   }
 };
 // 判断当前路径
-export const getRoad = () => {
-  return window.location.href;
-};
+export const getRoad = () => window.location.href;
 // 判断当前是否含有某个字段
-export const hasUrl = (s) => {
-  return findString(window.location.href, s)[0] !== undefined;
-};
+export const hasUrl = (s) => findString(window.location.href, s)[0] !== undefined;
 // 判断安卓
 export const isPC = () => {
   const userAgentInfo = navigator.userAgent;
