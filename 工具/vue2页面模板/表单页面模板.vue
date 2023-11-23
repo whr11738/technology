@@ -66,14 +66,7 @@ export default {
     return {
       visible: true,
       rulesRef: {
-        name: [
-          {
-            required: true,
-            validator: async (_rule, value) => {
-              if (value === "" || !value) throw new Error(this.$t("此项必填"));
-            },
-          },
-        ],
+        name: this.defaultRulesRef(),
         desc: [],
       },
       options: [
@@ -105,6 +98,16 @@ export default {
   //   },
   // },
   methods: {
+    defaultRulesRef() {
+      return [
+        {
+          required: true,
+          validator: async (_rule, value) => {
+            if (value === "" || !value) throw new Error(this.$t("此项必填"));
+          },
+        },
+      ];
+    },
     async onSubmit() {
       console.log("onSubmit");
       console.log(this.form);
