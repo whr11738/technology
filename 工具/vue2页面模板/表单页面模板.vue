@@ -11,7 +11,7 @@
     ></com-edit> -->
 <template>
   <div>
-    <el-dialog :title="$t('表单')" visible="visible" width="30%" :before-close="close">
+    <el-dialog :title="form.id ? $t('编辑') : $t('创建')" visible="visible" width="30%" :before-close="close">
       <el-form :model="form" :rules="rulesRef" ref="formRef" label-width="80px">
         <el-form-item :label="$t('名称')" prop="name">
           <el-input v-model="form.name" :placeholder="$t('请输入名称')" />
@@ -55,7 +55,7 @@
 <script>
 import "@/assets/css/baseStyle.css";
 // import {  } from "@/utils/baseTool";
-// import {  } from '@/api/'
+// import api from '@/api/'
 
 export default {
   props: {
@@ -113,11 +113,18 @@ export default {
       console.log(this.form);
       this.$refs["formRef"].validate((valid) => {
         console.log(valid);
+        if (!valid) return;
+        // const methods = this.form.id ? api.edit : api.add;
+        // methods(this.form).then(() => {
+        //   this.$message.success(this.$t("i.success"));
+        //   this.close();
+        // });
       });
     },
   },
   mounted() {
     console.log(this.data);
+    if (this.data) this.form = this.data;
   },
 };
 </script>

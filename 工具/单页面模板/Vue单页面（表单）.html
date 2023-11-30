@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue单页面（表单）</title>
+    <link rel="shortcut icon" href="https://img1.baidu.com/it/u=1629479163,3719818209&fm=253&fmt=auto&app=138&f=JPEG?w=473&h=399" />
+
+    <!-- vue -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- element-plus css -->
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css" />
+    <!-- element-plus js -->
+    <script src="https://unpkg.com/element-plus"></script>
+    <!-- axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+
+  <body>
+    <div id="app" class="main">
+      <el-card style="width: 500px">
+        <el-form :model="d.form" :rules="d.rulesRef" ref="formRef" label-width="80px">
+          <el-form-item label="国家" prop="country">
+            <el-select v-model="d.form.country" placeholder="可输入以筛选" :filterable="true" multiple style="width: 100%" clearable>
+              <el-option v-for="item in d.options" :key="item.id" :label="item.name" :value="item.id"> </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="关键词" prop="key">
+            <el-input v-model="d.form.key" placeholder="请输入关键词" clearable />
+          </el-form-item>
+          <el-form-item label="邮箱" prop="email">
+            <el-input v-model="d.form.email" placeholder="请输入邮箱" clearable />
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <div class="f">
+            <div class="fa"></div>
+            <el-button @click="m.reset">重 置</el-button>
+            <el-button type="primary" @click="m.onSubmit" :loading="d.loading">确 定</el-button>
+          </div>
+        </span>
+      </el-card>
+    </div>
+  </body>
+
+  <!-- 工具 -->
+  <script>
+    const { createApp, onMounted, onBeforeMount, reactive, ref } = Vue;
+    const { ElMessage } = ElementPlus;
+    // 封装storage
+    const storage = {
+      set(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+      },
+      get(key) {
+        return JSON.parse(localStorage.getItem(key));
+      },
+      del(key) {
+        localStorage.removeItem(key);
+      },
+    };
+
+    // post请求方法
+    const post = (url, data, header = {}) => {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: "post",
+          url,
+          data,
+          headers: Object.assign(header, {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Access-Control-Allow-Origin": "*",
+          }),
+        })
+          .then((res) => {
+            resolve(res.data);
+          })
+          .catch((err) => {
+            reject(err);
+          });
+      });
+    };
+    // get请求方法
+    const get = (url, params, header = {}) => {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: "get",
+          url,
+          params,
+          headers: Object.assign(header, {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Access-Control-Allow-Origin": "*",
+          }),
+        })
+          .then((res) => {
+            resolve(res.data);
+          })
+          .catch((err) => {
+            reject(err);
+          });
+      });
+    };
+  </script>
+
+  <!-- Vue实例主体 -->
+  <script>
+    let app = {
+      setup() {
+        const defaultRulesRef = {
+          required: true,
+          validator: async (_rule, value) => {
+            if (value === "" || !value || !value.length) {
+              throw new Error("此项必填");
+            }
+          },
+        };
+        const d = reactive({
+          loading: true,
+          rulesRef: { country: [defaultRulesRef], key: [defaultRulesRef], email: [] },
+          options: [],
+          form: null,
+        });
+        const formRef = ref();
+        const m = {
+          // 重置
+          reset: () => {
+            d.form = { country: [], key: "", email: "" };
+          },
+          // 提交
+          onSubmit: async () => {
+            const valid = await formRef.value.validate();
+            if (!valid) return;
+            // 数组转字符串
+            const arrToStr = (val, tag = ",") => val.join(tag);
+            const params = { countryIds: arrToStr(d.form.country), keyWords: d.form.key, email: d.form.email };
+            console.log(params);
+            d.loading = true;
+            post("http://192.168.30.54:8088/taskScrape/add", params)
+              .then((r) => {
+                console.log("add", r);
+                if (r.code != 200) ElMessage({ message: `服务错误：${r.msg}`, type: "warning" });
+                else ElMessage({ message: "成功", type: "success" });
+              })
+              .finally(() => {
+                d.loading = false;
+              });
+          },
+        };
+        m.reset();
+        onMounted(() => {
+          d.loading = true;
+          // 获取国家列表
+          post("http://192.168.30.54:8088/country/allCountry")
+            .then((r) => {
+              console.log("allCountry", r);
+              if (r.code != 200) ElMessage({ message: `服务错误：${r.msg}`, type: "warning" });
+              else d.options = r.result;
+            })
+            .finally(() => {
+              d.loading = false;
+            });
+        });
+
+        return { d, m, formRef };
+      },
+    };
+  </script>
+
+  <!-- 创建Vue实例 -->
+  <script>
+    const App = createApp(app);
+    App.use(ElementPlus);
+    App.mount("#app");
+  </script>
+
+  <style>
+    /* 初始化 */
+    * {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: 100%;
+      font-weight: normal;
+      vertical-align: baseline;
+    }
+    html,
+    body {
+      width: 100%;
+    }
+
+    /* 主视图 */
+    .main {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .f {
+      display: flex;
+    }
+    .fa {
+      flex: auto;
+    }
+  </style>
+</html>

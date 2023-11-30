@@ -48,16 +48,18 @@
         <el-table-column :label="$t('操作')" prop="userId" align="center" min-width="90">
           <template #default="{ row }">
             <!-- 详情 -->
-            <el-button type="text" @click="toDet(row)">{{ $("详情") }}</el-button>
+            <el-button type="text" @click="toDet(row)">{{ $t("详情") }}</el-button>
             <!-- 修改 -->
-            <el-button type="text" @click="toEdit(row)">{{ $("修改") }}</el-button>
+            <el-button type="text" @click="toEdit(row)">{{ $t("修改") }}</el-button>
             <!-- 删除 -->
-            <el-button type="text" @click="toDel(row)">{{ $("删除") }}</el-button>
+            <el-button type="text" @click="toDel(row)">{{ $t("删除") }}</el-button>
           </template>
         </el-table-column>
       </el-table>
       <div class="w100 f">
         <div class="fa"></div>
+        <!-- element-ui 用这个避免页数不变 -->
+        <!-- :current-page="pagination.current" -->
         <el-pagination
           style="margin-top: 20px"
           background
@@ -87,7 +89,7 @@
 import "@/assets/css/baseStyle.css";
 // import {  } from "@/utils/baseTool";
 // import comEdit from "./components/edit.vue";
-// import {  } from '@/api/'
+// import api from '@/api/'
 
 export default {
   props: {},
@@ -133,7 +135,7 @@ export default {
         ...this.form,
       };
       console.log(params);
-      // api(params)
+      // api.list(params)
       //   .then((res) => {
       //     console.log(res);
       //     // 如果这里报错，分页器会消失
@@ -146,6 +148,7 @@ export default {
     },
     // 新建
     create() {
+      // this.editData = null;
       // this.showEdit = true;
     },
     // 详情
@@ -156,7 +159,12 @@ export default {
       // this.showEdit = true;
     },
     // 删除
-    toDel(row) {},
+    toDel(row) {
+      // api.del({ id: row.id }).then(() => {
+      //   this.$message.success(this.$t("i.success"));
+      //   this.init();
+      // });
+    },
     // 重置
     reset() {
       this.form = {};

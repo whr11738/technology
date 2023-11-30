@@ -362,6 +362,14 @@ export const dateTool = (data, replace) => {
     s: base2.seconds0,
   };
 };
+// 进度条百分比(开始时间戳，时间长度，结束时间戳)，例如getPercentage(30000,10,35000)返回值为50
+export const getPercentage = (create, length, now) => {
+  const past = now - create;
+  let res = 0;
+  if (past > length * 1000) return 100;
+  res = past / (length * 1000);
+  return parseFloat((res * 100).toFixed(0)); // 结果保留0位小数
+};
 // 获取两段日期中所有的天
 export const getDateList = (start, end) => {
   const getDate = (datestr) => {
