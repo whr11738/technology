@@ -1,0 +1,37 @@
+// 文件上传模块
+const multer = require("koa-multer");
+const fs = require("fs");
+const path = require("path");
+const router = require("koa-router")();
+router.prefix("/upload");
+
+const storage = multer.diskStorage({
+  // 设置文件的存储位置
+  destination: (req, file, cb) => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const dir = "./public/uploads" + year + month + day;
+
+    // 如果目录不存在就创建目录
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+
+    cb(null, dir);
+  },
+  filename: (req, file, cb) => {
+    // 设置文件的名称 (文件名+时间戳+文件类型后缀)
+    const fileName = file.fieldname + "-" + Date.now() + path.extname(file.originalname);
+
+    cb(null, fileName);
+  },
+});
+const upload = multer({ storage });
+// 上传图片的接口(上传图片的字段为myfile)
+router.post("/img", upload.single("myfile"), async (ctx) => {
+  ctx.body = {
+    data: ctx.req.file,
+  };
+});
+
+module.exports = router;
