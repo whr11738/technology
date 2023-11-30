@@ -27,10 +27,13 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage });
+
 // 上传图片的接口(上传图片的字段为myfile)
 router.post("/img", upload.single("myfile"), async (ctx) => {
+  let { path } = ctx.req.file;
+  path = ctx.origin + "" + path.replace("public", "");
   ctx.body = {
-    data: ctx.req.file,
+    data: path, // 可直接访问图片的地址
   };
 });
 
