@@ -1,3 +1,4 @@
+// 用户相关接口
 const { User } = require("../models"); // 引入User的Schema对象
 const { add, del, edit, find, findOne } = require("./crudUtil/index");
 const jwt = require("jsonwebtoken");
@@ -81,7 +82,6 @@ const changePwd = async (ctx) => {
   const { username, pwd } = ctx.request.body;
   await User.updateOne({ username }, { pwd })
     .then((r) => {
-      console.log(r);
       if (r.n > 0 || r.matchedCount > 0) ctx.body = { code: 200, msg: "修改成功" };
       else ctx.body = { code: 400, msg: "修改失败" };
     })

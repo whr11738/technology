@@ -42,13 +42,13 @@ app.use(
 // });
 
 // authorization验证
-// app.use(
-//   koajwt({
-//     secret: "whr", // jwt密钥
-//   }).unless({
-//     path: [/^\/users\/login/, /^\/users\/sign/, /^\/users\/verify/], // 不需要jwt认证的接口
-//   })
-// );
+app.use(
+  koajwt({
+    secret: "whr", // jwt密钥
+  }).unless({
+    path: [/^\/users\/login/, /^\/users\/sign/, /^\/users\/verify/], // 不需要jwt认证的接口
+  })
+);
 
 // logger
 app.use(async (ctx, next) => {

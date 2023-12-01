@@ -1,0 +1,21 @@
+### REST-Client使用案例
+
+
+### 常量
+@host = http://localhost:3333
+@Authorization = Bearer ey...
+
+
+### POST
+POST {{host}}/users/update
+Content-Type: application/json
+# Content-Type: application/x-www-form-urlencoded
+Authorization: {{Authorization}}
+
+{"username": "test1","pwd": "123456"}
+
+### GET
+GET {{host}}/users/find
+    ?page=1
+    &pageSize=10
+Authorization: {{Authorization}}
