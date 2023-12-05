@@ -1,19 +1,28 @@
 @host = http://localhost:3333
 @Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJfaWQiOiI2NTViMzMzOTQyNjg3YjJjNDYwNjc0YWUiLCJpYXQiOjE3MDE0MjA3NTIsImV4cCI6MTcwMjAyNTU1Mn0.DCZsTTWxblrGtIp09ox2zORc_DTnnFyDJEltYp_ol1s
 
+### 注册
+POST {{host}}/users/sign
+Content-Type: application/json
+
+{"username": "test","pwd": "123456"}
+
 ### 登录1
 POST {{host}}/users/login
 Content-Type: application/json
-Authorization: {{Authorization}}
 
 {"username": "test","pwd": "123456"}
 
 ### 登录2
 POST {{host}}/users/login
 Content-Type: application/json
-Authorization: {{Authorization}}
 
 {"username": "test","pwd": "123"}
+
+### 验证token
+POST {{host}}/users/verify
+Content-Type: application/json
+Authorization: {{Authorization}}
 
 ### 修改密码1
 POST {{host}}/users/changePwd
@@ -28,9 +37,3 @@ Content-Type: application/json
 Authorization: {{Authorization}}
 
 {"username": "test","pwd": "123"}
-
-
-### 验证token
-POST {{host}}/users/verify
-Content-Type: application/json
-Authorization: {{Authorization}}

@@ -6,33 +6,33 @@ POST {{host}}/users/add
 Content-Type: application/json
 Authorization: {{Authorization}}
 
-{"username": "test1","pwd": "123456"}
+{"username": "test","pwd": "123456"}
 
 ### 删除系统用户
 POST {{host}}/users/del
 Content-Type: application/json
 Authorization: {{Authorization}}
 
-{"username": "test1"}
+{"username": "test"}
 
 ### 修改系统用户1
 POST {{host}}/users/update
 Content-Type: application/json
 Authorization: {{Authorization}}
 
-{"username": "test1","pwd": "123456"}
+{"username": "test","pwd": "123456"}
 
 ### 修改系统用户2
 POST {{host}}/users/update
 Content-Type: application/json
 Authorization: {{Authorization}}
 
-{"username": "test1","pwd": "123"}
+{"username": "test","pwd": "123"}
 
 ### 查询所有系统用户
 GET {{host}}/users/find
 Authorization: {{Authorization}}
 
 ### 查询某个系统用户
-GET {{host}}/users/find/test1
+GET {{host}}/users/find/test
 Authorization: {{Authorization}}

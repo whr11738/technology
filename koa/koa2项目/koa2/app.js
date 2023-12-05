@@ -5,15 +5,10 @@ const json = require("koa-json");
 const onerror = require("koa-onerror");
 const bodyparser = require("koa-bodyparser");
 const logger = require("koa-logger");
-const MongoConnect = require("./db"); // MongoDB相关
-const koajwt = require("koa-jwt"); // jwt密钥相关
 
 // 连接数据库
+const MongoConnect = require("./db");
 MongoConnect();
-
-const index = require("./routes/index");
-const users = require("./routes/users");
-const upload = require("./routes/upload");
 
 // error handler
 onerror(app);
@@ -35,18 +30,16 @@ app.use(
 );
 
 // 解决跨域问题
-// app.use(async (ctx, next) => {
-//   ctx.set("Access-Control-Allow-Origin", "*");
-//   if (ctx.method == "OPTIONS") ctx.body = { code: 200 };
-//   else await next();
-// });
+const cors = require("koa2-cors");
+app.use(cors());
 
 // authorization验证
+const koajwt = require("koa-jwt");
 app.use(
   koajwt({
     secret: "whr", // jwt密钥
   }).unless({
-    path: [/^\/users\/login/, /^\/users\/sign/, /^\/users\/verify/], // 不需要jwt认证的接口
+    path: [/^\/users\/sign/, /^\/users\/login/], // 不需要jwt认证的接口
   })
 );
 
@@ -59,8 +52,11 @@ app.use(async (ctx, next) => {
 });
 
 // routes 路由相关
+const index = require("./routes/index");
 app.use(index.routes(), index.allowedMethods());
+const users = require("./routes/users");
 app.use(users.routes(), users.allowedMethods());
+const upload = require("./routes/upload");
 app.use(upload.routes(), upload.allowedMethods());
 
 // error-handling

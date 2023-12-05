@@ -20,7 +20,12 @@
   <body>
     <div id="app" class="main">
       <div>
-        <el-button style="margin: 20px 0" type="primary" @click="method.allApi">{{ '执行已选' }}</el-button>
+        <div class="f">
+          <el-button type="primary" @click="method.allApi">{{ '执行已选' }}</el-button>
+          <el-upload action="http://localhost:3333/upload/img" name="myfile" :headers="{'Authorization':'Bearer '+ token}">
+            <el-button style="margin: 0 20px" type="primary"> {{ '上传图片' }}</el-button>
+          </el-upload>
+        </div>
         <el-table :data="d.table" border @selection-change="method.handleSelectionChange">
           <el-table-column type="selection" width="50"> </el-table-column>
           <el-table-column label="执行" width="120" align="center">
@@ -42,7 +47,7 @@
 
   <!-- 工具 -->
   <script>
-    const { createApp, onMounted, reactive } = Vue;
+    const { createApp, onMounted, reactive, ref } = Vue;
     const { ElMessage } = ElementPlus;
     // 封装storage
     const storage = {
@@ -65,13 +70,13 @@
           url,
           data,
           headers: Object.assign(header, {
-            "Content-Type": "application/x-www-form-urlencoded",
-            // "Content-Type": "application/json",
+            // "Content-Type": "application/x-www-form-urlencoded",
+            "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
           }),
         })
           .then((res) => {
-            resolve(res.d);
+            resolve(res.data);
           })
           .catch((err) => {
             reject(err);
@@ -87,11 +92,12 @@
           params,
           headers: Object.assign(header, {
             // "Content-Type": "application/x-www-form-urlencoded",
+            "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
           }),
         })
           .then((res) => {
-            resolve(res.d);
+            resolve(res.data);
           })
           .catch((err) => {
             reject(err);
@@ -104,12 +110,15 @@
   <script>
     let app = {
       setup() {
+        const token = ref(
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJfaWQiOiI2NTViMzMzOTQyNjg3YjJjNDYwNjc0YWUiLCJpYXQiOjE3MDE3NDAxNDAsImV4cCI6MTcwMjM0NDk0MH0.kAPhpCm1YiPX53ybPKbhTJJB4iD6N93jcibLDIPPgmA"
+        );
         const d = reactive({
           checkStatus: [],
           table: [
-            { name: "post", method: "post", api: "http://localhost:3333/users/login", header: {}, params: { username: "test", pwd: "123456" } },
-            { name: "post", method: "post", api: "http://localhost:3333/users/sign", header: {}, params: { username: "test", pwd: "123456" } },
-            { name: "post", method: "post", api: "http://localhost:3333/users/verify", header: {}, params: { username: "test", pwd: "123456" } },
+            { name: "post", method: "post", api: "http://localhost:3333/users/login", header: { Authorization: "Bearer " + token.value }, params: { username: "test", pwd: "123456" } },
+            { name: "post", method: "post", api: "http://localhost:3333/users/sign", header: { Authorization: "Bearer " + token.value }, params: { username: "test", pwd: "123456" } },
+            { name: "post", method: "post", api: "http://localhost:3333/users/verify", header: { Authorization: "Bearer " + token.value }, params: { username: "test", pwd: "123456" } },
           ],
         });
         const method = reactive({
@@ -123,7 +132,7 @@
             method(row.api, row.params, row.header)
               .then(
                 (r) => {
-                  ElMessage({ message: "接口调用成功", type: "success" });
+                  ElMessage({ message: r.msg || "接口调用成功", type: "success" });
                 },
                 (e) => {
                   ElMessage({ message: "接口调用失败", type: "error" });
@@ -151,7 +160,7 @@
 
         onMounted(() => {});
 
-        return { d, method };
+        return { d, method, token };
       },
     };
   </script>
@@ -185,6 +194,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+
+    .f {
+      display: flex;
     }
   </style>
 </html>
