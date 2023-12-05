@@ -49,8 +49,9 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="w100 f">
+      <div class="w100 f" style="margin-top: 20px">
         <div class="fa"></div>
+        <span class="" style="">{{ 总数 + ": " + d.pagination.total }}</span>
         <el-pagination
           style="margin-top: 20px"
           background
