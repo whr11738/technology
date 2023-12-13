@@ -671,12 +671,12 @@ export const initRequestDataLimit = (requestData, indexArray, formData) => {
 };
 // 地址路径转对象
 export const getRouteObj = (url) => {
-  const routeObj = { path: url.split("#")[1], query: {} };
-  const queryStr = routeObj.path.split("?")[1];
+  const routeObj = {};
+  const queryStr = url.split("?")[1];
   if (queryStr) {
     const queryArr = queryStr.split("&");
     queryArr.forEach((i) => {
-      routeObj.query[i.split("=")[0]] = i.split("=")[1];
+      routeObj[i.split("=")[0]] = i.split("=")[1];
     });
   }
   return routeObj;
