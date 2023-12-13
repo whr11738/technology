@@ -909,7 +909,7 @@ export const getBrowser = () => {
 };
 // 判断当前路径
 export const getRoad = () => window.location.href;
-// 判断当前是否含有某个字段
+// 判断当前地址是否含有某个字段
 export const hasUrl = (s) => findString(window.location.href, s)[0] !== undefined;
 // 判断安卓
 export const isPC = () => {
