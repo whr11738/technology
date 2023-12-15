@@ -79,7 +79,7 @@
       :close="
         () => {
           showEdit = false;
-          reset();
+          init();
         }
       "
       :data="editData"
