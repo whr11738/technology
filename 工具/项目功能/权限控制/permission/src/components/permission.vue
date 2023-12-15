@@ -50,14 +50,14 @@
     </el-row>
     <div style="display: flex">
       <div style="flex: auto"></div>
-      <el-button type="primary" @click="updataPermission">{{ '更新权限' }} </el-button>
+      <el-button type="primary" @click="updataPermission">{{ "更新权限" }} </el-button>
     </div>
   </div>
 </template>
 <script>
-import { getTree, encryption, decryption } from '@/utils/permission';
-import { storage } from '@/utils/baseTool.js';
-import { config } from '@/utils/permission';
+import { getTree, encryption, decryption } from "@/utils/permission";
+import { storage } from "@/utils/baseTool.js";
+import { config } from "@/utils/permission";
 
 export default {
   props: {},
@@ -101,7 +101,7 @@ export default {
     },
     // 修改权限树，节点联动
     updataPermissionTree(model, val) {
-      const level = model.id.split('-').length;
+      const level = model.id.split("-").length;
       const ids = this.makeIds(model.id);
       ids.pop();
       if (model.child && model.child.length) this.subMenusOp(model.child, val);
@@ -127,10 +127,10 @@ export default {
     },
     // 节点联动相关
     makeIds(id) {
-      const ids = id.split('-');
+      const ids = id.split("-");
       const res = [];
       for (let i = 0; i < ids.length; i++) {
-        res.push(ids.slice(0, i + 1).join('-'));
+        res.push(ids.slice(0, i + 1).join("-"));
       }
       return res;
     },
@@ -156,12 +156,12 @@ export default {
     updataPermission() {
       this.modelRef.accesses = encryption(this.modelRef.tree);
       console.log(this.modelRef.accesses);
-      storage.set('permission', this.modelRef.accesses);
+      storage.set("permission", this.modelRef.accesses);
       history.go(0);
     },
     // 初始化
     init() {
-      const accesses = storage.get('permission');
+      const accesses = storage.get("permission");
       this.modelRef.accesses = accesses;
       this.setChecked(this.modelRef.tree, accesses);
     },
@@ -171,4 +171,26 @@ export default {
   },
 };
 </script>
-<style scoped></style>
+
+<style scoped>
+.permission-box {
+  display: flex;
+  width: 100%;
+}
+.permission-box__category {
+  padding: 0 10px 0 0;
+  position: relative;
+}
+.permission-box__category::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  right: 0;
+  bottom: 8px;
+  border-right: 1px solid rgb(234, 238, 251);
+}
+.permission-box__items {
+  padding-left: 10px;
+  flex: 1;
+}
+</style>
