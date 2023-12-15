@@ -1,7 +1,11 @@
-# Vue 3 + Vite
+# 权限模块
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+此项目为 vue3 框架，有封装 vue2 使用组件案例 src/components/permission.vue
 
-## Recommended IDE Setup
+添加自定义指令 ./directives/permission.js
+注册自定义指令 ./main.js
+添加权限处理工具 ./utils/permission.js
+vue3 权限控制页面 ./views/permission.vue
+vue2 权限控制组件 ./components/permission.vue
 
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+以自定义指令来控制权限 v-acs
