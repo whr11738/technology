@@ -75,21 +75,39 @@ export default {
       if (!permisson) return;
       const Res = decryption(permisson);
       const traverse = () => {
+        // 遍历权限树
         for (const i in model) {
           const val = model[i].val;
           const secondPm = Res[val];
           const secondNode = model[i].child;
           if (secondPm !== undefined) {
+            // 选上一级权限
             model[i].checked = true;
-            for (let j = 0; j < secondNode.length; j++) {
+            for (const j in secondNode) {
               const pm = secondPm[secondNode[j].val];
               if (pm !== undefined) {
+                // 选上二级权限
                 secondNode[j].checked = true;
                 const thirdNode = secondNode[j].child;
                 if (thirdNode) {
-                  for (let k = 0; k < thirdNode.length; k++) {
+                  for (const k in thirdNode) {
+                    // 选上三级权限
                     thirdNode[k].checked = (pm & thirdNode[k].val) > 0;
                   }
+                }
+              }
+            }
+          } else {
+            // 去掉一级权限
+            model[i].checked = false;
+            for (let j = 0; j < secondNode.length; j++) {
+              // 去掉二级权限
+              secondNode[j].checked = false;
+              const thirdNode = secondNode[j].child;
+              if (thirdNode) {
+                // 去掉三级权限
+                for (let k = 0; k < thirdNode.length; k++) {
+                  thirdNode[k].checked = false;
                 }
               }
             }
