@@ -95,7 +95,7 @@ export default defineComponent({
     const setChecked = (model, permisson) => {
       const Res = decryption(permisson);
       const traverse = () => {
-        for (let i = 0; i < model.length; i++) {
+        for (const i in model) {
           const val = model[i].val;
           const secondPm = Res[val];
           const secondNode = model[i].child;
@@ -106,9 +106,10 @@ export default defineComponent({
               if (pm !== undefined) {
                 secondNode[j].checked = true;
                 const thirdNode = secondNode[j].child;
-                if (!thirdNode) return;
-                for (let k = 0; k < thirdNode.length; k++) {
-                  thirdNode[k].checked = (pm & thirdNode[k].val) > 0;
+                if (thirdNode) {
+                  for (let k = 0; k < thirdNode.length; k++) {
+                    thirdNode[k].checked = (pm & thirdNode[k].val) > 0;
+                  }
                 }
               }
             }
