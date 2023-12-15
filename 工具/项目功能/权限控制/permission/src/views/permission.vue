@@ -70,6 +70,7 @@
     </el-card>
     <el-card style="margin-top: 20px">
       <div style="display: flex; justify-content: space-around">
+        <div v-acs="[config.firstMenu.account, config.secondMenu.account_permission, config.module.search]">{{ "账号权限-查询" }}</div>
         <div v-acs="[config.firstMenu.equipment, config.secondMenu.equipment_list, config.module.search]">{{ "设备列表-查询" }}</div>
         <div v-acs="[config.firstMenu.equipment, config.secondMenu.equipment_list, config.module.crate]">{{ "设备列表-新建" }}</div>
         <div v-acs="[config.firstMenu.equipment, config.secondMenu.equipment_list, config.module.edit]">{{ "设备列表-编辑" }}</div>
@@ -83,6 +84,7 @@ import { defineComponent, onMounted, reactive } from "vue";
 import { getTree, encryption, decryption } from "../utils/permission";
 import { storage } from "../utils/baseTool.js";
 import { config } from "../utils/permission";
+
 export default defineComponent({
   setup(_props) {
     const modelRef = reactive({
@@ -104,6 +106,7 @@ export default defineComponent({
               if (pm !== undefined) {
                 secondNode[j].checked = true;
                 const thirdNode = secondNode[j].child;
+                if (!thirdNode) return;
                 for (let k = 0; k < thirdNode.length; k++) {
                   thirdNode[k].checked = (pm & thirdNode[k].val) > 0;
                 }
@@ -120,22 +123,15 @@ export default defineComponent({
       const level = model.id.split("-").length;
       const ids = makeIds(model.id);
       ids.pop();
-      if (model.child && model.child.length) {
-        subMenusOp(model.child, val);
-      }
-      if (level > 1) {
-        supMenusOp(modelRef.tree, ids);
-      }
+      if (model.child && model.child.length) subMenusOp(model.child, val);
+      if (level > 1) supMenusOp(modelRef.tree, ids);
     };
     //  若存在下级，下级CheckBox全部选中
     const subMenusOp = (model, flag) => {
       for (let i = 0; i < model.length; i++) {
         const current = model[i];
-        if (flag) {
-          current.checked = true;
-        } else {
-          current.checked = false;
-        }
+        if (flag) current.checked = true;
+        else current.checked = false;
         if (current.child && current.child.length) {
           subMenusOp(current.child, flag);
         }
@@ -180,7 +176,7 @@ export default defineComponent({
       modelRef.accesses = encryption(modelRef.tree);
       console.log(modelRef.accesses);
       storage.set("permission", modelRef.accesses);
-      // history.go(0);
+      history.go(0);
     };
     // 初始化
     const init = () => {
@@ -192,15 +188,7 @@ export default defineComponent({
       init();
     });
 
-    return {
-      config,
-      modelRef,
-      updataPermission,
-      updataPermissionTree,
-      makeIds,
-      subMenusOp,
-      supMenusOp,
-    };
+    return { config, modelRef, updataPermission, updataPermissionTree, makeIds, subMenusOp, supMenusOp };
   },
 });
 </script>

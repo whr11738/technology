@@ -115,7 +115,7 @@ export const getTree = () => {
   // 过滤权限树  level: [0, 1] 代表 level 为 0 或 level 为 1 就展示权限设置选项
   const level = 0; //权限等级 需要设置
   const filterTree = (data) => {
-    var newTree = data.filter((x) => {
+    const newTree = data.filter((x) => {
       return !x.level || (x.level.length > 0 && x.level.indexOf(level) != -1);
     });
     newTree.forEach((x) => x.child && (x.child = filterTree(x.child)));
@@ -150,17 +150,15 @@ export const getTree = () => {
 export const encryption = (model) => {
   // 十进制转指定宽度十六进制字符串，可添加前缀。
   const int2hex = (num, width, prefix) => {
-    var hex = "0123456789abcdef";
-    var s = "";
+    const hex = "0123456789abcdef";
+    let s = "";
     while (num) {
       s = hex.charAt(num % 16) + s;
       num = Math.floor(num / 16);
     }
-    if (typeof width === "undefined" || width <= s.length) {
-      return prefix + s;
-    }
-    var delta = width - s.length;
-    var padding = "";
+    if (typeof width === "undefined" || width <= s.length) return prefix + s;
+    let delta = width - s.length;
+    let padding = "";
     while (delta-- > 0) {
       padding += "0";
     }
@@ -176,10 +174,12 @@ export const encryption = (model) => {
         if (second.checked) {
           const secondVal = second.val;
           let data = 0;
-          for (let k = 0; k < second.child.length; k++) {
-            const third = second.child[k];
-            if (third.checked) {
-              data += third.val;
+          if (second.child) {
+            for (let k = 0; k < second.child.length; k++) {
+              const third = second.child[k];
+              if (third.checked) {
+                data += third.val;
+              }
             }
           }
           const hex = `${int2hex(firstVal, 2, "")}${int2hex(secondVal, 2, "")}${int2hex(data, 8, "")}`;
@@ -197,12 +197,8 @@ export const decryption = (pms) => {
     const first = parseInt("0x" + item.substring(0, 2));
     const second = parseInt("0x" + item.substring(2, 4));
     const third = item.substring(4, item.length);
-    if (!Res[first]) {
-      Res[first] = {};
-    }
-    if (!Res[first][second]) {
-      Res[first][second] = parseInt("0x" + third);
-    }
+    if (!Res[first]) Res[first] = {};
+    if (!Res[first][second]) Res[first][second] = parseInt("0x" + third);
   });
   return Res;
 };
@@ -213,12 +209,8 @@ export const hasPermission = (pmsList = [], current = []) => {
   const second = parseInt(current[1] || 0);
   const third = parseInt(current[2] || 0);
   let isHasPm = false;
-  if (current.length === 1) {
-    isHasPm = pmObj[first] !== undefined;
-  } else if (current.length === 2) {
-    isHasPm = pmObj[first] !== undefined && pmObj[first][second] !== undefined;
-  } else if (current.length === 3) {
-    isHasPm = !!(pmObj[first] !== undefined && pmObj[first][second] !== undefined && pmObj[first][second] & third);
-  }
+  if (current.length === 1) isHasPm = pmObj[first] !== undefined;
+  else if (current.length === 2) isHasPm = pmObj[first] !== undefined && pmObj[first][second] !== undefined;
+  else if (current.length === 3) isHasPm = !!(pmObj[first] !== undefined && pmObj[first][second] !== undefined && pmObj[first][second] & third);
   return !!isHasPm;
 };
