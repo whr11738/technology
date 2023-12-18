@@ -56,7 +56,7 @@
 <script>
 import "@/assets/css/baseStyle.css";
 // import {  } from "@/utils/baseTool";
-// import api from '@/api/'
+// import * as api from '@/api/=';
 
 export default {
   props: {

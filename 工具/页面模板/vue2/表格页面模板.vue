@@ -90,7 +90,7 @@
 import "@/assets/css/baseStyle.css";
 // import {  } from "@/utils/baseTool";
 // import comEdit from "./components/edit.vue";
-// import api from '@/api/'
+// import * as api from '@/api/';
 
 export default {
   props: {},

@@ -2,7 +2,7 @@
 
 cd 项目地址
 git init  // 把这个目录变成Git可以管理的仓库
-git remote add 仓库地址  // 将项目与仓库链接
+git remote add origin 仓库地址  // 将项目与仓库链接
 
 
 仓库提交的方式
