@@ -12,7 +12,7 @@ export default defineConfig({
     },
   },
   server: {
-    port: "8888", // 指定开发服务器端口，如果端口已经被使用
+    port: "8888", // 指定开发服务器端口，如果端口已经被使用就会加一
     host: true, // 指定服务器监听 IP 地址
     open: true, // 开发服务器启动时，自动在浏览器中打开
   },
