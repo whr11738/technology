@@ -35,7 +35,7 @@ const login = async (ctx) => {
     .then((r) => {
       if (r) {
         // jwt的使用 jwt.sign(生成的内容，密钥，配置)
-        const token = jwt.sign({ username: r.username, _id: r._id }, "whr", { expiresIn: 3600 * 24 * 7 }); // expiresIn token有效时间
+        const token = jwt.sign({ username: r.username, _id: r._id }, "whr", { expiresIn: 60 * 60 * 24 * 7 }); // expiresIn token有效时间（单位是秒，这里是7天）
         ctx.body = { code: 200, msg: "登录成功", data: { token } };
       } else ctx.body = { code: 400, msg: "用户名或密码错误" };
     })

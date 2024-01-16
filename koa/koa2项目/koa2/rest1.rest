@@ -1,5 +1,5 @@
 @host = http://localhost:3333
-@Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJfaWQiOiI2NTViMzMzOTQyNjg3YjJjNDYwNjc0YWUiLCJpYXQiOjE3MDE0MjA3NTIsImV4cCI6MTcwMjAyNTU1Mn0.DCZsTTWxblrGtIp09ox2zORc_DTnnFyDJEltYp_ol1s
+@Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJfaWQiOiI2NWE2Njg1M2Y4YmE3ODA1YzEyMTJjZTgiLCJpYXQiOjE3MDU0MDUyNDYsImV4cCI6MTcwNjAxMDA0Nn0.yX3z-BtUcC49xisSdz-7rzqlLiITX3wZq7ts7augTxk
 
 ### 添加系统用户
 POST {{host}}/users/add

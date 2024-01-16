@@ -18,3 +18,5 @@ module.exports = () => {
       console.log("数据库连接失败", e);
     });
 };
+
+// 创建表过程在 ./models.index.js中

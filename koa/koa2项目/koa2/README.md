@@ -29,10 +29,11 @@ npm run dev
 
 ### 文件结构
 
-routes - 接口相关
 db - 连接数据库相关
 models - Schema 对象相关
-controller - 数据库数据操控相关
+routes - 接口相关
+controller - 数据处理相关
+controller\crudUtil - 操控数据库数据相关
 
 ### 相关依赖
 

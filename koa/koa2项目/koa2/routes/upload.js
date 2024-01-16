@@ -28,7 +28,8 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// 上传图片的接口(上传图片的字段为myfile)
+// 上传图片的接口
+// http://localhost:3333/upload/img 使用 form-data 格式上传文件 上传图片的字段为 myfile
 router.post("/img", upload.single("myfile"), async (ctx) => {
   let { path } = ctx.req.file;
   path = ctx.origin + "" + path.replace("public", "");
