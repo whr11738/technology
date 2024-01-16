@@ -33,3 +33,9 @@ npm link common（common为依赖中package.json的name属性值）
 
 解除依赖
 npm unlink common（common为依赖中package.json的name属性值）
+
+查看镜像
+npm config get registry
+
+修改镜像
+npm config set registry https://registry.npm.taobao.org

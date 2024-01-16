@@ -362,7 +362,7 @@ export const dateTool = (data, replace) => {
     s: base2.seconds0,
   };
 };
-// 进度条百分比(开始时间戳，时间长度，结束时间戳)，例如getPercentage(30000,10,35000)返回值为50
+// 进度条百分比(开始时间戳，时间长度，目前时间戳)，例如getPercentage(30000,10,35000)返回值为50
 export const getPercentage = (create, length, now) => {
   const past = now - create;
   let res = 0;
