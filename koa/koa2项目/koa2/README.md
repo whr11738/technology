@@ -14,9 +14,17 @@ koa2 项目名
 ### 启动项目
 
 ```
+安装 MongoDB 和 MongoDB Compass（教程可看mongodb文件夹）
+打开MongoDB Compass
+首页直接点 Connect 连接到本地数据库（默认路径 mongodb://localhost:27017）
+```
+
+```
+
 npm install
 npm run dev
 启动在http://localhost:3333/
+在根目录下 test2.rest 中注册与登录
 ```
 
 ### 文件结构
