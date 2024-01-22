@@ -19,8 +19,7 @@
 
       <el-form-item label="类型" prop="type">
         <el-select v-model="data.form.type">
-          <el-option v-for="item in data.options" :key="item.value" :label="item.label" :value="item.value">
-          </el-option>
+          <el-option v-for="item in data.options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
         </el-select>
       </el-form-item>
 
@@ -32,14 +31,7 @@
       </el-form-item>
 
       <el-form-item label="时间" prop="time">
-        <el-date-picker
-          v-model="data.form.time"
-          type="daterange"
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-        >
-        </el-date-picker>
+        <el-date-picker v-model="data.form.time" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"> </el-date-picker>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -52,61 +44,60 @@
   </el-dialog>
 </template>
 <script setup>
-import '@/assets/css/baseStyle.css'
-import { onMounted, reactive, ref, defineProps } from 'vue'
+import "@/assets/css/baseStyle.css";
+import { onMounted, reactive, ref, defineProps } from "vue";
 
+const defaultRulesRef = {
+  required: true,
+  validator: async (_rule, value) => {
+    if (value === "" || !value) {
+      throw new Error("此项必填");
+    }
+  },
+};
 const props = defineProps({
   close: {
-    type: Function
+    type: Function,
   },
   data: {
-    type: Object
-  }
-})
+    type: Object,
+  },
+});
 const data = reactive({
   visible: true,
   rulesRef: {
-    name: [
-      {
-        required: true,
-        validator: async (_rule, value) => {
-          if (value === '' || !value) {
-            throw new Error('此项必填')
-          }
-        }
-      }
-    ],
-    desc: []
+    name: [defaultRulesRef],
+    desc: [],
   },
   options: [
     {
-      label: '类型1',
-      value: 1
+      label: "类型1",
+      value: 1,
     },
     {
-      label: '类型2',
-      value: 2
-    }
+      label: "类型2",
+      value: 2,
+    },
   ],
   form: {
-    name: '',
-    desc: '',
+    name: "",
+    desc: "",
     number: 0,
     type: 1,
     yes: 0,
-    time: []
-  }
-})
-const formRef = ref()
+    time: [],
+  },
+});
+const formRef = ref();
 const onSubmit = async () => {
-  console.log('onSubmit')
-  console.log(data.form)
-  const valid = await formRef.value.validate()
-  console.log(valid)
-}
+  console.log("onSubmit");
+  console.log(data.form);
+  const valid = await formRef.value.validate();
+  console.log(valid);
+};
 
 onMounted(() => {
-  console.log(props.data)
-})
+  console.log(props.data);
+});
 </script>
 <style scoped></style>

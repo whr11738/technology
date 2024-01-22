@@ -200,6 +200,12 @@ export const getRegStr = (tag, reg, fun) => {
   }
   return tag;
 };
+// 删除重复字符串内容 (参数：字符串，子字符串)     delRepeatStr('123456456456','456');  '123456456456' => '123456'
+export const delRepeatStr = (str, repeatStr) => {
+  const arr = findString(str, repeatStr);
+  if (!arr || !arr.length) return str;
+  return delString(str, arr[0], arr[arr.length - 1]);
+};
 // 获取字符串里的img标签
 export const getMediaTag = (data) => {
   console.log(data);
