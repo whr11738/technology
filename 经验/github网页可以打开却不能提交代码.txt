@@ -1,0 +1,13 @@
+网页可以打开github。说明命令行在拉取/推送代码时并没有使用vpn进行代理
+
+查看代理命令
+git config --global --get http.proxy
+git config --global --get https.proxy
+
+取消代理命令
+git config --global --unset http.proxy
+git config --global --unset https.proxy
+
+配置http代理(其中代理端口 设置->编辑代理服务器能查看)
+git config --global http.proxy 127.0.0.1:代理端口
+git config --global https.proxy 127.0.0.1:代理端口
