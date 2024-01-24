@@ -55,7 +55,7 @@
         <el-pagination
           style="margin-top: 20px"
           background
-          layout="prev, pager, next"
+          layout="total, prev, pager, next"
           v-model="d.pagination.current"
           :page-size="d.pagination.pageSize"
           :total="d.pagination.total"
