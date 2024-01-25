@@ -64,7 +64,9 @@
         <el-pagination
           style="margin-top: 20px"
           background
-          layout="total, prev, pager, next"
+          layout="total, sizes, prev, pager, next"
+          :page-sizes="[10, 20, 30, 40]"
+          @size-change="sizeChange"
           v-model="pagination.current"
           :page-size="pagination.pageSize"
           :total="pagination.total"
@@ -165,6 +167,11 @@ export default {
       //   this.$message.success(this.$t("i.success"));
       //   this.init();
       // });
+    },
+    // 修改显示行数
+    sizeChange(v) {
+      this.pagination.pageSize = v;
+      this.reset();
     },
     // 重置
     reset() {
