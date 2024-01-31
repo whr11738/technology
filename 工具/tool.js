@@ -614,6 +614,10 @@ export const checkAllTypes = (value) => {
   console.log("isSymbol? ", typeTool.isSymbol(value));
   console.log("isBlob? ", typeTool.isBlob(value));
 };
+// 内容非空
+export const notEmpty = (value) => {
+  return value !== null && value !== undefined && value !== "";
+};
 // #endregion
 
 // #region 数据
