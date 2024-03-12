@@ -15,9 +15,11 @@
       v-model="d.dateArr"
       type="datetimerange"
       range-separator="-"
-      start-placeholder="开始时间"
-      end-placeholder="结束时间"
-      style="transform: translate(0, 2px)" />
+      :start-placeholder="'开始时间'"
+      :end-placeholder="'结束时间'"
+      :default-time="d.defaultTime"
+      style="transform: translate(0, 2px)"
+    />
     <!-- 月 -->
     <el-date-picker
       @change="changeTime"
@@ -25,27 +27,28 @@
       v-model="d.dateArr"
       type="monthrange"
       range-separator="-"
-      start-placeholder="开始月份"
-      end-placeholder="结束月份"
-      style="transform: translate(0, 2px)" />
+      :start-placeholder="'开始月份'"
+      :end-placeholder="'结束月份'"
+      style="transform: translate(0, 2px)"
+    />
     <!-- 年 -->
     <el-date-picker @change="changeTime" v-if="d.type === 'year'" v-model="d.dateArr0" type="year" :placeholder="'开始年份'" />
-    <span v-if="d.type === 'year'" style="margin: 18px">{{ '-' }}</span>
+    <span v-if="d.type === 'year'" style="margin: 18px">{{ "-" }}</span>
     <el-date-picker @change="changeTime" v-if="d.type === 'year'" v-model="d.dateArr1" type="year" :placeholder="'结束年份'" />
   </div>
 </template>
 
 <script setup>
-import { reactive, defineEmits, defineProps, onMounted } from 'vue';
-import { dateTool } from '@/utils/baseTool';
+import { reactive, defineEmits, defineProps, onMounted } from "vue";
+import { dateTool } from "@/utils/baseTool";
 
-const emit = defineEmits(['change']);
-const props = defineProps(['initData']);
+const emit = defineEmits(["change"]);
+const props = defineProps(["initData"]);
 const d = reactive({
   typeList: [
-    { type: 'day', i18n: '日' },
-    { type: 'month', i18n: '月' },
-    { type: 'year', i18n: '年' },
+    { type: "day", i18n: "日" },
+    { type: "month", i18n: "月" },
+    { type: "year", i18n: "年" },
   ],
   dateArr: [],
   dateArr0: null,
@@ -53,6 +56,7 @@ const d = reactive({
   type: null,
   start: null,
   end: null,
+  defaultTime: new Date(2000, 1, 1, 23, 59, 59, 999), // 选择时间默认'23:59:59:999'
 });
 // 改变时间类型
 const changeType = (time) => {
@@ -61,9 +65,9 @@ const changeType = (time) => {
   d.dateArr1 = null;
   d.start = null;
   d.end = null;
-  console.log('date-start', null, 'date-end', null);
+  console.log("date-start", null, "date-end", null);
   // 两个空时间
-  emit('change', null, null);
+  emit("change", null, null);
 };
 // 改变时间
 const changeTime = (time) => {
@@ -72,23 +76,23 @@ const changeTime = (time) => {
     d.dateArr1 = null;
     d.start = null;
     d.end = null;
-    console.log('date-start', null, 'date-end', null);
+    console.log("date-start", null, "date-end", null);
     // 两个空时间
-    emit('change', null, null);
+    emit("change", null, null);
     return;
   }
   let time0 = new Date(time[0]).getTime();
   let time1 = new Date(time[1]).getTime();
-  if (d.type === 'day') {
+  if (d.type === "day") {
     d.start = time0;
     d.end = time1;
   }
-  if (d.type === 'month') {
+  if (d.type === "month") {
     // 如果选的 6-7 月，time0是6月1号，time1是7月1号，处理end为7月1号(8月1号-1)
     d.start = time0;
     d.end = new Date(dateTool(time1).base1.year, dateTool(time1).base1.month, dateTool(time1).base1.day).getTime() - 1;
   }
-  if (d.type === 'year') {
+  if (d.type === "year") {
     // 如果选的 2000-2001 年，time0是2000年1月1日，time1是2001年1月1日，处理end为是2000年12月31日(2001年1月1号-1)
     time0 = new Date(d.dateArr0).getTime() < new Date(d.dateArr1).getTime() ? new Date(d.dateArr0).getTime() : new Date(d.dateArr1).getTime(); // time0 取 两选择器中最小时间
     time1 = new Date(d.dateArr0).getTime() > new Date(d.dateArr1).getTime() ? new Date(d.dateArr0).getTime() : new Date(d.dateArr1).getTime(); // time1 取 两选择器中最大时间
@@ -96,19 +100,19 @@ const changeTime = (time) => {
     d.end = new Date(dateTool(time1).base1.year + 1, dateTool(time1).base1.month - 1, dateTool(time1).base1.day).getTime() - 1;
   }
   if (Boolean(d.start && d.end)) {
-    console.log(Boolean(d.start && d.end), 'date-start', d.start, 'date-end', d.end);
-    emit('change', d.start, d.end);
+    console.log(Boolean(d.start && d.end), "date-start", d.start, "date-end", d.end);
+    emit("change", d.start, d.end);
   } else {
-    console.log('date-start', null, 'date-end', null);
+    console.log("date-start", null, "date-end", null);
     // 两个空时间
-    emit('change', null, null);
+    emit("change", null, null);
   }
 };
 
 onMounted(() => {
-  console.log('props.initData', props.initData);
+  console.log("props.initData", props.initData);
   if (props.initData && props.initData.length) {
-    d.type = 'day';
+    d.type = "day";
     d.dateArr = [...props.initData];
   }
 });

@@ -901,6 +901,36 @@ export const bubbleSort = (arr) => {
   }
   return array;
 };
+// 返回一个随机数字 len:要返回的数字的长度
+export const getRandom = (len = 1) => (len - 1 === 0 ? Math.floor(Math.random() * 10) : Math.floor(Math.pow(10, len - 1) + Math.random() * 9 * Math.pow(10, len - 1)));
+// 模拟接口
+export const fakeApi = (page = 1, size = 10, total = 30) =>
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const res = { page, size, total, data: [], nextPage: null };
+      const getItem = () => ({ id: getRandom(5), createTime: new Date().getTime(), name: "Name" }); // 假数据对象
+      const page_X_size = res.page * res.size; // 查询上限
+      const total_and_size = res.total + res.size;
+      if (page_X_size <= res.total) {
+        // 查询上限 未超出 总数
+        for (let i = 0; i < res.size; i++) {
+          res.data.push(getItem());
+        }
+        res.nextPage = !(page_X_size === res.total);
+      } else if (page_X_size < total_and_size) {
+        // 查询上限 部分 超出总数
+        for (let i = 0; i < total_and_size - page_X_size; i++) {
+          res.data.push(getItem());
+        }
+        res.nextPage = false;
+      } else if (page_X_size >= total_and_size) {
+        // 查询上限 完全 超出总数
+        res.data = [];
+        res.nextPage = false;
+      }
+      resolve(res);
+    }, 1000);
+  });
 // #endregion
 
 // #region 客户端

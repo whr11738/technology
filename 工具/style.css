@@ -311,7 +311,8 @@ setInterval((domName = 'o0', animationName = 'fade-move') => {
   color: rgb(192, 196, 204);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
-/* 虚线 */
+/* 虚线 需要给一个高度 有需求可以加透明度*/
+/* <div class="dotted" style="height: 1px; opacity: 0.2"></div> */
 .dotted {
   background-image: linear-gradient(to right, #000 35%, rgba(255, 255, 255, 0) 0%); /* 35%设置虚线点x轴上的长度 */
   background-position: bottom; /* top配置上边框位置的虚线 */
