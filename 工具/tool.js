@@ -931,6 +931,14 @@ export const fakeApi = (page = 1, size = 10, total = 30) =>
       resolve(res);
     }, 1000);
   });
+// 寻找丢失的数字 [0,1,2,3,5]=>4  [5,1,2,4,0]=>3  [1,2,3]=>0
+export const findMissingNumber = (arr) => {
+  arr.sort((a, b) => a - b);
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] !== i) return i;
+  }
+  return arr.length;
+};
 // #endregion
 
 // #region 客户端

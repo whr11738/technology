@@ -56,7 +56,7 @@ const d = reactive({
   type: null,
   start: null,
   end: null,
-  defaultTime: new Date(2000, 1, 1, 23, 59, 59, 999), // 选择时间默认'23:59:59:999'
+  defaultTime: [new Date(2000, 1, 1, 0, 0, 0, 0), new Date(2000, 1, 1, 23, 59, 59, 999)], // 选择时间默认 '00:00:00:000'开始 '23:59:59:999'结束
 });
 // 改变时间类型
 const changeType = (time) => {

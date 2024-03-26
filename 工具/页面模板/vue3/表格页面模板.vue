@@ -36,7 +36,7 @@
         <!-- 标题 -->
         <el-table-column :label="'标题'" prop="userId"> </el-table-column>
         <!-- 操作 -->
-        <el-table-column label="操作" prop="userId" align="center" min-width="90">
+        <el-table-column label="操作" align="center" min-width="90">
           <template #default="{ row }">
             <!-- 详情 -->
             <el-button type="text" @click="clickDet(row)">{{ "详情" }}</el-button>

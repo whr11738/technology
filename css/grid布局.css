@@ -1,0 +1,92 @@
+/* 指定一个三行三列的网格，列宽和行高都是100px。 */
+.container {
+  display: grid;
+  grid-template-columns: 100px 100px 100px;
+  grid-template-rows: 100px 100px 100px;
+}
+/* 也可以使用百分比 */
+.container {
+  display: grid;
+  grid-template-columns: 33.33% 33.33% 33.33%;
+  grid-template-rows: 33.33% 33.33% 33.33%;
+}
+/* repeat()函数简化重复的值 */
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, 33.33%);
+  grid-template-rows: repeat(3, 33.33%);
+}
+/* repeat()接受两个参数，第一个参数是重复的次数，第二个参数是所要重复的值 */
+.container {
+  display: grid;
+  grid-template-columns: repeat(2, 100px 20px 80px);
+  /* 等效 */
+  /* grid-template-columns: 100px 20px 80px 100px 20px 80px; */
+}
+/* 每列宽度100px，然后自动填充，直到容器不能放置更多的列 */
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 100px);
+}
+/* 生成两个相同宽度的列 */
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+/* 生成三列 第一列的宽度为150px，第二列的宽度是第三列的一半 */
+.container {
+  display: grid;
+  grid-template-columns: 150px 1fr 2fr;
+}
+/* minmax()函数产生一个长度范围，使长度就在这个范围之中。它接受两个参数，分别为最小值和最大值 */
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr minmax(100px, 1fr);
+}
+/* 第二列的宽度，基本上等于该列单元格的最大宽度 */
+.container {
+  display: grid;
+  grid-template-columns: 100px auto 100px;
+}
+/* 将左边栏设为70%，右边栏设为30% */
+.container {
+  display: grid;
+  grid-template-columns: 70% 30%;
+}
+
+/* grid-row-gap用于设置行间距，grid-column-gap用于设置列间距 */
+.container {
+  grid-row-gap: 20px;
+  grid-column-gap: 20px;
+}
+/* grid-gap属性是grid-column-gap和grid-row-gap的合并简写形式 */
+.container {
+  /* 等效上面代码 */
+  grid-gap: 20px 20px;
+  /* 等效上行 */
+  grid-gap: 20px;
+}
+/* 将 "先行后列" 变成 "先列后行" */
+.container {
+  grid-auto-flow: column;
+}
+/* "先行后列"，并且尽可能紧密填满，尽量不出现空格。 */
+/* 容器宽300px，盒子1与盒子2宽为200px，盒子3与盒子4宽为100px，此时盒子3会排在盒子1后面，盒子2会被挤到第二行，盒子3会排在盒子2后面 */
+.container {
+  grid-auto-flow: row dense;
+}
+/* "先列后行"，并且尽可能紧密填满，尽量不出现空格。 */
+.container {
+  grid-auto-flow: row dense;
+}
+/* justify-items 属性设置单元格内容的水平位置（左中右），align-items 属性设置单元格内容的垂直位置（上中下） */
+.container {
+  /* start | end | center | stretch */
+  /* 对齐单元格的起始边缘 | 对齐单元格的结束边缘 | 单元格内部居中 | 拉伸，占满单元格的整个宽度（默认值） */
+  justify-items: start;
+  align-items: end;
+  place-items: start end; /* place-items属性是align-items属性和justify-items属性的合并简写形式。 */
+}
+
+/* 以上内容不完整，节选至参考文献 */
+/* https://blog.csdn.net/weixin_43334673/article/details/108879115 */
