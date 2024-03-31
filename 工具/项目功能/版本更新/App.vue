@@ -8,7 +8,7 @@ export default {
         // console.log(this.$version, r[1].data.version);
         if (r[1].statusCode && r[1].statusCode === 200 && this.$version != r[1].data.version) window.location.reload();
       });
-    }, 1000);
+    }, 5000);
     this.$on("hook:beforeDestroy", () => {
       clearInterval(this.intervalTime);
       this.intervalTime = null;
