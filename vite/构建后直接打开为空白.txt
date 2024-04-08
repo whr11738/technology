@@ -1,0 +1,11 @@
+因为Vite构建的项目默认使用了基于ES模块的导入方式，并且期望通过HTTP(S)协议来加载资源，而不是直接从文件系统中加载，所以如果尝试直接打开编译后的index.html文件通常会遇到空白页面的问题
+
+解决方法：
+使用server插件创建静态服务器(需要node环境)
+npm install -g serve
+然后，进入你的构建输出目录运行：
+直接在cmd使用命令：serve
+
+serve其他命令
+serve --help 帮助
+serve -l 3001 指定端口号

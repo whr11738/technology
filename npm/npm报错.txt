@@ -1,0 +1,25 @@
+1.
+检查网络是否有墙
+网关拦截 或者 需要翻墙
+
+2.
+后面加 --legacy-peer-deps 以绕过 peerDependency 里依赖的自动安装
+--legacy-peer-deps
+npm i *** --legacy-peer-deps
+
+3.
+检查 node 版本
+可能项目需要 12版本 但目前是 18版本
+
+4.
+检查镜像 使用国内镜像
+npm config set registry https://registry.npm.taobao.org
+
+5.
+临时禁用SSL证书验证
+npm config set strict-ssl false
+
+6.
+红字报错
+powershell被禁止运行脚本
+使用cmd运行

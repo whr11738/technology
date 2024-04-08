@@ -1,15 +1,11 @@
-https://www.npmjs.com/
+账号:whr1173816413
+密码:Whr1173816413
 
-如果安装依赖无缘无故报错 后面加--legacy-peer-deps以绕过peerDependency里依赖的自动安装
---legacy-peer-deps
-npm i *** --legacy-peer-deps
+https://www.npmjs.com/
 
 安装依赖名后面加@latest安装最新版本
 @latest
 npm i ***@latest
-
-账号:whr1173816413
-密码:Whr1173816413
 
 在该文件夹中初始化npm（创建package.json）
 npm init
@@ -36,6 +32,3 @@ npm unlink common（common为依赖中package.json的name属性值）
 
 查看镜像
 npm config get registry
-
-修改镜像
-npm config set registry https://registry.npm.taobao.org
