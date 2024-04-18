@@ -4,7 +4,7 @@
 
 <script setup>
 import permissionCom from "./views/permissionVue3.vue";
-import { storage } from "./utils/baseTool.js";
+import { storage } from "./utils/storage.js";
 
 // 初始化权限
 const permission = storage.get("permission");

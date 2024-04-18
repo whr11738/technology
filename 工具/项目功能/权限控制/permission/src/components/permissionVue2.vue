@@ -56,7 +56,7 @@
 </template>
 <script>
 import { getTree, encryption, decryption } from "@/utils/permission";
-import { storage } from "@/utils/baseTool.js";
+import { storage } from "@/utils/storage.js";
 import { config } from "@/utils/permission";
 
 export default {

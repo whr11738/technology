@@ -717,6 +717,8 @@ export const getll = (val) => {
 // #endregion
 
 // #region 工具
+// 获取页面加载时间
+export const getStartTime = () => window.performance.getEntriesByName("first-contentful-paint")[0].startTime;
 // 文件类型大小判断
 export const fileValidate = (file) => {
   const mb = file.size / 1024 / 1024;

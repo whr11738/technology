@@ -8,7 +8,7 @@ app.directive("acs", permission);
 */
 
 import { hasPermission } from "../utils/permission.js";
-import { storage } from "../utils/baseTool.js";
+import { storage } from "../utils/storage.js";
 
 export default {
   beforeMount(el) {
