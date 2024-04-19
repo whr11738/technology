@@ -1,7 +1,7 @@
 const http = require("http");
 const fs = require("fs");
 // 1 - 本地开发 2 - 模拟接口返回密钥 3 - 模拟接口出现问题
-const mode = 1;
+const mode = 2;
 
 // 接口 - 返回未加密代码
 const app1 = http.createServer((req, res) => {
