@@ -24,11 +24,27 @@
 从接口获取密钥 -> 解密本地加密代码 -> 运行
 从接口获取密钥失败 -> 使用临时密钥解密本地加密代码 -> 运行
 
+## 使用 ngrok 搭建服务器
+
+以内网穿透的形式实现服务器，只用来部署一个接口且只传一小段字符串密钥，免费版应该够用
+
+## 官网
+
+https://dashboard.ngrok.com/
+
+## 使用方式(官网有文档教程)
+
+- 进入官网注册账号
+- 进入官网登录账号
+- 在教程文档中看到 token
+- 将 index.js 中设置全局变量 NGROK_AUTHTOKEN 为 token 值
+
+官网教程:https://dashboard.ngrok.com/get-started/setup/nodejs
+
 ## 项目结构
 
 index - 接口相关，开发时用于返回未加密的代码 -> 发布后用于返回用于解密的密钥
 build - 加密相关，用于加密 src/tool 中的代码，在 dist/tool 生成加密代码文件
-key - 密钥相关，填入密钥
 src/tool - 未加密内容，需要加密的代码
 dist/tool - 已加密内容，加密后的代码
 
