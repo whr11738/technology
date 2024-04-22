@@ -2,7 +2,7 @@ const http = require("http");
 const fs = require("fs");
 const ngrok = require("@ngrok/ngrok");
 
-process.env.NGROK_AUTHTOKEN = "2fJ4rRHkh79zl5wMAWu4pViR0RE_HqyCnfTXGWcXHc4kEgVd"; // ngrok token认证
+process.env.NGROK_AUTHTOKEN = "token"; // ngrok token认证
 
 // 1 - 本地开发 2 - 模拟接口返回密钥 3 - 模拟接口出现问题
 const mode = 2;
