@@ -35,5 +35,8 @@ if (mode === 1) app1.listen(1111, () => console.log("未加密代码服务:\nhtt
 else if (mode === 2) {
   app2.listen(2222, () => console.log("返回密钥服务:\nhttp://localhost:2222"));
   // 使用 ngrok 进行内网穿透
-  ngrok.connect({ addr: 2222, authtoken_from_env: true }).then((listener) => console.log(`转发到公网的链接:\n${listener.url()}`));
+  ngrok
+    .connect({ addr: 2222, authtoken_from_env: true })
+    .then((listener) => console.log(`转发到公网的链接:\n${listener.url()}`))
+    .catch((e) => console.log("ngrok 认证失败"));
 }
