@@ -198,6 +198,206 @@ vue2 是用过 Object.defineProperty 实现数据响应式
 插件 (Plugin) 是用来增强你的技术栈的功能模块，它的目标是 Vue 本身，比如指令，vue-router
 简单来说，插件就是指对 Vue 的功能的增强或补充
 
+## [组件间通信的方案](https://vue3js.cn/interview/vue/communication.html#%E4%B8%89%E3%80%81%E7%BB%84%E4%BB%B6%E9%97%B4%E9%80%9A%E4%BF%A1%E7%9A%84%E6%96%B9%E6%A1%88)
+
+- 通过 props 传递(父传子)
+- 通过 $emit 触发自定义事件(子传父)
+- 使用 ref(父使用子)
+- EventBus(兄弟间)
+- \$parent 或$root(兄弟间)
+- attrs 与 listeners(祖传后)
+- Provide 与 Inject(祖传后)
+- Vuex(复杂关系)
+
+## [什么是双向绑定](https://vue3js.cn/interview/vue/bind.html#%E4%B8%80%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A)
+
+就是把 Model 绑定到 View
+当我们用 JavaScript 代码更新 Model 时，View 就会自动更新
+用户更新了 View，Model 的数据也自动被更新了
+
+## [双向绑定的原理是什么](https://vue3js.cn/interview/vue/bind.html#%E4%BA%8C%E3%80%81%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A%E7%9A%84%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88)
+
+##### MVVM 模型的核心功能就是数据双向绑定
+
+- 数据层（Model）：应用的数据及业务逻辑
+- 视图层（View）：应用的展示效果，各类 UI 组件
+- 业务逻辑层（ViewModel）：框架封装的核心，它负责将数据与视图关联起来
+
+##### ViewModel 的主要职责是
+
+- 数据变化后更新视图
+- 视图变化后更新数据
+
+##### ViewModel 由监听器和解析器组成
+
+- 监听器（Observer）：对所有数据的属性进行监听
+- 解析器（Compiler）：对每个元素节点的指令进行扫描跟解析,根据指令模板替换数据,以及绑定相应的更新函数
+
+## [实现双向绑定]()
+
+##### 以 Vue 为例
+
+- new Vue()首先执行初始化，对 data 执行响应化处理，这个过程发生 Observe 中
+- 同时对模板执行编译，找到其中动态绑定的数据，从 data 中获取并初始化视图，这个过程发生在 Compile 中
+- 同时定义⼀个更新函数和 Watcher，将来对应数据变化时 Watcher 会调用更新函数
+- 由于 data 的某个 key 在⼀个视图中可能出现多次，所以每个 key 都需要⼀个管家 Dep 来管理多个 Watcher
+- 将来 data 中数据⼀旦发生变化，会首先找到对应的 Dep，通知所有 Watcher 执行更新函数
+
+## [说说你对$nextTick 的理解](https://vue3js.cn/interview/vue/nexttick.html#%E4%B8%80%E3%80%81nexttick%E6%98%AF%E4%BB%80%E4%B9%88)
+
+Vue 在更新 DOM 时是异步执行的。当数据发生变化，Vue 将开启一个异步更新队列，视图需要等队列中所有数据变化完成之后，再统一进行更新。
+在修改数据之后立即使用这个方法，获取更新后的 DOM
+
+## [说说你对 vue 的 mixin 的理解，有什么应用场景](https://vue3js.cn/interview/vue/mixin.html#%E4%B8%80%E3%80%81mixin%E6%98%AF%E4%BB%80%E4%B9%88)
+
+Mixin 是面向对象程序设计语言中的类，提供了方法的实现。其他类可以访问 mixin 类的方法而不必成为其子类
+Mixin 类通常作为功能模块使用，在需要该功能时“混入”，有利于代码复用又避免了多继承的复杂
+Mixin 本质其实就是一个 js 对象，它可以包含我们组件中任意功能选项，如 data、components、methods、created、computed 等等
+
+## [说说你对 slot 的理解？slot 使用场景有哪些](https://vue3js.cn/interview/vue/slot.html#%E4%B8%80%E3%80%81slot%E6%98%AF%E4%BB%80%E4%B9%88)
+
+是 Web 组件内的一个占位符，该占位符可以在后期使用自己的标记语言填充
+通过插槽可以让用户可以拓展组件，去更好地复用组件和对其做定制化处理
+
+#### slot 可以分来以下三种：
+
+- 默认插槽
+- 具名插槽
+- 作用域插槽
+
+## [Vue.observable 你有了解过吗？说说看](https://vue3js.cn/interview/vue/observable.html#%E4%B8%80%E3%80%81observable-%E6%98%AF%E4%BB%80%E4%B9%88)
+
+Vue.observable，让一个对象变成响应式数据。Vue 内部会用它来处理 data 函数返回的对象
+返回的对象可以直接用于渲染函数和计算属性内，并且会在发生变更时触发相应的更新。也可以作为最小化的跨组件状态存储器
+
+#### 使用场景
+
+在非父子组件通信时，可以使用通常的 bus 或者使用 vuex，但是实现的功能不是太复杂，而使用上面两个又有点繁琐。这时，observable 就是一个很好的选择
+
+- 创建一个 js 文件:创建 state 对象，使用 observable 让 state 对象可响应
+- 在组件中，引入 state 对象来使用
+
+## [你知道 vue 中 key 的原理吗？说说你对它的理解](https://vue3js.cn/interview/vue/key.html#%E4%B8%80%E3%80%81key%E6%98%AF%E4%BB%80%E4%B9%88)
+
+key 是给每一个 vnode 的唯一 id，也是 diff（差分算法） 的一种优化策略，可以根据 key，更准确， 更快的找到对应的 vnode 节点。
+
+插入数据时,因为 diff 的原因，
+如果没有 key 将会影响引起多个 dom 进行更新并进行插入操作，
+而如果有 key，就不会引起其他 item 的 dom 更新只会进行插入操作。
+
+## [说说你对 keep-alive 的理解是什么？](https://vue3js.cn/interview/vue/keepalive.html#%E4%B8%80%E3%80%81keep-alive-%E6%98%AF%E4%BB%80%E4%B9%88)
+
+- keep-alive 是 vue 中的内置组件，能在组件切换过程中将状态保留在内存中，防止重复渲染 DOM
+- keep-alive 包裹动态组件时，会缓存不活动的组件实例，而不是销毁它们
+- 会多出两个生命钩子 activated 与 deactivated
+
+  - beforeRouteEnter > beforeCreate > created> mounted > **activated** > ... ... > beforeRouteLeave > **deactivated**
+
+#### 使用原则
+
+当我们在某些场景下不需要让页面重新加载时我们可以使用 keepalive
+
+## [Vue 常用的修饰符有哪些有什么应用场景](https://vue3js.cn/interview/vue/modifier.html#%E4%B8%80%E3%80%81%E4%BF%AE%E9%A5%B0%E7%AC%A6%E6%98%AF%E4%BB%80%E4%B9%88)
+
+### vue 中修饰符分为以下五种
+
+- 表单修饰符
+- 事件修饰符
+- 鼠标按键修饰符
+- 键值修饰符
+- v-bind 修饰符
+
+#### 表单修饰符
+
+**lazy**
+在我们填完信息，光标离开标签的时候，才会将值赋予给 value，也就是在
+**change**
+事件之后再进行信息同步
+**trim**
+自动过滤用户输入的首空格字符，而中间的空格不会过滤
+**number**
+自动将用户的输入值转为数值类型，但如果这个值无法被 parseFloat 解析，则会返回原来的值
+
+#### 事件修饰符
+
+事件修饰符是对事件捕获以及目标进行了处理，有如下修饰符：
+
+**stop**
+阻止了事件冒泡，相当于调用了 event.stopPropagation 方法
+**prevent**
+阻止了事件的默认行为，相当于调用了 event.preventDefault 方法
+**self**
+只当在 event.target 是当前元素自身时触发处理函数
+**once**
+绑定了事件以后只能触发一次，第二次就不会触发
+**capture**
+使事件触发从包含这个元素的顶层开始往下触发
+**passive**
+在移动端，当我们在监听元素滚动事件的时候，会一直触发 onscroll 事件会让我们的网页变卡，因此我们使用这个修饰符的时候，相当于给 onscroll 事件整了一个.lazy 修饰符
+**native**
+让组件变成像 html 内置标签那样监听根元素的原生事件，否则组件上使用 v-on 只会监听自定义事件
+
+#### 鼠标按钮修饰符
+
+鼠标按钮修饰符针对的就是左键、右键、中键点击，有如下：
+
+**left**
+左键点击
+**right**
+右键点击
+**middle**
+中键点击
+
+#### 键盘修饰符
+
+键盘修饰符是用来修饰键盘事件（onkeyup，onkeydown）的，keyCode 存在很多，但 vue 为我们提供了别名，分为以下两种：
+
+**普通键**
+enter、tab、delete、space、esc、up...
+**系统修饰键**
+ctrl、alt、meta、shift...
+
+#### v-bind 修饰符
+
+v-bind 修饰符主要是为属性进行操作，用来分别有如下：
+
+**async**
+能对 props 进行一个双向绑定
+**prop**
+设置自定义标签属性，避免暴露数据，防止污染 HTML 结构
+**camel**
+将命名变为驼峰命名法，如将 view-Box 属性名转换为 viewBox
+
+### 应用场景
+
+根据每一个修饰符的功能，我们可以得到以下修饰符的应用场景：
+
+- stop：阻止事件冒泡
+- native：绑定原生事件
+- once：事件只执行一次
+- self ：将事件绑定在自身身上，相当于阻止事件冒泡
+- prevent：阻止默认事件
+- caption：用于事件捕获
+- once：只触发一次
+- keyCode：监听特定键盘按下
+- right：右键
+
+## [你有写过自定义指令吗？自定义指令的应用场景有哪些？](https://vue3js.cn/interview/vue/directive.html#%E4%B8%80%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E6%8C%87%E4%BB%A4)
+
+## []()
+
+## []()
+
+## []()
+
+## []()
+
+## []()
+
+## []()
+
+## []()
+
 ## []()
 
 ## []()
