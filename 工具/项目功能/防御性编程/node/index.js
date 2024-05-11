@@ -23,9 +23,8 @@ const app2 = http.createServer((req, res) => {
   res.setHeader("Content-Type", "application/javascript");
   res.setHeader("Access-Control-Allow-Origin", "*");
 
-  // 加密密钥 不能使用纯数字 这里使用 k+我今年生日时间的倒叙 作为密钥，这意味着每年密钥会更新
-  const key = "k" + new String(new Date().getFullYear() + "09" + "11").split("").reverse().join("");
-  console.log("临时密钥:", key); // 临时密钥:k11904202
+  const { key } = require("./key.js");
+  console.log("临时密钥:", key);
 
   res.write(key);
   res.end();
