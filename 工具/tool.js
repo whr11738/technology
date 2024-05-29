@@ -206,6 +206,8 @@ export const delRepeatStr = (str, repeatStr) => {
   if (!arr || !arr.length) return str;
   return delString(str, arr[0], arr[arr.length - 1]);
 };
+// 获取最后一个目标字符串的位置 getLastStrPlace('1-2-3', '-') 4
+export const getLastStrPlace = (str, _str) => findString(str, _str)[findString(str, _str).length - 1];
 // 获取字符串里的img标签
 export const getMediaTag = (data) => {
   console.log(data);
