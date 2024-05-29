@@ -762,6 +762,14 @@ export const debounce = (fun, delay) => {
   }, delay);
 };
 // 计时器
+/*
+使用方法:
+const t = new timer();// 创建一个计时器
+t.sta(10);// 计时器从10开始倒计时
+setTimeout(() => {
+  console.log(t.get());// 3秒后获取计时器结果 为7
+}, 3000);
+*/
 export class timer {
   constructor(time = 0) {
     this.time = time;
