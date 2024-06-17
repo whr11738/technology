@@ -1,0 +1,217 @@
+/* import "@/style/text_animation.css"; */
+/*
+<div class="w100w h100h fc bc4">
+<div class="">
+  <div class="text_box1">
+    <div class="text_bold text_animation1">不想错过任何精彩</div>
+    <div class="text_bold text_animation2">不想错过任何精彩</div>
+  </div>
+  <div class="text_box1">
+    <div class="text_bold text_animation1">邂逅更多自己喜欢的作品</div>
+    <div class="text_bold text_animation3">邂逅更多自己喜欢的作品</div>
+  </div>
+  <div class="text_box1">
+    <div class="text_box2 text_animation4">About “Koibox”</div>
+    <div class="text_box2 text_animation5">About “Koibox”</div>
+  </div>
+  <div class="">
+    <div class="text_animation6">以优惠价格升级CLIP STUDIO PAINT PRO / EX</div>
+    <div class="text_animation7">可以优惠价格申请高配版CLIP STUDIO PAINT PRO / EX月费套餐。</div>
+    <div class="text_animation8">了解详情</div>
+  </div>
+  <div class="div_box1" style="background-color: white; width: 50%">
+    <img src="https://s.pximg.net/soy/pixiv-web-next/_next/static/media/1.cd26890f.jpeg" class="div_animation1" style="width: auto" />
+  </div>
+</div>
+</div>
+*/
+
+.text_bold {
+  font-size: inherit;
+  font-weight: bold;
+  line-height: inherit;
+  letter-spacing: inherit;
+  padding: 0.1em 0.12em;
+}
+.text_box1 {
+  font-size: 2.8rem;
+  line-height: 1;
+  position: relative;
+  width: fit-content;
+}
+.text_box2 {
+  font-size: inherit;
+  font-weight: bold;
+  line-height: inherit;
+  letter-spacing: inherit;
+  padding: 0.5rem;
+}
+.text_animation1 {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  color: black;
+  background: white;
+  clip-path: polygon(0px 0px, 0px 0px, 0px 100%, 0px 100%);
+  animation: openPgae_animation1 0.4s cubic-bezier(0.76, -0.02, 0.2, 0.98) forwards;
+}
+.text_animation2 {
+  position: relative;
+  color: inherit;
+  background: none;
+  -webkit-clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  -webkit-animation: openPgae_animation1 0.6s cubic-bezier(0.76, -0.02, 0.2, 0.98) calc(0s + var(--delay, 0.2s)) forwards;
+  animation: openPgae_animation1 0.6s cubic-bezier(0.76, -0.02, 0.2, 0.98) calc(0s + var(--delay, 0.2s)) forwards;
+}
+.text_animation3 {
+  position: relative;
+  color: rgb(0, 0, 0);
+  background: rgb(255, 230, 0);
+  background-image: initial;
+  background-position-x: initial;
+  background-position-y: initial;
+  background-size: initial;
+  background-repeat: initial;
+  background-attachment: initial;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: rgb(255, 230, 0);
+  clip-path: polygon(0px 0px, 0px 0px, 0px 100%, 0px 100%);
+  animation: openPgae_animation1 0.6s cubic-bezier(0.76, -0.02, 0.2, 0.98) forwards;
+}
+.text_animation4 {
+  position: relative;
+  color: black;
+  opacity: 0;
+  animation: 0.01s ease-out 0.3s 1 normal forwards running show_animation1;
+}
+.text_animation5 {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  color: white;
+  background: black;
+  clip-path: polygon(0px 0px, 0px 0px, 0px 100%, 0px 100%);
+  animation: 0.3s cubic-bezier(0.76, -0.02, 0.2, 0.98) 0s 1 normal forwards running openPgae_animation1, 0.45s cubic-bezier(0.76, -0.02, 0.2, 0.98) 0.3s 1 normal forwards running show_animation2;
+}
+.div_box1 {
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+}
+.div_box1 div {
+  position: absolute;
+  background: black;
+  animation: 0.35s cubic-bezier(0, 0, 0.2, 0.98) 0s 1 normal forwards running show_animation4;
+}
+.div_animation1 {
+  --skew: 300px;
+  box-sizing: border-box;
+  max-width: 100%;
+  clip-path: polygon(0 0, 0 0, calc(var(--skew) * -1) 100%, calc(var(--skew) * -1) 100%);
+  animation: 1s cubic-bezier(0, 0, 0.2, 0.98) 0.1s 1 normal forwards running show_animation3;
+}
+.div_box1 div:nth-of-type(1) {
+  top: 0px;
+}
+.div_box1 div:nth-of-type(2) {
+  left: 0px;
+}
+.div_box1 div:nth-of-type(3) {
+  bottom: 0px;
+}
+.div_box1 div:nth-of-type(4) {
+  right: 0px;
+}
+.div_box1 div:nth-of-type(1),
+.div_box1 div:nth-of-type(3) {
+  left: 0px;
+  width: 100%;
+  height: 1px;
+  transform: translateX(-101%);
+}
+.div_box1 div:nth-of-type(2),
+.div_box1 div:nth-of-type(4) {
+  top: 0px;
+  width: 1px;
+  height: 100%;
+  transform: translateY(-101%);
+}
+.div_box1 div:nth-of-type(3),
+.div_box1 div:nth-of-type(4) {
+  animation-delay: 0.35s;
+}
+.text_animation6 {
+  font-size: 40px;
+  font-weight: bold;
+  line-height: 56px;
+  white-space: pre-line;
+  opacity: 0;
+  transform: translateX(20px);
+  animation: 0.5s cubic-bezier(0, 0, 0.2, 0.98) 0.35s 1 normal forwards running show_animation4, 0.3s ease-out 0.35s 1 normal forwards running show_animation1;
+}
+.text_animation7 {
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 36px;
+  white-space: pre-line;
+  opacity: 0;
+  transform: translateX(20px);
+  animation: 0.5s cubic-bezier(0, 0, 0.2, 0.98) 0.4s 1 normal forwards running show_animation4, 0.3s ease-out 0.4s 1 normal forwards running show_animation1;
+}
+.text_animation8 {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  -webkit-box-pack: start;
+  justify-content: start;
+  -webkit-box-align: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 32px;
+  color: black;
+  margin-top: 8px;
+  opacity: 0;
+  transform: translateX(20px);
+  animation-timeline: auto;
+  animation-range-start: normal;
+  animation-range-end: normal;
+  grid-column-gap: 17px;
+  transition: margin-left 0.2s cubic-bezier(0, 0, 0.2, 0.98) 0s, color;
+  animation: 0.5s cubic-bezier(0, 0, 0.2, 0.98) 0.45s 1 normal forwards running show_animation4, 0.3s ease-out 0.45s 1 normal forwards running show_animation1;
+}
+
+@keyframes openPgae_animation1 {
+  100% {
+    clip-path: polygon(0px 0px, 100% 0px, 100% 100%, 0px 100%);
+  }
+}
+@keyframes show_animation1 {
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes show_animation2 {
+  0% {
+    clip-path: polygon(0px 0px, 100% 0px, 100% 100%, 0px 100%);
+  }
+  100% {
+    clip-path: polygon(100% 0px, 100% 0px, 100% 100%, 100% 100%);
+  }
+}
+@keyframes show_animation3 {
+  100% {
+    clip-path: polygon(0 0, calc(100% + var(--skew)) 0, 100% 100%, 0 100%);
+  }
+}
+@keyframes show_animation4 {
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
