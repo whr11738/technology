@@ -323,6 +323,10 @@ setInterval((domName = 'o0', animationName = 'fade-move') => {
   background-repeat: repeat-x;
 }
 /* #endregion */
+/* 偏平圆弧*/
+/* <div style="height: 70px;width:100vw;clip-path: ellipse(50% 100% at 50% 100%);background:aqua"></div> */
+/* <div style="height: 70px;width:100vw;clip-path: ellipse(100% 100% at 50% 0%);background:aqua"></div> */
+/* #endregion */
 
 /* #region 初始化 * */
 /* 简约 */
