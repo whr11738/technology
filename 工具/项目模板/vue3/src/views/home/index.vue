@@ -30,9 +30,8 @@ const fun3 = (data) => {
 };
 const toFun4 = () => {
   const { data3, fun4 } = comRef.value;
-  console.log("data3", data3);
   ElMessage.success(data3.name.toString());
-  fun4();
+  fun4("fun4父数据");
 };
 provide("data2", data2);
 provide("fun3", fun3);

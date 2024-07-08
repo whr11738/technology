@@ -38,8 +38,8 @@ const props = defineProps(["data1", "fun2"]);
 const emits = defineEmits(["fun1"]);
 
 const data3 = reactive({ name: "data3" });
-const fun4 = () => {
-  ElMessage.success("fun4父数据");
+const fun4 = (data) => {
+  ElMessage.success(data);
 };
 
 onMounted(() => {
