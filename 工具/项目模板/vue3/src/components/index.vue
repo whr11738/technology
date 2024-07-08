@@ -1,6 +1,6 @@
 <template>
   <!-- 拥有的数据与方法 data3 fun4 -->
-  <div class="fy w20w h30h flex-around" style="">
+  <el-card class="w20w" style="">
     <div class="fc">
       <!-- 方法-子用父1 emits -->
       <el-button @click="emits('fun1', 'fun1子数据')" type="primary">fun1</el-button>
@@ -24,7 +24,8 @@
     <div class="fc">
       <el-tag>{{ data3.name }}</el-tag>
     </div>
-  </div>
+    <div class="box 50p fc" style="height: 100px">box</div>
+  </el-card>
 </template>
 <script setup>
 import { reactive, onMounted, defineProps, inject, defineEmits, defineExpose } from "vue";
@@ -50,4 +51,16 @@ onMounted(() => {
 defineExpose({ data3, fun4 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.grap {
+  background: #ccc;
+}
+.grap2 {
+  background: #999;
+}
+.box {
+  border: 1px solid #dcdcdc;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+</style>

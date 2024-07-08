@@ -2,8 +2,12 @@
   <!-- 拥有的数据与方法 fun1 fun2 fun3 data1 data2-->
   <div class="w100w h100h fc" style="">
     <!--  方法，数据 父用子 ref -->
-    <el-button @click="toFun4" type="primary">fun4</el-button>
-    <com :data1="data1" :fun2="fun2" @fun1="fun1" ref="comRef"></com>
+    <el-card class="" style="">
+      <div class="fy fc">
+        <el-button @click="toFun4" type="primary">fun4</el-button>
+        <com :data1="data1" :fun2="fun2" @fun1="fun1" ref="comRef"></com>
+      </div>
+    </el-card>
   </div>
 </template>
 <script setup>
