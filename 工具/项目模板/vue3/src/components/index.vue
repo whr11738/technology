@@ -30,7 +30,6 @@
 <script setup>
 import { reactive, onMounted, defineProps, inject, defineEmits, defineExpose } from "vue";
 import {} from "@/utils/tool.js";
-import {} from "@/utils/tool.js";
 import { ElMessage } from "element-plus";
 
 const data2 = inject("data2");
