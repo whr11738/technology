@@ -10,8 +10,7 @@
 </template>
 
 <script setup>
-import "@/style/styles.css";
-import "@/style/styles.less";
+import "@/style/style.css";
 </script>
 
 <style></style>
