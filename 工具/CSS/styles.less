@@ -4,7 +4,7 @@
 @numberArr: range(1,100,1);
 @fontWeight: 100, 200, 300, 400, 500, 600, 700, 800, 900;
 @priorityArr: -1, 0, 1, 2, 10, 100, 500, 1000, 9999;
-@colorArr: aqua, #00ccff, #d0d0d0, #aedd81, #84af9b, #26a65b, #eb7347, #fc9d99, #d24d57, #2c3e50;
+@colorArr: #000, #fff, #ececec, #333, #999, #ccc, aqua, #00ccff, #d0d0d0, #aedd81, #84af9b, #26a65b, #eb7347, #fc9d99, #d24d57, #2c3e50;
 
 //宽度 w
 .loop4(w,width,@numberArr);
@@ -62,8 +62,13 @@
 .loop7(pb,padding-bottom,@numberArr);
 .loop7(pl,padding-left,@numberArr);
 
+// 圆角
+.loop4(br,border-radius,@numberArr);
+.loop5(br,border-radius,@numberArr);
+
 //字体 fz
 .loop5(fz,font-size,@numberArr);
+.loop5(lh,line-height,@numberArr);
 
 //字重 fw
 .loop2(fw,font-weight,@fontWeight);
