@@ -1,4 +1,4 @@
-<!-- 表单页面模板 -->
+<!-- 表格弹出框模板 -->
 <!-- 适用环境 vue3 element-plus -->
 <!-- 留意样式引入和国际化 -->
 <!-- <com-form v-if="d.showEdit" :close="() => (d.showEdit = false)" :data="{ x: 1 }"></com-form> -->
