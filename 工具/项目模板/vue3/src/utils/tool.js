@@ -8,10 +8,8 @@ export const arrToObj = (arr) => {
   }
   return res;
 };
-// 复制对象
-export const copyObj = (obj) => {
-  return JSON.parse(JSON.stringify(obj));
-};
+// 复制对象/数组
+export const copyObj = (obj) => JSON.parse(JSON.stringify(obj));
 // 保留响应式给对象赋值
 export const copyVueObj = (arr, target) => {
   for (const i in target) {
@@ -616,10 +614,12 @@ export const checkAllTypes = (value) => {
   console.log("isSymbol? ", typeTool.isSymbol(value));
   console.log("isBlob? ", typeTool.isBlob(value));
 };
-// 内容非空
-export const notEmpty = (value) => {
-  return value !== null && value !== undefined && value !== "";
-};
+// 内容非空 不是 null undefined ""
+export const notEmpty = (value) => value !== null && value !== undefined && value !== "";
+// 内容非空 不是 {} []
+export const notEmptyArrObj = (data) => !!(Array.isArray(data) ? data.length : Object.keys(data).length);
+// 内容非空 不是 null undefined "" {} []
+export const fullData = (data) => (typeTool.isArray(data) || typeTool.isObject(data) ? notEmptyArrObj(data) : notEmpty(data));
 // #endregion
 
 // #region 数据

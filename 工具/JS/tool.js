@@ -8,10 +8,8 @@ export const arrToObj = (arr) => {
   }
   return res;
 };
-// 复制对象
-export const copyObj = (obj) => {
-  return JSON.parse(JSON.stringify(obj));
-};
+// 复制对象/数组
+export const copyObj = (obj) => JSON.parse(JSON.stringify(obj));
 // 保留响应式给对象赋值
 export const copyVueObj = (arr, target) => {
   for (const i in target) {

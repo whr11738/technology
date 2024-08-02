@@ -1,5 +1,5 @@
 <!-- 表格页面模板 -->
-<!-- 适用环境 vue3 -->
+<!-- 适用环境 vue3 element-plus -->
 <!-- 留意样式引入和国际化 -->
 <template>
   <div style="margin: 24px; position: relative">

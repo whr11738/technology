@@ -1,8 +1,9 @@
+<!-- 表单页面模板 -->
+<!-- 适用环境 vue3 element-plus -->
+<!-- 记得引入样式 -->
+<!-- <com-form v-if="data.editVisible" :close="data.editVisible=false" :data="data.editData"></com-form> -->
+<!-- <com-form v-if="data.editVisible" :close="()=>{data.editVisible=false}" :data="{x:1}"></com-form> -->
 <template>
-  <!-- 表单页面模板 -->
-  <!-- 记得引入样式 -->
-  <!-- <com-form v-if="data.editVisible" :close="data.editVisible=false" :data="data.editData"></com-form> -->
-  <!-- <com-form v-if="data.editVisible" :close="()=>{data.editVisible=false}" :data="{x:1}"></com-form> -->
   <el-dialog title="表单" v-model="data.visible" width="30%" :before-close="props.close">
     <el-form :model="data.form" :rules="data.rulesRef" ref="formRef" label-width="80px">
       <el-form-item label="名称" prop="name">
