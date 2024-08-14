@@ -2,31 +2,31 @@
 
 #### 项目下创建配置文件
 
-**开发环境**
+**.env.dev**
 
 ```
-// .env.dev
+// 开发环境
 GLOBAL_BASEURL=http://192.168.1.1
 ```
 
-**测试环境**
+**.env.test**
 
 ```
-// .env.test
+// 测试环境
 GLOBAL_BASEURL=http://192.168.1.2
 ```
 
-**预生产环境**
+**.env.uat**
 
 ```
-// .env.uat
+// 预生产环境
 GLOBAL_BASEURL=http://192.168.1.3
 ```
 
-**生产环境**
+**.env.prod**
 
 ```
-// .env.prod
+// 生产环境
 GLOBAL_BASEURL=http://192.168.1.4
 ```
 
@@ -54,6 +54,7 @@ prod环境: npm run prod
 #### 接口代理
 
 ```
+// vue.config.js
 module.exports = {
   devServer: {
     proxy: {
