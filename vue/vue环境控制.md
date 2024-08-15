@@ -2,10 +2,14 @@
 
 #### 项目下创建配置文件
 
+.env 在所有的环境中被载入
+.env.[mode] 只在指定的模式中被载入
+
 **.env.dev**
 
 ```
 // 开发环境
+NODE_ENV=dev
 GLOBAL_BASEURL=http://192.168.1.1
 ```
 
@@ -13,6 +17,7 @@ GLOBAL_BASEURL=http://192.168.1.1
 
 ```
 // 测试环境
+NODE_ENV=test
 GLOBAL_BASEURL=http://192.168.1.2
 ```
 
@@ -20,6 +25,7 @@ GLOBAL_BASEURL=http://192.168.1.2
 
 ```
 // 预生产环境
+NODE_ENV=uat
 GLOBAL_BASEURL=http://192.168.1.3
 ```
 
@@ -27,6 +33,7 @@ GLOBAL_BASEURL=http://192.168.1.3
 
 ```
 // 生产环境
+NODE_ENV=prod
 GLOBAL_BASEURL=http://192.168.1.4
 ```
 
@@ -55,6 +62,7 @@ prod环境: npm run prod
 
 ```
 // vue.config.js
+console.log(process.env.NODE_ENV)
 module.exports = {
   devServer: {
     proxy: {
