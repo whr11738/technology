@@ -82,7 +82,7 @@ export const ObjToUrl = (api, obj) => {
 // #endregion
 
 // #region 数组
-// (增) 在数组(arr)索引(index)位置后面插入目标(item)
+// (增) 在数组(arr)索引(index)位置后面插入item
 export const arrAddIndex = (index, item) => arr.splice(index + 1, 0, item);
 // (增) 在数组(arr)中属性(key)值为val的目标后面插入item
 export const arrAddItem = (arr, key, val, item) => arr.splice(arrFindIndex(arr, key, val) + 1, 0, item);
