@@ -82,35 +82,34 @@ export const ObjToUrl = (api, obj) => {
 // #endregion
 
 // #region 数组
+// (增) 在数组(arr)索引(index)位置后面插入目标(item)
+export const arrAddIndex = (index, item) => arr.splice(index + 1, 0, item);
+// (增) 在数组(arr)中属性(key)值为val的目标后面插入item
+export const arrAddItem = (arr, key, val, item) => arr.splice(arrFindIndex(arr, key, val) + 1, 0, item);
+// (删) 根据索引(index)删除数组(arr)中目标
+export const arrDelIndex = (arr, index) => arr.splice(index, 1);
+// (删) 删除数组(arr)中属性(key)值为val的目标
+export const arrDelItem = (arr, key, val) => arr.splice(arrFindIndex(arr, key, val), 1);
+// (查) 查找数组(arr)中属性(key)值为val的目标的索引
+export const arrFindIndex = (arr, key, val) => arr.findIndex((item) => item[key] === val);
+// (查) 查找数组(arr)中属性(key)值为val的目标
+export const arrFindItem = (arr, key, val) => {
+  const i = arr.findIndex((item) => item[key] === val);
+  return i === -1 ? null : arr[i];
+};
+// (查) 查找数组(arr)中属性(key)值为val的目标的属性（goal）的值
+export const arrFind = (arr, key, val, goal) => {
+  const i = arr.findIndex((item) => item[key] === val);
+  return i === -1 ? null : arr[i][goal];
+};
+// (查) 查找数组中是否存在val
+export const arrHave = (arr, val) => arr.indexOf(val) !== -1;
 // 保留响应式给数组赋值
 export const copyArr = (arr, target) => {
   arr.length = 0;
   arr.push(...target);
   return arr;
 };
-// 查找数组中是否存在val
-export const arrHave = (arr, val) => arr.indexOf(val) !== -1;
-// 查找数组(arr)中属性(name)值为val的目标的索引
-export const arrFindIndex = (arr, name, val) => arr.findIndex((item) => item[name] === val);
-// 查找数组(arr)中属性(name)值为val的目标
-export const arrFindItem = (arr, name, val) => {
-  const i = arr.findIndex((item) => item[name] === val);
-  return i === -1 ? null : arr[i];
-};
-// 删除数组(arr)中属性(name)值为val的目标
-export const arrRemoveItem = (arr, name, val) => {
-  if (!arr) return;
-  const i = arr.findIndex((item) => item[name] === val);
-  if (i === -1) return;
-  arr.splice(i, 1);
-};
-// 查找数组(arr)中属性(name)值为val的目标的属性（goal）的值
-export const arrFind = (arr, name, val, goal) => {
-  const i = arr.findIndex((item) => item[name] === val);
-  return i === -1 ? null : arr[i][goal];
-};
-// 根据索引删除数组中目标
-export const arrDel = (arr, index) => arr.splice(index, 1);
 // 将一个数字数组中所有数字相加
 // addArr([1, 2, 3]) // 6
 export const addArr = (arr) => arr.reduce((_, __) => _ + __, 0);
@@ -1153,4 +1152,16 @@ export const getIP2 = () => {
     };
   });
 };
+// #endregion
+
+// #region 为兼容旧的代码而保留
+// 删除数组(arr)中属性(name)值为val的目标
+export const arrRemoveItem = (arr, name, val) => {
+  if (!arr) return;
+  const i = arr.findIndex((item) => item[name] === val);
+  if (i === -1) return;
+  arr.splice(i, 1);
+};
+// 根据索引删除数组中目标
+export const arrDel = (arr, index) => arr.splice(index, 1);
 // #endregion
