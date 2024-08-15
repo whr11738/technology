@@ -1,3 +1,4 @@
+// flexible
 ; (function (win, lib) {
   let doc = win.document;
   let docEl = doc.documentElement;
