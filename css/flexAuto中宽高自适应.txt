@@ -1,0 +1,16 @@
+<!-- 横向 -->
+<div style="width: 200px; display: flex">
+  <div style="width: 40px">1</div>
+  <div style="flex: auto; width: 0">1</div>
+  <div style="width: 40px">1</div>
+</div>
+<!-- 纵向 -->
+<div style="height: 200px; display: flex; flex-direction: column">
+  <div style="height: 40px">1</div>
+  <div style="flex: auto; overflow-y: auto; height: 0">1</div>
+  <div style="height: 40px">1</div>
+</div>
+
+重点：
+1.flex: auto那个盒子要有宽或高为0。
+2.display: flex那个父盒子要有确定的宽或高。
