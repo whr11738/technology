@@ -1,30 +1,34 @@
 <template>
-  <!-- 拥有的数据与方法 data3 fun4 -->
-  <el-card class="w20w" style="">
-    <div class="fc">
-      <!-- 方法-子用父1 emits -->
-      <el-button @click="emits('fun1', 'fun1子数据')" type="primary">fun1</el-button>
+  <!-- 子组件数据 data3 -->
+  <!-- 子组件方法  fun4 -->
+  <el-card class="" style="">
+    <div class="tc mb12 fw6">子组件区域</div>
+    <div class="flex-around mb12" style="displat: grid; grid-gap: 12px">
+      <div class="fc">
+        <!-- 方法 子用父 emits -->
+        <el-button @click="emits('fun1', '触发父方法fun1，参数子数据')" type="primary">fun1</el-button>
+      </div>
+      <div class="fc">
+        <!-- 方法 子用父 props -->
+        <el-button @click="fun2('触发父方法fun2，参数子数据')" type="primary">fun2</el-button>
+      </div>
+      <div class="fc">
+        <!-- 方法 子用父 provide -->
+        <el-button @click="fun3('触发父方法fun3，参数子数据')" type="primary">fun3</el-button>
+      </div>
     </div>
     <div class="fc">
-      <!-- 方法-子用父2 props -->
-      <el-button @click="fun2('fun2子数据')" type="primary">fun2</el-button>
-    </div>
-    <div class="fc">
-      <!-- 方法-子用父3 provide -->
-      <el-button @click="fun3('fun3子数据')" type="primary">fun3</el-button>
-    </div>
-    <div class="fc">
-      <!-- 数据-子用父1 props -->
+      <!-- 数据 子用父 props -->
       <el-tag>{{ data1.name }}</el-tag>
     </div>
     <div class="fc">
-      <!-- 数据-子用父2 provide -->
+      <!-- 数据 子用父 provide -->
       <el-tag>{{ data2.name }}</el-tag>
     </div>
     <div class="fc">
+      <!-- 数据 父用子 emits -->
       <el-tag>{{ data3.name }}</el-tag>
     </div>
-    <div class="box 50p fc" style="height: 100px">box</div>
   </el-card>
 </template>
 <script setup>
@@ -44,7 +48,9 @@ const fun4 = (data) => {
 
 onMounted(() => {
   setInterval(() => {
-    data3.name = "data3 " + new Date().getTime();
+    props.data1.name = "data1 被子组件修改";
+    data2.name = "data2 被子组件修改";
+    data3.name = "data3 被子组件修改";
   }, 2000);
 });
 defineExpose({ data3, fun4 });
