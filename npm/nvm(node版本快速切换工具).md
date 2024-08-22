@@ -37,6 +37,16 @@ nvm list
 nvm use 14.17.0
 ```
 
+#### 可能遇到的问题
+
+- 安装 node 时，显示请求服务超时
+
+```
+找到 nvm 目录下 settings.txt 文件，在下面添加以下内容
+node_mirror: https://npmmirror.com/mirrors/node/
+npm_mirror: https://npmmirror.com/mirrors/npm/
+```
+
 #### 参考资料
 
 [官网](https://nvm.uihtm.com/)
