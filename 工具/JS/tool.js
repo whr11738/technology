@@ -104,6 +104,14 @@ export const arrFind = (arr, key, val, goal) => {
 };
 // (查) 查找数组中是否存在val
 export const arrHave = (arr, val) => arr.indexOf(val) !== -1;
+// (查) 查找对象数组中是否存在item
+export const arrHaveItem = (arr, item) => {
+  let res = false;
+  for (const i of arr) {
+    if (JSON.stringify(i) === JSON.stringify(item)) res = true;
+  }
+  return res;
+};
 // 保留响应式给数组赋值
 export const copyArr = (arr, target) => {
   arr.length = 0;
