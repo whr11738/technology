@@ -1,9 +1,9 @@
-// lessc styles.less styles.css
+// lessc styles_less.less styles_css.css
 
 // prettier-ignore
-@numberArr: range(1,100,1);
+@numberArr: range(0,100,1);
 @numberArr2: range(110, 1000, 10);
-@numberArr3: range(1, 50, 1);
+@numberArr3: range(0, 50, 1);
 @fontWeight: 100, 200, 300, 400, 500, 600, 700, 800, 900;
 @priorityArr: -1, 0, 1, 2, 10, 100, 500, 1000, 9999;
 @colorArr: #000, #fff, #ececec, #333, #999, #ccc, aqua, #00ccff, #d0d0d0, #aedd81, #84af9b, #26a65b, #eb7347, #fc9d99, #d24d57, #2c3e50;
@@ -78,9 +78,15 @@
 .loop2(fw,font-weight,@fontWeight);
 
 //背景颜色 bc
+.bc0 {
+  background-color: #fff;
+}
 .loop2(bc,background-color,@colorArr);
 
 //颜色 c
+.c0 {
+  color: #fff;
+}
 .loop2(c,color,@colorArr);
 
 //透明度 o
