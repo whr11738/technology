@@ -1,4 +1,5 @@
-@import url(./styles.css);
+/* @import url(./styles_css.css); */
+/* @import url(./styles_less.less); */
 
 /* #region flex弹性盒子 f */
 .flex,
@@ -56,6 +57,12 @@
 .fe {
   display: flex;
   justify-content: flex-end;
+}
+/* #endregion */
+
+/* #region grid布局 g */
+.g {
+  display: grid;
 }
 /* #endregion */
 
@@ -322,7 +329,6 @@ setInterval((domName = 'o0', animationName = 'fade-move') => {
   background-size: 10px 1px; /* 第一个参数设置虚线点的间距；第二个参数设置虚线点y轴上的长度 */
   background-repeat: repeat-x;
 }
-/* #endregion */
 /* 偏平圆弧*/
 /* <div style="height: 70px;width:100vw;clip-path: ellipse(50% 100% at 50% 100%);background:aqua"></div> */
 /* <div style="height: 70px;width:100vw;clip-path: ellipse(100% 100% at 50% 0%);background:aqua"></div> */

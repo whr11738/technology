@@ -9,8 +9,9 @@
   </div>
 </template>
 
-<script setup>
-import "@/style/style.css";
-</script>
+<script setup></script>
 
-<style></style>
+<style lang="less">
+@import url("./style/style_index.css");
+@import url("./style/styles_less.less");
+</style>

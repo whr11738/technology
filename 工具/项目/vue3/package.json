@@ -2,9 +2,14 @@
   "name": "init",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite --open",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "vite --mode dev --open ",
+    "test": "vite --mode test --open ",
+    "uat": "vite --mode uat --open ",
+    "prod": "vite --mode prod --open ",
+    "build-dev": "vite build  --mode dev",
+    "build-test": "vite build  --mode test",
+    "build-uat": "vite build  --mode uat",
+    "build-prod": "vite build  --mode prod"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",

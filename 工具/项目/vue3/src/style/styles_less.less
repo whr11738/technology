@@ -1,24 +1,30 @@
-// lessc styles.less styles.css
+// lessc styles_less.less styles_css.css
 
 // prettier-ignore
-@numberArr: range(1,100,1);
+@numberArr: range(0,100,1);
+@numberArr2: range(110, 1000, 10);
+@numberArr3: range(0, 50, 1);
 @fontWeight: 100, 200, 300, 400, 500, 600, 700, 800, 900;
 @priorityArr: -1, 0, 1, 2, 10, 100, 500, 1000, 9999;
-@colorArr: aqua, #00ccff, #d0d0d0, #aedd81, #84af9b, #26a65b, #eb7347, #fc9d99, #d24d57, #2c3e50;
+@colorArr: #000, #fff, #ececec, #333, #999, #ccc, aqua, #00ccff, #d0d0d0, #aedd81, #84af9b, #26a65b, #eb7347, #fc9d99, #d24d57, #2c3e50;
 
-//宽度 w
+// #region 宽度 w
 .loop4(w,width,@numberArr);
 .loop5(w,width,@numberArr);
 .loop6(w,width,@numberArr);
 .loop7(w,width,@numberArr);
+.loop8(w,width,@numberArr2);
+// #endregion
 
-//高度 h
+// #region 高度 h
 .loop4(h,height,@numberArr);
 .loop5(h,height,@numberArr);
 .loop6(h,height,@numberArr);
 .loop7(h,height,@numberArr);
+.loop8(h,height,@numberArr2);
+// #endregion
 
-//外边距 m
+// #region 外边距 m
 .loop4(m,margin,@numberArr);
 .loop4(mt,margin-top,@numberArr);
 .loop4(mr,margin-right,@numberArr);
@@ -39,8 +45,9 @@
 .loop7(mr,margin-right,@numberArr);
 .loop7(mb,margin-bottom,@numberArr);
 .loop7(ml,margin-left,@numberArr);
+// #endregion
 
-//内边距 p
+// #region 内边距 p
 .loop4(p,padding,@numberArr);
 .loop4(pt,padding-top,@numberArr);
 .loop4(pr,padding-right,@numberArr);
@@ -61,24 +68,50 @@
 .loop7(pr,padding-right,@numberArr);
 .loop7(pb,padding-bottom,@numberArr);
 .loop7(pl,padding-left,@numberArr);
+// #endregion
 
-//字体 fz
-.loop5(fz,font-size,@numberArr);
+// #region 圆角
+.loop4(br,border-radius,@numberArr3);
+.loop5(br,border-radius,@numberArr);
+// #endregion
 
-//字重 fw
+// #region 字体 fz
+.loop5(fz,font-size,@numberArr3);
+.loop5(lh,line-height,@numberArr3);
+// #endregion
+
+// #region 字重 fw
 .loop2(fw,font-weight,@fontWeight);
+// #endregion
 
-//背景颜色 bc
+// #region 背景颜色 bc
+.bc0 {
+  background-color: #fff;
+}
 .loop2(bc,background-color,@colorArr);
+// #endregion
 
-//颜色 c
+// #region 颜色 c
+.c0 {
+  color: #fff;
+}
 .loop2(c,color,@colorArr);
+// #endregion
 
-//透明度 o
+// #region 透明度 o
 .loop3(o,opacity);
+// #endregion
 
-//优先级 z
+// #region 优先级 z
 .loop1(z,z-index,@priorityArr);
+// #endregion
+
+// #region grid布局
+.loop4(gg,grid-gap,@numberArr);
+.loop5(gg,grid-gap,@numberArr);
+.loop9(gx,grid-template-columns,@numberArr3);
+.loop9(gy,grid-template-rows,@numberArr3);
+// #endregion
 
 // 以值为单位
 // 标题一，标题二，键名，键值（数组）
@@ -156,4 +189,30 @@
     @{styleName}: @item*1vw;
   }
   .loop7(@styleTitle,@styleName,@arr,@index+1);
+}
+
+// 以10倍px为单位
+// 标题一，标题二，键名，键值（数组）
+.loop8(@styleTitle,@styleName,@arr,@index: 1) when(@index<=length(@arr)) {
+  // prettier-ignore
+  @item:extract(@arr,@index);
+  .@{styleTitle}@{item} {
+    @{styleName}: @item*1px;
+  }
+  .loop8(@styleTitle,@styleName,@arr,@index+1);
+}
+
+// grid专用(使用repeat)
+// 标题一，标题二，键名，键值（数组）
+.loop9(@styleTitle,@styleName,@arr,@index: 1) when(@index<=length(@arr)) {
+  // 根据索引获取数组中的值
+  // prettier-ignore
+  @item:extract(@arr,@index);
+  // 生成对应的css代码
+  .@{styleTitle}@{item} {
+    display: grid;
+    @{styleName}: repeat(@item, 1fr);
+  }
+  // 递归调用
+  .loop9(@styleTitle,@styleName,@arr,@index+1);
 }
