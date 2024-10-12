@@ -425,6 +425,37 @@ export const formatSeconds = (value) => {
 // #endregion
 
 // #region dom
+// 获取dom 得到dom本身而不是新dom
+export const getDom = (domId) => document.getElementById(domId);
+// 复制dom 一个全新的dom，不会影响原dom
+export const copyDom = (domId) => document.getElementById(domId).cloneNode(true); // true则包含下面子节点
+// 增加dom 在fatherDomId后插入dom
+export const addDom = (fatherDomId, dom) => {
+  const fatherDom = document.getElementById(fatherDomId);
+  fatherDom.appendChild(dom);
+};
+// 删除dom
+export const delDom = (fatherDomId, childDomId) => {
+  const fatherDom = document.getElementById(fatherDomId);
+  for (const childDom of fatherDom.childNodes) {
+    if (childDom.id == childDomId) fatherDom.removeChild(childDom);
+  }
+};
+// 移动dom 在fatherDomId下将tDomId移动到bDomId前面 moveDom("fatherDom", "dom4", "dom2")
+export const moveDom = (fatherDomId, tDomId, bDomId) => {
+  const fatherDom = document.getElementById(fatherDomId);
+  const tDom = document.getElementById(tDomId);
+  const bDom = document.getElementById(bDomId);
+  fatherDom.insertBefore(tDom, bDom);
+};
+// 排序dom 在fatherDomId下根据sortArr排序(排序时dom从后插入) sortDom("fatherDom", ["dom5", "dom1", "dom4", "dom2", "dom3"])
+export const sortDom = (fatherDomId, sortArr) => {
+  const fatherDom = document.getElementById(fatherDomId);
+  for (const i of sortArr) {
+    const dom = document.getElementById(i);
+    if (dom) fatherDom.appendChild(dom);
+  }
+};
 
 /* clientX：当鼠标事件发生时，鼠标相对于浏览器（这里说的是浏览器的有效区域）x轴的位置；
 clientY：当鼠标事件发生时，鼠标相对于浏览器（这里说的是浏览器的有效区域）y轴的位置；
