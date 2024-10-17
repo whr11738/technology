@@ -1,0 +1,18 @@
+<!-- 横向 -->
+<div class="h100 w200 f bc3">
+  <div class="w100 fc fn">box</div>
+    <div class="fa f ox">
+    <div v-for="i in 10" :key="i" class="h100p w20 fc fn">{{ i }}</div>
+  </div>
+</div>
+<!-- 纵向 -->
+<div class="h200 w100 fy bc3">
+  <div class="h100 fc fn">box</div>
+    <div class="fa oy">
+    <div v-for="i in 10" :key="i" class="w100p h20 fc">{{ i }}</div>
+  </div>
+</div>
+
+重点：
+1.有些需要flex: none实现正确的宽或高
+2.display: flex那个父盒子要有确定的宽或高。
