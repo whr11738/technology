@@ -456,6 +456,14 @@ export const sortDom = (fatherDomId, sortArr) => {
     if (dom) fatherDom.appendChild(dom);
   }
 };
+// 列表dom滚动到底部触发方法getListFun 建议搭配文件 列表加载模板 使用 onMounted(() => { initListScroll('listDom', getList); });
+export const initListScroll = (domId, getListFun) => {
+  const listDom = document.getElementById(domId);
+  listDom.addEventListener('scroll', () => {
+    const { bottom } = getDivScrollStatus(listDom);
+    if (bottom < 10) getListFun();
+  });
+};
 
 /* clientX：当鼠标事件发生时，鼠标相对于浏览器（这里说的是浏览器的有效区域）x轴的位置；
 clientY：当鼠标事件发生时，鼠标相对于浏览器（这里说的是浏览器的有效区域）y轴的位置；

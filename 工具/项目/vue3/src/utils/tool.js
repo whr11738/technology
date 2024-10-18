@@ -57,14 +57,14 @@ export const stringify = (obj, name) => {
   return result;
 };
 // 将对象(obj)中属性(Arr中的)值赋为val
-export const initObj = (obj, arr, val = "") => {
+export const initObj = (obj, arr, val = '') => {
   arr.forEach((i) => {
     obj[i] = val;
   });
   return obj;
 };
 // 将数组(arr)中所有对象中属性(tag中的)值赋为val
-export const initArrObj = (arr, tag, val = "") => {
+export const initArrObj = (arr, tag, val = '') => {
   for (const i of arr) {
     i[tag] = val;
   }
@@ -72,7 +72,7 @@ export const initArrObj = (arr, tag, val = "") => {
 };
 // 对象转URL
 export const ObjToUrl = (api, obj) => {
-  let url = api + "?";
+  let url = api + '?';
   for (const i in obj) {
     url += `${i}=${obj[i]}&`;
   }
@@ -142,9 +142,9 @@ export const uniqueObjArr = (arr, uniId) => {
   return arr.filter((item) => !res.has(item[uniId]) && res.set(item[uniId], 1));
 };
 // 数组转字符串
-export const arrToStr = (val, tag = ";") => val.join(tag);
+export const arrToStr = (val, tag = ';') => val.join(tag);
 // 字符串转数组
-export const strToArr = (str, tag = "") => str.split(tag);
+export const strToArr = (str, tag = '') => str.split(tag);
 // #endregion
 
 // #region 字符串
@@ -154,9 +154,9 @@ export const strToNum = (val) => parseInt(val, 10);
 export const strToObj = (val) => {
   let res = {};
   try {
-    let data = val.replace(/^\s*|\s*$/g, "");
-    if (data[0] !== "{") data = `{${val}}`;
-    res = eval("(" + data + ")");
+    let data = val.replace(/^\s*|\s*$/g, '');
+    if (data[0] !== '{') data = `{${val}}`;
+    res = eval('(' + data + ')');
   } catch (e) {
     console.log(e);
   }
@@ -197,7 +197,7 @@ export const addString = (str, target, start) => {
 };
 // 利用正则匹配处理字符串(目标，正则表达式，处理函数)    getRegStr('a-bc', /\-[a-z]/g, (i) => i.slice(1).toUpperCase());      a-bc => aBc
 export const getRegStr = (tag, reg, fun) => {
-  if (!reg) return "";
+  if (!reg) return '';
   const arr = tag.match(reg);
   if (!arr) return tag;
   for (const i of arr) {
@@ -216,18 +216,18 @@ export const getLastStrPlace = (str, _str) => findString(str, _str)[findString(s
 // 获取字符串里的img标签
 export const getMediaTag = (data) => {
   console.log(data);
-  const tagReg = new RegExp("<(img|video|source).*?(?:>|/>)", "gi");
+  const tagReg = new RegExp('<(img|video|source).*?(?:>|/>)', 'gi');
   const tagReg2 = /<\/(video|source)*?(?:>)/gi;
   const clearClass = 'data-w-e-type="video"';
-  const srcReg = new RegExp("src=['\\\"]?([^'\"]*)['\"]?", "i");
+  const srcReg = new RegExp('src=[\'\\"]?([^\'"]*)[\'"]?', 'i');
   const match = data.match(tagReg);
   const list = [];
   console.log(match);
   if (match) {
     for (const m of match) {
-      data = data.replace(m, "");
-      data = data.replace(tagReg2, "");
-      data = data.replace(clearClass, "");
+      data = data.replace(m, '');
+      data = data.replace(tagReg2, '');
+      data = data.replace(clearClass, '');
       const src = m.match(srcReg);
       if (src && src.length) {
         const url = src[1];
@@ -254,9 +254,9 @@ export const initNum = (num, len) => {
 };
 // 返回小数长度
 export const decimalLen = (num) => {
-  const numInstr = num + "";
+  const numInstr = num + '';
   let behindLen = 0;
-  numInstr.split(".")[1] && (behindLen = numInstr.split(".")[1].length);
+  numInstr.split('.')[1] && (behindLen = numInstr.split('.')[1].length);
   return behindLen;
 };
 // 判断是否为纯数字
@@ -276,12 +276,12 @@ export const dateTool = (data, replace) => {
   }
   let fullDate = newDate.toLocaleString(); // 日期(年/月/日 时:分:秒)
   if (replace) {
-    fullDate = fullDate.replaceAll("/", replace);
+    fullDate = fullDate.replaceAll('/', replace);
   }
   const base0 = {
     fullDate,
-    date: fullDate.split(" ")[0], // 日期(年/月/日)
-    time: fullDate.split(" ")[1], // 日期(时/分/秒)
+    date: fullDate.split(' ')[0], // 日期(年/月/日)
+    time: fullDate.split(' ')[1], // 日期(时/分/秒)
     getTime: newDate.getTime(), // 时间戳
   };
   const base1 = {
@@ -294,7 +294,7 @@ export const dateTool = (data, replace) => {
     seconds: newDate.getSeconds(), //秒
     milliseconds: newDate.getMilliseconds(), //毫秒
   };
-  const getZero = (n) => (n < 10 ? "0" + n : n);
+  const getZero = (n) => (n < 10 ? '0' + n : n);
   const base2 = {
     year0: getZero(base1.year), //年 一位数时前面加0
     month0: getZero(base1.month), //月 一位数时前面加0
@@ -342,14 +342,14 @@ export const dateTool = (data, replace) => {
       },
     },
   };
-  const monthList = ["十二月", "一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月"];
-  const monthList2 = ["December", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November"];
-  const monthList3 = ["Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "ept", "Oct", "Nov"];
-  const weekList = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
-  const weekList2 = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const weekList3 = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
+  const monthList = ['十二月', '一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月'];
+  const monthList2 = ['December', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November'];
+  const monthList3 = ['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'ept', 'Oct', 'Nov'];
+  const weekList = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+  const weekList2 = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const weekList3 = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
   const base3 = {
-    amOrPm: base1.hours < 12 ? "AM" : "PM",
+    amOrPm: base1.hours < 12 ? 'AM' : 'PM',
     hourOf12: base1.hours < 12 ? base1.hours : base1.hours - 12,
     week: weekList[base1.week],
     week2: weekList2[base1.week],
@@ -386,7 +386,7 @@ export const getPercentage = (create, length, now) => {
 // 获取两段日期中所有的天
 export const getDateList = (start, end) => {
   const getDate = (datestr) => {
-    const temp = datestr.split("-");
+    const temp = datestr.split('-');
     const date = new Date(temp[0], temp[1] - 1, temp[2]);
     return date;
   };
@@ -395,9 +395,9 @@ export const getDateList = (start, end) => {
   const endTime = getDate(end);
   while (endTime.getTime() - startTime.getTime() >= 0) {
     const year = startTime.getFullYear();
-    const month = startTime.getMonth() + 1 < 10 ? "0" + (startTime.getMonth() + 1) : startTime.getMonth() + 1;
-    const day = startTime.getDate().toString().length === 1 ? "0" + startTime.getDate() : startTime.getDate();
-    dateList.push(year + "-" + month + "-" + day);
+    const month = startTime.getMonth() + 1 < 10 ? '0' + (startTime.getMonth() + 1) : startTime.getMonth() + 1;
+    const day = startTime.getDate().toString().length === 1 ? '0' + startTime.getDate() : startTime.getDate();
+    dateList.push(year + '-' + month + '-' + day);
     startTime.setDate(startTime.getDate() + 1);
   }
   return dateList;
@@ -415,7 +415,7 @@ export const formatSeconds = (value) => {
       minute = parseInt(minute % 60);
     }
   }
-  const getZero = (v) => (v < 10 ? "0" + v : v);
+  const getZero = (v) => (v < 10 ? '0' + v : v);
   const h = getZero(parseInt(hour));
   const m = getZero(parseInt(minute));
   const s = getZero(parseInt(second));
@@ -456,6 +456,14 @@ export const sortDom = (fatherDomId, sortArr) => {
     if (dom) fatherDom.appendChild(dom);
   }
 };
+// 列表dom滚动到底部触发方法getListFun 建议搭配文件 列表加载模板 使用 onMounted(() => { initListScroll('listDom', getList); });
+export const initListScroll = (domId, getListFun) => {
+  const listDom = document.getElementById(domId);
+  listDom.addEventListener('scroll', () => {
+    const { bottom } = getDivScrollStatus(listDom);
+    if (bottom < 10) getListFun();
+  });
+};
 
 /* clientX：当鼠标事件发生时，鼠标相对于浏览器（这里说的是浏览器的有效区域）x轴的位置；
 clientY：当鼠标事件发生时，鼠标相对于浏览器（这里说的是浏览器的有效区域）y轴的位置；
@@ -473,8 +481,8 @@ export const domMove = (element) => {
     document.onmousemove = (m) => {
       const left = m.clientX - X;
       const top = m.clientY - Y;
-      dom.style.left = left + "px";
-      dom.style.top = top + "px";
+      dom.style.left = left + 'px';
+      dom.style.top = top + 'px';
     };
     document.onmouseup = () => {
       document.onmousemove = null;
@@ -485,24 +493,24 @@ export const domMove = (element) => {
 // 手机端触摸事件(点击，拖动，长按)
 export const longTouch = (dom) => {
   let timeOutEvent = 0;
-  dom.addEventListener("touchstart", (e) => {
+  dom.addEventListener('touchstart', (e) => {
     e.preventDefault();
     timeOutEvent = setTimeout(() => {
       timeOutEvent = 0;
-      console.log("长按");
+      console.log('长按');
       console.log(e);
     }, 500);
   });
-  dom.addEventListener("touchmove", (e) => {
+  dom.addEventListener('touchmove', (e) => {
     clearTimeout(timeOutEvent);
     timeOutEvent = 0;
-    console.log("拖动");
+    console.log('拖动');
     console.log(e);
   });
-  dom.addEventListener("touchend", (e) => {
+  dom.addEventListener('touchend', (e) => {
     clearTimeout(timeOutEvent);
     if (timeOutEvent !== 0) {
-      console.log("点击");
+      console.log('点击');
       console.log(e);
     }
     return false;
@@ -516,15 +524,15 @@ export const domInViewport = (el) => {
 };
 // 滚动到锚点位置 <div id="home">  scrollView('home')
 export const scrollView = (id) => {
-  document.querySelector(`#${id}`).scrollIntoView({ behavior: "smooth" });
+  document.querySelector(`#${id}`).scrollIntoView({ behavior: 'smooth' });
 };
 // 使溢出滚动的div滚动到指定位置
-export const divScroll = (el, val = 0, topOrBottom = "top") => {
+export const divScroll = (el, val = 0, topOrBottom = 'top') => {
   if (!el) return;
   let { scrollHeight, offsetHeight } = el;
   scrollHeight = Math.round(scrollHeight);
   offsetHeight = Math.round(offsetHeight);
-  if (topOrBottom === "top") {
+  if (topOrBottom === 'top') {
     el.scrollTop = val;
   } else {
     el.scrollTop = scrollHeight - offsetHeight - val;
@@ -542,28 +550,28 @@ export const getDivScrollStatus = (el) => {
   };
 };
 // 设置文本域光标位置（参数：开始位置，结束位置，方向）
-export const selection = (start, end = start, direction = "forward") => {
-  const textarea = document.getElementsByClassName("textarea")[0];
+export const selection = (start, end = start, direction = 'forward') => {
+  const textarea = document.getElementsByClassName('textarea')[0];
   textarea.focus();
   textarea.setSelectionRange(start, end, direction);
 };
 // 计算光标坐标位置
 export const getSelectionCoordinate = (textarea) => {
-  const puppet = document.getElementsByClassName("puppet")[0];
-  const miniselector = document.getElementsByClassName("miniselector")[0];
+  const puppet = document.getElementsByClassName('puppet')[0];
+  const miniselector = document.getElementsByClassName('miniselector')[0];
   const { scrollTop } = textarea;
   puppet.scrollTop = scrollTop;
-  puppet.style.width = textarea.offsetWidth - 6 + "px";
-  puppet.style.height = textarea.offsetHeight - 6 + "px";
-  puppet.style.border = "1px solid transparent";
-  puppet.style.padding = "2px";
+  puppet.style.width = textarea.offsetWidth - 6 + 'px';
+  puppet.style.height = textarea.offsetHeight - 6 + 'px';
+  puppet.style.border = '1px solid transparent';
+  puppet.style.padding = '2px';
   const top = miniselector.offsetTop - scrollTop;
   const left = miniselector.offsetLeft;
   return { left, top };
 };
 // 计算光标字符位置
 export const getSelectionStatus = (textarea) => {
-  if ("selectionStart" in textarea) {
+  if ('selectionStart' in textarea) {
     const length = textarea.selectionEnd - textarea.selectionStart;
     return {
       start: textarea.selectionStart,
@@ -584,7 +592,7 @@ export const getSelectionStatus = (textarea) => {
     const re = textarea.createTextRange();
     const rc = re.duplicate();
     re.moveToBookmark(result.getBookmark());
-    rc.setEndPoint("EndToStart", re);
+    rc.setEndPoint('EndToStart', re);
     return {
       start: rc.text.length,
       end: rc.text.length + result.text.length,
@@ -600,7 +608,7 @@ export const getSelectionText = (text, start) => {
   let result = delString(text, start + 1, text.length + 1);
   if (result) {
     result = JSON.stringify(result);
-    result && (result = result.replace(/\\n/g, "<br>"));
+    result && (result = result.replace(/\\n/g, '<br>'));
     result = JSON.parse(result);
   }
   return result;
@@ -620,40 +628,40 @@ export const getSelection = (textarea) => {
 // #region 类型
 // 根据URL返回文件类型
 export const getFileTagByUrl = (url) => {
-  const type = url.split(".").pop();
-  const typeArr = ["jpg", "jpeg", "png", "gif", "jfif"];
-  if (typeArr.findIndex((item) => type === item) !== -1) return "img";
-  if (type === "mp4") return "video";
+  const type = url.split('.').pop();
+  const typeArr = ['jpg', 'jpeg', 'png', 'gif', 'jfif'];
+  if (typeArr.findIndex((item) => type === item) !== -1) return 'img';
+  if (type === 'mp4') return 'video';
 };
 // 判断类型
 export const getType = (value) => {
-  if (Number.isNaN(value)) return "NaN";
+  if (Number.isNaN(value)) return 'NaN';
   const type = toString.call(value);
   // eslint-disable-next-line no-useless-escape
   const reg = /\\|\/|\?|\？|\*|\"|\“|\”|\'|\‘|\’|\<|\>|\{|\}|\[|\]|\【|\】|\：|\:|\、|\^|\$|\!|\~|\`|\|/g;
-  return type.replace(reg, "").split(" ")[1];
+  return type.replace(reg, '').split(' ')[1];
 };
 // 判断工具 如typeTool.isArray([])调用某一类型判断
-export const typeTool = { typeMap: ["Array", "Object", "Number", "String", "Boolean", "Undefined", "Null", "NaN", "Bigint", "Symbol", "Blob"] };
+export const typeTool = { typeMap: ['Array', 'Object', 'Number', 'String', 'Boolean', 'Undefined', 'Null', 'NaN', 'Bigint', 'Symbol', 'Blob'] };
 typeTool.typeMap.forEach((i) => {
   typeTool[`is${i}`] = (value) => getType(value) === i;
 });
 // 判断所有类型
 export const checkAllTypes = (value) => {
-  console.log("isArray? ", typeTool.isArray(value));
-  console.log("isObject? ", typeTool.isObject(value));
-  console.log("isNumber? ", typeTool.isNumber(value));
-  console.log("isString? ", typeTool.isString(value));
-  console.log("isBoolean? ", typeTool.isBoolean(value));
-  console.log("isUndefined? ", typeTool.isUndefined(value));
-  console.log("isNull? ", typeTool.isNull(value));
-  console.log("isNaN? ", typeTool.isNaN(value));
-  console.log("isBigint? ", typeTool.isBigint(value));
-  console.log("isSymbol? ", typeTool.isSymbol(value));
-  console.log("isBlob? ", typeTool.isBlob(value));
+  console.log('isArray? ', typeTool.isArray(value));
+  console.log('isObject? ', typeTool.isObject(value));
+  console.log('isNumber? ', typeTool.isNumber(value));
+  console.log('isString? ', typeTool.isString(value));
+  console.log('isBoolean? ', typeTool.isBoolean(value));
+  console.log('isUndefined? ', typeTool.isUndefined(value));
+  console.log('isNull? ', typeTool.isNull(value));
+  console.log('isNaN? ', typeTool.isNaN(value));
+  console.log('isBigint? ', typeTool.isBigint(value));
+  console.log('isSymbol? ', typeTool.isSymbol(value));
+  console.log('isBlob? ', typeTool.isBlob(value));
 };
 // 内容非空 不是 null undefined ""
-export const notEmpty = (value) => value !== null && value !== undefined && value !== "";
+export const notEmpty = (value) => value !== null && value !== undefined && value !== '';
 // 内容非空 不是 {} []
 export const notEmptyArrObj = (data) => !!(Array.isArray(data) ? data.length : Object.keys(data).length);
 // 内容非空 不是 null undefined "" {} []
@@ -678,7 +686,7 @@ export const initOptionsPure = (arr) => arr.map((i) => ({ label: i, value: i }))
 // initType(couponType, ["t"]);
 // console.log(couponType.get(0)); // i.couponType0
 export const initType = (obj, defaultKey = []) => {
-  Object.defineProperty(obj, "get", {
+  Object.defineProperty(obj, 'get', {
     get: () => {
       return (val) => {
         let item = {};
@@ -722,20 +730,20 @@ export const initRequestDataLimit = (requestData, indexArray, formData) => {
 // 地址路径转对象
 export const getRouteObj = (url) => {
   const routeObj = {};
-  const queryStr = url.split("?")[1];
+  const queryStr = url.split('?')[1];
   if (queryStr) {
-    const queryArr = queryStr.split("&");
+    const queryArr = queryStr.split('&');
     queryArr.forEach((i) => {
-      routeObj[i.split("=")[0]] = i.split("=")[1];
+      routeObj[i.split('=')[0]] = i.split('=')[1];
     });
   }
   return routeObj;
 };
 // 对象转地址路径
 export const setRouteObj = (data) => {
-  let res = "?";
+  let res = '?';
   for (const i in data) {
-    res = res + i + "=" + data[i] + "&";
+    res = res + i + '=' + data[i] + '&';
   }
   return res.slice(0, -1);
 };
@@ -745,12 +753,12 @@ export const getll = (val) => {
   let num = parseInt(val);
   if (num >= 1024 * 1024) {
     num = num / 1024 / 1024;
-    size = "GB";
+    size = 'GB';
   } else if (num >= 1024) {
     num = num / 1024;
-    size = "MB";
+    size = 'MB';
   } else {
-    size = "KB";
+    size = 'KB';
   }
   return initNum(num, 2) + size;
 };
@@ -758,11 +766,11 @@ export const getll = (val) => {
 
 // #region 工具
 // 获取页面加载时间
-export const getStartTime = () => window.performance.getEntriesByName("first-contentful-paint")[0].startTime;
+export const getStartTime = () => window.performance.getEntriesByName('first-contentful-paint')[0].startTime;
 // 文件类型大小判断
 export const fileValidate = (file) => {
   const mb = file.size / 1024 / 1024;
-  const fileTypeList = ["audio/mp3", "audio/mp4", "audio/mpeg", "audio/mpga", "audio/x-m4a", "audio/wav", "audio/webm"];
+  const fileTypeList = ['audio/mp3', 'audio/mp4', 'audio/mpeg', 'audio/mpga', 'audio/x-m4a', 'audio/wav', 'audio/webm'];
   const validate = fileTypeList.indexOf(file.type) !== -1 && mb < 25;
   return validate;
 };
@@ -852,16 +860,16 @@ export const cookie = {
   set(name, value, days, path) {
     if (!name || value === undefined) return false;
     if (!days) days = 1;
-    if (!path) path = "/";
+    if (!path) path = '/';
     let d = new Date();
     d.setTime(d.getTime() + days * 24 * 3600 * 1000);
-    document.cookie = name + "=" + JSON.stringify(value) + "; expires=" + d.toUTCString() + "; path=" + path;
+    document.cookie = name + '=' + JSON.stringify(value) + '; expires=' + d.toUTCString() + '; path=' + path;
   },
   get(name) {
     if (!name) return null;
-    let arr = document.cookie.split("; ");
+    let arr = document.cookie.split('; ');
     for (let i = 0; i < arr.length; i++) {
-      let temp = arr[i].split("=");
+      let temp = arr[i].split('=');
       if (temp[0] == name) {
         try {
           return JSON.parse(temp[1]);
@@ -874,11 +882,11 @@ export const cookie = {
   },
   del(name, path) {
     if (!name) return false;
-    if (!path) path = "/";
+    if (!path) path = '/';
     let d = new Date();
     d.setTime(d.getTime() - 10000);
     let val = JSON.stringify(this.get(name));
-    document.cookie = name + "=" + val + "; expires=" + d.toUTCString() + "; path=" + path;
+    document.cookie = name + '=' + val + '; expires=' + d.toUTCString() + '; path=' + path;
   },
 };
 // 代码中间插入延迟
@@ -896,7 +904,7 @@ export const isStructure = (data, index = 0) => {
   if (typeTool.isArray(data) || typeTool.isObject(data)) {
     isStructure(getFirstValue(data), index + 1);
   } else if (typeTool.isString(data) || typeTool.isNumber(data) || typeTool.isBoolean(data) || typeTool.isNull(data) || typeTool.isUndefined(data)) {
-    console.log("end");
+    console.log('end');
   }
 };
 // 返回第一个键值
@@ -958,7 +966,7 @@ export const fakeApi = (page = 1, size = 10, total = 30) =>
   new Promise((resolve, reject) => {
     setTimeout(() => {
       const res = { page, size, total, data: [], nextPage: null };
-      const getItem = () => ({ id: getRandom(5), createTime: new Date().getTime(), name: "Name" }); // 假数据对象
+      const getItem = () => ({ id: getRandom(5), createTime: new Date().getTime(), name: 'Name' }); // 假数据对象
       const page_X_size = res.page * res.size; // 查询上限
       const total_and_size = res.total + res.size;
       if (page_X_size <= res.total) {
@@ -995,14 +1003,14 @@ export const findMissingNumber = (arr) => {
 // 判断微信/QQ浏览器
 export const getBrowser = () => {
   const url = navigator.userAgent.toLowerCase();
-  if (url.indexOf("15b202 qq") > -1) {
-    console.log("QQ 内置浏览器");
+  if (url.indexOf('15b202 qq') > -1) {
+    console.log('QQ 内置浏览器');
   }
-  if (url.indexOf("micromessenger") > -1) {
-    console.log("微信 内置浏览器");
+  if (url.indexOf('micromessenger') > -1) {
+    console.log('微信 内置浏览器');
   }
-  if (url.indexOf("15b202") > -1) {
-    console.log("QQ和微信 内置浏览器");
+  if (url.indexOf('15b202') > -1) {
+    console.log('QQ和微信 内置浏览器');
   }
 };
 // 判断当前路径
@@ -1012,7 +1020,7 @@ export const hasUrl = (s) => findString(window.location.href, s)[0] !== undefine
 // 判断安卓
 export const isPC = () => {
   const userAgentInfo = navigator.userAgent;
-  const Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+  const Agents = ['Android', 'iPhone', 'SymbianOS', 'Windows Phone', 'iPad', 'iPod'];
   let flagPc = true;
   for (const i of Agents) {
     if (userAgentInfo.indexOf(i) > 0) {
@@ -1025,7 +1033,7 @@ export const isPC = () => {
 // 判断安卓
 export const isAndroid = () => {
   var u = navigator.userAgent;
-  if (u.indexOf("Android") > -1 || u.indexOf("Linux") > -1) {
+  if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
     return true;
   }
   return false;
@@ -1033,7 +1041,7 @@ export const isAndroid = () => {
 // 判断ios
 export const isIos = () => {
   var u = navigator.userAgent;
-  if (u.indexOf("iPhone") > -1 || u.indexOf("iOS") > -1) {
+  if (u.indexOf('iPhone') > -1 || u.indexOf('iOS') > -1) {
     return true;
   }
   return false;
@@ -1042,17 +1050,17 @@ export const isIos = () => {
 export const downloadIamge = (imgsrc, name) => {
   let image = new Image();
   // 解决跨域 Canvas 污染问题
-  image.setAttribute("crossOrigin", "anonymous");
+  image.setAttribute('crossOrigin', 'anonymous');
   image.onload = function () {
-    let canvas = document.createElement("canvas");
+    let canvas = document.createElement('canvas');
     canvas.width = image.width;
     canvas.height = image.height;
-    let context = canvas.getContext("2d");
+    let context = canvas.getContext('2d');
     context.drawImage(image, 0, 0, image.width, image.height);
-    let url = canvas.toDataURL("image/png"); //得到图片的base64编码数据
-    let a = document.createElement("a"); // 生成一个a元素
-    let event = new MouseEvent("click"); // 创建一个单击事件
-    a.download = name || "photo"; // 设置图片名称
+    let url = canvas.toDataURL('image/png'); //得到图片的base64编码数据
+    let a = document.createElement('a'); // 生成一个a元素
+    let event = new MouseEvent('click'); // 创建一个单击事件
+    a.download = name || 'photo'; // 设置图片名称
     a.href = url; // 将生成的URL设置为a.href属性
     a.dispatchEvent(event); // 触发a的单击事件
   };
@@ -1063,13 +1071,13 @@ export const downloadIamge = (imgsrc, name) => {
 // #region 请求
 // 请求图片 getImg(obj:{method:'get',url:'',async:true,params:null,header: { 'header-label': 'header-value' }}).then(r=>r)
 export const getImg = (obj) => {
-  if (!obj || !obj.url) return "";
-  obj.method = obj.method || "get"; // 请求方法，默认get
-  obj.async = obj.hasOwnProperty("async") ? obj.async : true; // 是否异步发送，默认true
+  if (!obj || !obj.url) return '';
+  obj.method = obj.method || 'get'; // 请求方法，默认get
+  obj.async = obj.hasOwnProperty('async') ? obj.async : true; // 是否异步发送，默认true
   const response = new XMLHttpRequest();
   response.open(obj.method, obj.url, obj.async);
   response.withCredentials = true; // 跨域发送cookie
-  response.responseType = "blob"; // 二进制数据
+  response.responseType = 'blob'; // 二进制数据
   // response.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded') // 跨域
   // response.setRequestHeader('Access-Control-Allow-Origin', '*'); // 跨域
   if (obj.header) {
@@ -1084,7 +1092,7 @@ export const getImg = (obj) => {
         if (response.status >= 200 && response.status < 300) {
           resolve(window.URL.createObjectURL(response.response));
         } else {
-          reject("");
+          reject('');
         }
       }
     };
@@ -1094,22 +1102,22 @@ export const getImg = (obj) => {
 // 下载二进制文件 （参数：响应体,文件名） 响应体有config,data,headers,request,status,statusTest 其中data是blob类型
 // 使用 downLoadFile(await api(params));
 // name 可能要带上文件类型后缀
-export const downLoadFile = (response, name = "") => {
-  let fileName = "";
+export const downLoadFile = (response, name = '') => {
+  let fileName = '';
   if (name) fileName = name;
   else {
     try {
-      fileName = response.headers["content-disposition"].split("=")[1];
+      fileName = response.headers['content-disposition'].split('=')[1];
     } catch (e) {
-      fileName = "download";
+      fileName = 'download';
     }
   }
   const blob = new Blob([response.data]);
   const url = window.URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.style.display = "none";
+  const link = document.createElement('a');
+  link.style.display = 'none';
   link.href = url;
-  link.setAttribute("download", fileName);
+  link.setAttribute('download', fileName);
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link); //下载完成移除元素
@@ -1121,7 +1129,7 @@ export const downLoadFile = (response, name = "") => {
 //   console.log(ip);
 // };
 export const getIP = () => {
-  let ip = "";
+  let ip = '';
   var ip_dups = {};
   var RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
   var useWebKit = !!window.webkitRTCPeerConnection;
@@ -1129,7 +1137,7 @@ export const getIP = () => {
     optional: [{ RtpDataChannels: true }],
   };
   var servers = {
-    iceServers: [{ urls: "stun:stun.services.mozilla.com" }, { urls: "stun:stun.l.google.com:19302" }],
+    iceServers: [{ urls: 'stun:stun.services.mozilla.com' }, { urls: 'stun:stun.l.google.com:19302' }],
   };
   var pc = new RTCPeerConnection(servers, mediaConstraints);
   function handleCandidate(candidate) {
@@ -1148,23 +1156,23 @@ export const getIP = () => {
       handleCandidate(ice.candidate.candidate);
     }
   };
-  pc.createDataChannel("");
+  pc.createDataChannel('');
   pc.createOffer(
     function (result) {
       pc.setLocalDescription(
         result,
         function () {},
-        function () {}
+        function () {},
       );
     },
-    function () {}
+    function () {},
   );
 
   return new Promise((resolve) => {
     setTimeout(() => {
-      var lines = pc.localDescription.sdp.split("\n");
+      var lines = pc.localDescription.sdp.split('\n');
       lines.forEach(function (line) {
-        if (line.indexOf("a=candidate:") === 0) handleCandidate(line);
+        if (line.indexOf('a=candidate:') === 0) handleCandidate(line);
       });
       resolve(ip);
     }, 500);
@@ -1180,7 +1188,7 @@ export const getIP2 = () => {
     window.RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
     const pc = new RTCPeerConnection({ iceServers: [] }),
       noop = function () {};
-    pc.createDataChannel("");
+    pc.createDataChannel('');
     pc.createOffer(pc.setLocalDescription.bind(pc), noop);
     pc.onicecandidate = function (ice) {
       if (ice && ice.candidate && ice.candidate.candidate) {
