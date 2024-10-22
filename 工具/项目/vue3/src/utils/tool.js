@@ -966,7 +966,7 @@ export const fakeApi = (page = 1, size = 10, total = 30) =>
   new Promise((resolve, reject) => {
     setTimeout(() => {
       const res = { page, size, total, data: [], nextPage: null };
-      const getItem = () => ({ id: getRandom(5), createTime: new Date().getTime(), name: 'Name' }); // 假数据对象
+      const getItem = () => ({ id: getRandom(8), createTime: new Date().getTime(), name: 'Name' }); // 假数据对象
       const page_X_size = res.page * res.size; // 查询上限
       const total_and_size = res.total + res.size;
       if (page_X_size <= res.total) {
@@ -987,7 +987,7 @@ export const fakeApi = (page = 1, size = 10, total = 30) =>
         res.nextPage = false;
       }
       resolve(res);
-    }, 1000);
+    }, 2000);
   });
 // 寻找丢失的数字 [0,1,2,3,5]=>4  [5,1,2,4,0]=>3  [1,2,3]=>0
 export const findMissingNumber = (arr) => {

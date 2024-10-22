@@ -5,10 +5,12 @@
   <div class="w100p h100p bc3 fc">
     <div class="br8 bc0 fy m24 fxc w100p cardshadow" style="height: 80vh">
       <div class="h56 fn f fyc pl20 pr20" style="border-bottom: 1px solid rgba(238, 238, 238, 1)">
-        <div class="fa fw6 fz18 lh28">List</div>
+        <div class="fa fw6 fz18 lh28">列表</div>
+        <input class="mr8" style="border: 1px solid" v-model="d.input" />
+        <button class="hp" @click="init">查询</button>
       </div>
-      <div class="p10 fa fn oy gx5" id="listDom">
-        <div v-for="i of d.list" :key="i" class="w100p h100p p10" style="">
+      <div class="p10 fa fn oy fw" id="listDom" v-show="d.list.length">
+        <div v-for="i of d.list" :key="i" class="w20p p10" style="">
           <div class="br8 fy cardhover hp" style="border: 1px solid rgba(238, 238, 238, 1); max-height: 240px">
             <div class="fz16 lh24 fw5 ellipsis2 h48 mt12 pl16 pr16">
               文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文
@@ -22,8 +24,11 @@
             </div>
           </div>
         </div>
+        <div class="w100p fc mt10 mb10" v-show="d.listLoading">加载中...</div>
+        <div class="w100p fc mt10 mb10" v-show="d.list.length == d.listTotal">无更多</div>
       </div>
-      <div class="w100p fc mt10 mb10" v-show="d.listLoading">加载中...</div>
+      <div class="fa fc" v-show="d.list.length == 0 && d.listLoading">加载中...</div>
+      <div class="fa fc" v-show="d.list.length == 0 && !d.listLoading">无数据</div>
     </div>
   </div>
 </template>
@@ -34,21 +39,25 @@ import * as __ from '@/utils/tool.js';
 const d = reactive({
   listLoading: false,
   param: {},
+  input: '',
   list: [],
   listTotal: null,
 });
-
+// 初始化
 const init = () => {
-  d.param = { page: 0, size: 10, total: 30 }; // 这里的 total 用来测试 fakeApi 的限制返回，实际上不需要
+  d.param = { page: 0, size: 10 };
   d.list = [];
   getList();
 };
-
+// 获取下一页
 const getList = async () => {
   if (d.listLoading) return;
-  if (d.list.length == d.listTotal) return;
+  if (d.list.length == d.listTotal && d.list.length > 0) return;
   d.listLoading = true;
-  const res = await __.fakeApi();
+  d.param.page++;
+  d.param.name = d.input || '';
+  console.log('d.param', d.param);
+  const res = await __.fakeApi(d.param.page, d.param.size, 11);
   d.listTotal = res.total;
   d.list.push(...res.data);
   d.listLoading = false;
@@ -56,6 +65,7 @@ const getList = async () => {
 
 onMounted(() => {
   init();
+  // 绑定滚动回调
   __.initListScroll('listDom', getList);
 });
 
