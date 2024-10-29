@@ -112,6 +112,12 @@ export const arrHaveItem = (arr, item) => {
   }
   return res;
 };
+// (排) 对数组(arr)根据(sortKey)属性排序,direction为up是升序排序，否则降序排序,该方法不改变原数组
+export const arrSort = (arr, sortKey, direction = 'up') => {
+  if (!arr.length) return [];
+  if (direction == 'up') return arr.slice().sort((i, _i) => i[sortKey] - _i[sortKey]);
+  else return arr.slice().sort((i, _i) => _i[sortKey] - i[sortKey]);
+};
 // 保留响应式给数组赋值
 export const copyArr = (arr, target) => {
   arr.length = 0;

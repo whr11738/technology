@@ -26,18 +26,18 @@
   </div>
 </template>
 <script setup>
-import { ref, reactive, onMounted, provide } from "vue";
-import { storage } from "@/utils/tool.js";
-import * as i18n from "@/i18n/index";
-import com from "@/components/index";
-import { ElMessage } from "element-plus";
-import userStore from "@/store/user";
+import { ref, reactive, onMounted, provide } from 'vue';
+import * as __ from '@/utils/tool.js';
+import * as i18n from '@/i18n/index';
+import com from '@/components/index';
+import { ElMessage } from 'element-plus';
+import userStore from '@/store/user';
 
 const { setLang, getLang, t } = i18n;
 
 const comRef = ref(null);
-const data1 = reactive({ name: "data1" });
-const data2 = reactive({ name: "data2" });
+const data1 = reactive({ name: 'data1' });
+const data2 = reactive({ name: 'data2' });
 const fun1 = (data) => {
   ElMessage.success(data);
 };
@@ -49,17 +49,17 @@ const fun3 = (data) => {
 };
 const toFun4 = () => {
   const { fun4 } = comRef.value;
-  fun4("触发子方法fun4，参数父数据");
+  fun4('触发子方法fun4，参数父数据');
 };
-provide("data2", data2);
-provide("fun3", fun3);
+provide('data2', data2);
+provide('fun3', fun3);
 
 onMounted(() => {
   setTimeout(() => {
     setInterval(() => {
-      data1.name = "data1 被父组件修改";
-      data2.name = "data2 被父组件修改";
-      comRef.value.data3.name = "data3 被父组件修改";
+      data1.name = 'data1 被父组件修改';
+      data2.name = 'data2 被父组件修改';
+      comRef.value.data3.name = 'data3 被父组件修改';
     }, 2000);
   }, 1000);
   setInterval(() => {
