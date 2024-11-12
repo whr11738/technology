@@ -1,3 +1,5 @@
+// 格式化src目录下文件
+// npx prettier --write src
 {
   "printWidth": 200, //每行最多显示的字符数
   "tabWidth": 2, //tab的宽度 2个字符
