@@ -1,4 +1,6 @@
 // #region 对象
+// 复制对象/数组
+export const copyObj = (obj) => JSON.parse(JSON.stringify(obj));
 // 数组转对象
 export const arrToObj = (arr) => {
   const res = {};
@@ -8,8 +10,18 @@ export const arrToObj = (arr) => {
   }
   return res;
 };
-// 复制对象/数组
-export const copyObj = (obj) => JSON.parse(JSON.stringify(obj));
+// 遍历一个对象包括里面的所有属性，以下类型会被遍历出来 Number String Boolean undefined，如 getObjKey({ a: 1, b: { c: '2', d: { e: true, f: { g: undefined } } } });
+export const getObjKey = (obj) => {
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      if (typeof obj[key] === 'object') getObjKey(obj[key]);
+      else {
+        console.log('属性:', key);
+        console.log('值:', obj[key]);
+      }
+    }
+  }
+};
 // 保留响应式给对象赋值
 export const copyVueObj = (arr, target) => {
   for (const i in target) {
@@ -201,6 +213,8 @@ export const addString = (str, target, start) => {
   const right = str.slice(start, length);
   return left + target + right;
 };
+// 根据位置替换字符串内容 （没有0，从1开始，start删除，end不删）    replaceStr('111', '1', '2')   111 => 121
+export const replaceStr = (str, index, newChar) => str.slice(0, parseInt(index)) + newChar + str.slice(parseInt(index) + 1);
 // 利用正则匹配处理字符串(目标，正则表达式，处理函数)    getRegStr('a-bc', /\-[a-z]/g, (i) => i.slice(1).toUpperCase());      a-bc => aBc
 export const getRegStr = (tag, reg, fun) => {
   if (!reg) return '';
