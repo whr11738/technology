@@ -546,7 +546,7 @@ export const domInViewport = (el) => {
 export const scrollView = (id) => {
   document.querySelector(`#${id}`).scrollIntoView({ behavior: 'smooth' });
 };
-// 使溢出滚动的div滚动到指定位置
+// 使溢出滚动的div滚动到指定位置 nextTick(() => { divScroll(getDom('domName'),0,'bottom') })
 export const divScroll = (el, val = 0, topOrBottom = 'top') => {
   if (!el) return;
   let { scrollHeight, offsetHeight } = el;
