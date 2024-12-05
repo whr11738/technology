@@ -94,41 +94,55 @@ export const ObjToUrl = (api, obj) => {
 // #endregion
 
 // #region 数组
+// 是纯数组
+export const arrPure = (arr) => !typeTool.isObject(arr[0]);
 // (增) 在数组(arr)索引(index)位置后面插入item
-export const arrAddIndex = (index, item) => arr.splice(index + 1, 0, item);
-// (增) 在数组(arr)中属性(key)值为val的目标后面插入item
-export const arrAddItem = (arr, key, val, item) => arr.splice(arrFindIndex(arr, key, val) + 1, 0, item);
+export const arrAddIndex = (arr, index, item) => arr.splice(index + 1, 0, item);
+// (增) 在数组(arr)中属性(key)值为(val)的目标后面插入item，纯数组key传null
+export const arrAddItem = (arr, key, val, item) => {
+  if (arrPure(arr)) return arr.splice(arrFindIndex(arr, val) + 1, 0, item);
+  else return arr.splice(arrFindIndex(arr, key, val) + 1, 0, item);
+};
 // (删) 根据索引(index)删除数组(arr)中目标
 export const arrDelIndex = (arr, index) => arr.splice(index, 1);
-// (删) 删除数组(arr)中属性(key)值为val的目标
-export const arrDelItem = (arr, key, val) => arr.splice(arrFindIndex(arr, key, val), 1);
-// (查) 查找数组(arr)中属性(key)值为val的目标的索引
-export const arrFindIndex = (arr, key, val) => arr.findIndex((item) => item[key] === val);
-// (查) 查找数组(arr)中属性(key)值为val的目标
+// (删) 删除数组(arr)中属性(key)值为(val)的目标，纯数组key传null
+export const arrDelItem = (arr, key, val) => {
+  if (arrPure(arr)) return arr.splice(arrFindIndex(arr, val), 1);
+  else return arr.splice(arrFindIndex(arr, key, val), 1);
+};
+// (查) 查找数组(arr)中属性(key)值为(val)的目标的索引，纯数组key传null
+export const arrFindIndex = (arr, key, val) => {
+  if (arrPure(arr)) return arr.findIndex((item) => item === val);
+  else return arr.findIndex((item) => item[key] === val);
+};
+// (查) 查找对象数组(arr)中属性(key)值为(val)的目标
 export const arrFindItem = (arr, key, val) => {
   const i = arr.findIndex((item) => item[key] === val);
   return i === -1 ? null : arr[i];
 };
-// (查) 查找数组(arr)中属性(key)值为val的目标的属性（goal）的值
+// (查) 查找对象数组(arr)中属性(key)值为(val)的目标的属性(goal)的值
 export const arrFind = (arr, key, val, goal) => {
   const i = arr.findIndex((item) => item[key] === val);
   return i === -1 ? null : arr[i][goal];
 };
-// (查) 查找数组中是否存在val
-export const arrHave = (arr, val) => arr.indexOf(val) !== -1;
-// (查) 查找对象数组中是否存在item
-export const arrHaveItem = (arr, item) => {
-  let res = false;
-  for (const i of arr) {
-    if (JSON.stringify(i) === JSON.stringify(item)) res = true;
+// (查) 查找数组中是否存在(item)
+export const arrHave = (arr, item) => {
+  if (arrPure(arr)) return arr.indexOf(item) !== -1;
+  else {
+    for (const i of arr) if (JSON.stringify(i) === JSON.stringify(item)) return true;
+    return false;
   }
-  return res;
 };
-// (排) 对数组(arr)根据(sortKey)属性排序,direction为up是升序排序，否则降序排序,该方法不改变原数组
-export const arrSort = (arr, sortKey, direction = 'up') => {
+// (排) 对数组(arr)根据(key)属性排序,direction为up是升序排序，否则降序排序，该方法不改变原数组，纯数组key传null
+export const arrSort = (arr, key, direction = 'up') => {
   if (!arr.length) return [];
-  if (direction == 'up') return arr.slice().sort((i, _i) => i[sortKey] - _i[sortKey]);
-  else return arr.slice().sort((i, _i) => _i[sortKey] - i[sortKey]);
+  if (arrPure(arr)) {
+    if (direction == 'up') return arr.slice().sort((i, _i) => i - _i);
+    else return arr.slice().sort((i, _i) => _i - i);
+  } else {
+    if (direction == 'up') return arr.slice().sort((i, _i) => i[key] - _i[key]);
+    else return arr.slice().sort((i, _i) => _i[key] - i[key]);
+  }
 };
 // 保留响应式给数组赋值
 export const copyArr = (arr, target) => {
