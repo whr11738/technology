@@ -12,6 +12,6 @@
 <script setup></script>
 
 <style lang="less">
-@import url("./style/style_index.css");
-@import url("./style/styles_less.less");
+@import url('./style/style_index.css');
+@import url('./style/styles_less.less');
 </style>
