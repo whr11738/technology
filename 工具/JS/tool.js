@@ -704,6 +704,19 @@ export const notEmpty = (value) => value !== null && value !== undefined && valu
 export const notEmptyArrObj = (data) => !!(Array.isArray(data) ? data.length : Object.keys(data).length);
 // 内容非空 不是 null undefined "" {} []
 export const fullData = (data) => (typeTool.isArray(data) || typeTool.isObject(data) ? notEmptyArrObj(data) : notEmpty(data));
+// html转义 v-html="translateHTML(html)"
+export const translateHTML = (html) =>
+  String(html || '')
+    .replace(/&#39;/g, `'`)
+    .replace(/&apos;/g, `'`)
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/{/g, '')
+    .replace(/}/g, '')
+    .replace(/\\/g, '')
+    .replace(/position:fixed/g, 'position:relative');
 // #endregion
 
 // #region 数据
