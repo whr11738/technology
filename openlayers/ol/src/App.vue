@@ -1,15 +1,19 @@
 <template>
   <div>
-    <router-view v-slot="{ Component }">
-      <transition name="fade">
-        <!-- <transition> -->
-        <component :is="Component" />
-      </transition>
-    </router-view>
+    <div id="map" class="w100w h100h"></div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref, onMounted } from 'vue'; // vue相关方法
+import * as mapTool from '@/utils/gis/ol';
+
+onMounted(() => {
+  mapTool.initMap();
+  // mapTool.addOverlay();
+  mapTool.addOverlay2();
+});
+</script>
 
 <style lang="less">
 @import url('./style/style_index.css');
