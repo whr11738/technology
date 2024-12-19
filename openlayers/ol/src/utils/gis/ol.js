@@ -8,8 +8,8 @@ import Overlay from 'ol/Overlay';
 import { fromLonLat } from 'ol/proj';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
-import { Vector as VectorLayer } from 'ol/layer';
-import { Vector as VectorSource } from 'ol/source';
+import { Vector as VectorLayer } from 'ol/layer'; // 矢量图层
+import { Vector as VectorSource } from 'ol/source'; // 矢量数据
 import { Style, Icon } from 'ol/style';
 import { Translate } from 'ol/interaction';
 import { defaults as defaultInteractions, DragRotateAndZoom } from 'ol/interaction';
@@ -17,12 +17,10 @@ import { defaults as defaultInteractions, DragRotateAndZoom } from 'ol/interacti
 import ico from './ico.ico';
 
 let map = null; // 存放地图实例
-const posX = 113.37310399318999;
-const posY = 23.12297649456611;
+let overlay = null;
 
 // 初始化地图
-export const initMap = () => {
-  // 地图实例
+export const initMap = (options) => {
   map = new Map({
     target: 'map', // 对应页面里 id 为 map 的元素
     layers: [
@@ -33,10 +31,10 @@ export const initMap = () => {
         source: new XYZ({ url: 'https://webrd01.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}' }), // 使用高德
       }),
     ],
+    // 地图视图
     view: new View({
-      // 地图视图
       projection: 'EPSG:4326', // 坐标系，有EPSG:4326和EPSG:3857
-      center: [posX, posY], // 中心坐标
+      center: options.pos, // 中心坐标
       minZoom: 0, // 最小缩放级别
       maxZoom: 18, // 最大缩放级别
       zoom: 15, // 地图缩放级别（打开页面时默认级别）
@@ -52,14 +50,14 @@ export const initMap = () => {
 };
 
 // 给地图添加元素
-export const addOverlay = () => {
+export const addOverlay = (options) => {
   // 你可以给元素添加任意的内容或属性或样式，也可以给元素绑定事件
   let el = document.createElement('div');
   el.className = 'w28 h28 br50 bc7 fc c0 hp';
   el.textContent = '1';
   let marker = new Overlay({
     element: el, // 要显示的元素
-    position: fromLonLat([posX, posY], 'EPSG:4326'), // 地图投影的位置
+    position: fromLonLat(options.pos, 'EPSG:4326'), // 地图投影的位置
     offset: [0, 0], // 元素显示的像素偏移量
     autoPan: true, // 自动移动地图以完整的显示元素
   });
@@ -70,10 +68,10 @@ export const addOverlay = () => {
 };
 
 // 给地图添加图片
-export const addOverlay2 = () => {
+export const addOverlay2 = (options) => {
   // 实例化要素
   let feature = new Feature({
-    geometry: new Point([posX, posY]), // 地理几何图形选用点几何
+    geometry: new Point(options.pos), // 地理几何图形选用点几何
   });
   // 设置样式，这里就是显示一张图片icon
   feature.setStyle([
@@ -86,12 +84,9 @@ export const addOverlay2 = () => {
       }),
     }),
   ]);
-  // 矢量源
-  let source = new VectorSource({ features: [feature] }); // 实例化的时候也可以不添加feature，后续通过方法添加：source.addFeatures([feature])
-
-  // 矢量图层
-  let vector = new VectorLayer({ source });
-  // translateFeature(vector); // 可拖动
+  let source = new VectorSource({ features: [feature] }); // 矢量源 实例化的时候也可以不添加feature，后续通过方法添加：source.addFeatures([feature])
+  let vector = new VectorLayer({ source }); // 矢量图层
+  translateFeature(vector); // 可拖动
   // 样式除了可以设置在单个feature上，也可以统一设置在矢量图层上
   // let vector = new VectorLayer({
   //   source,
@@ -120,26 +115,34 @@ const translateFeature = (feature) => {
   });
 };
 
-// 地图标点添加提示弹窗
-export const showTip = () => {
+// 地图添加提示弹窗
+export const showTip = (options) => {
   // 创建Overlayer
-  this.tooltipOverlay = new Overlay({
-    element: this.$refs.olPopup,
+  overlay = new Overlay({
+    element: options.tipDom,
     positioning: 'bottom-center', // 根据position属性的位置来进行相对点位
-    offset: [0, -30], // 在positioning之上再进行偏移
+    offset: [0, 0], // 在positioning之上再进行偏移
     autoPan: true,
+    stopEvent: false,
   });
-  map.addOverlay(this.tooltipOverlay);
+  map.addOverlay(overlay);
+};
 
-  // 给地图绑定鼠标移动事件，检测鼠标位置所在是否存在feature，如果是目标feature的话就显示tooltip
+// Feature添加样式
+export const pointermove = () => {
   map.on('pointermove', (e) => {
-    this.olPopupText = '';
-    map.forEachFeatureAtPixel(e.pixel, (f, layer) => {
-      if (layer !== this.vectorLayer || !f.get('data')) {
-        return false;
-      }
-      this.olPopupText = f.get('data');
-      this.tooltipOverlay.setPosition(f.getGeometry().getCoordinates());
-    });
+    if (map.hasFeatureAtPixel(e.pixel)) map.getViewport().style.cursor = 'pointer';
+    else map.getViewport().style.cursor = 'inherit';
+  });
+};
+
+// 地图点击显示弹窗
+export const singleclick = () => {
+  // 点击
+  map.on('singleclick', (e) => {
+    let feature = map.forEachFeatureAtPixel(e.pixel, (feature) => feature);
+    // 判断是否点击在点上
+    if (feature) overlay.setPosition(feature.getGeometry().getCoordinates()); // 显示弹窗位置
+    else overlay.setPosition(undefined); // 隐藏弹窗位置
   });
 };
