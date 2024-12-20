@@ -21,7 +21,11 @@ const d = reactive({
 const initMap1 = () => {
   const pos1 = [113.37310399318999, 23.12297649456611];
   const pos2 = [113.36309041374084, 23.121647418783482];
-  const options = { dom: 'mapDom', position: pos1 };
+  const options = {
+    domId: 'mapDom',
+    position: pos1,
+    source: 'https://webrd01.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
+  };
   const map = new olMap(options); // 初始化地图
   map.addLayer(); // 添加图层
 
