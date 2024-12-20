@@ -1,5 +1,5 @@
 <template>
-  <!-- ol封装 -->
+  <!-- ol普通地图 打点和提示弹窗 -->
   <div class="w100p h100p">
     <div id="mapDom" class="w100p h100p"></div>
     <div id="tipDom" class="br4 pt12 pb12 pl20 pr20 fy bc0" style="min-width: 200px">
@@ -27,7 +27,7 @@ const initMap1 = () => {
     source: 'https://webrd01.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
   };
   const map = new olMap(options); // 初始化地图
-  map.addLayer(); // 添加图层
+  map.addLayer(); // 添加默认图层
 
   map.addFeature({
     position: pos1,

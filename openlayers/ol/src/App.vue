@@ -2,6 +2,7 @@
   <div class="w100w h100h">
     <ol1 v-if="d.showol == 1" />
     <ol2 v-if="d.showol == 2" />
+    <ol3 v-if="d.showol == 3" />
   </div>
 </template>
 
@@ -9,9 +10,10 @@
 import { ref, reactive, onMounted } from 'vue';
 import ol1 from '@/components/ol1';
 import ol2 from '@/components/ol2';
+import ol3 from '@/components/ol3';
 
 const d = reactive({
-  showol: 2,
+  showol: 3,
 });
 </script>
 

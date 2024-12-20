@@ -1,7 +1,7 @@
 import 'ol/ol.css';
 import { Map, View, Overlay, Feature } from 'ol';
 import Tile from 'ol/layer/Tile';
-import { XYZ, OSM } from 'ol/source';
+import { XYZ, OSM, Cluster } from 'ol/source';
 import { defaults, FullScreen, MousePosition, ScaleLine } from 'ol/control';
 import { fromLonLat } from 'ol/proj';
 import Point from 'ol/geom/Point';
@@ -10,6 +10,7 @@ import { Vector as VectorSource } from 'ol/source';
 import { Style, Icon, Fill, Stroke, Circle, Text } from 'ol/style';
 import { Translate } from 'ol/interaction';
 import { defaults as defaultInteractions, DragRotateAndZoom } from 'ol/interaction';
+import { boundingExtent } from 'ol/extent';
 
 export default class olMap {
   map = null;
@@ -20,16 +21,17 @@ export default class olMap {
   }
   // 初始化地图
   initMap(options) {
-    const { domId, position, source } = options;
+    let { domId, position, source, zoom = 15 } = options;
+    source = source ? new XYZ({ url: source }) : new OSM();
     this.map = new Map({
       target: domId,
-      layers: [new Tile({ source: new XYZ({ url: source }) })],
-      view: new View({ projection: 'EPSG:4326', center: position, minZoom: 0, maxZoom: 18, zoom: 15, constrainResolution: true }),
+      layers: [new Tile({ source })],
+      view: new View({ projection: 'EPSG:4326', center: position, minZoom: 0, maxZoom: 18, zoom, constrainResolution: true }),
       controls: defaults().extend([new FullScreen(), new MousePosition(), new ScaleLine()]),
       interactions: defaultInteractions().extend([new DragRotateAndZoom()]),
     });
   }
-  // 添加图层
+  // 添加默认图层
   addLayer() {
     this.source = new VectorSource({});
     this.vector = new VectorLayer({ source: this.source });
@@ -40,12 +42,7 @@ export default class olMap {
     const { position, name, id, data } = options;
     const feature = new Feature({ geometry: new Point(position), name });
     // 标点
-    const style = [
-      new Style({
-        image: new Circle({ radius: 14, stroke: new Stroke({ color: '#fff' }), fill: new Fill({ color: '#003460' }) }),
-        // text: new Text({ textAlign: 'center', textBaseline: 'middle', font: 'bold 16px 微软雅黑', text: '1', fill: new Fill({ color: '#FFF' }) }),
-      }),
-    ];
+    const style = [new Style({ image: new Circle({ radius: 14, stroke: new Stroke({ color: '#fff' }), fill: new Fill({ color: '#003460' }) }) })];
     feature.setStyle(style);
     feature.setId(id);
     if (data) feature.setProperties(data); // 设置数据
@@ -105,6 +102,50 @@ export default class olMap {
     this.map.on('pointermove', (e) => {
       if (this.map.hasFeatureAtPixel(e.pixel)) this.map.getViewport().style.cursor = 'pointer';
       else this.map.getViewport().style.cursor = 'inherit';
+    });
+  }
+  // 根据坐标数组生成feature
+  initFeatureList(featureList) {
+    const res = [];
+    for (const i of featureList) {
+      res.push(new Feature(new Point(i)));
+    }
+    return res;
+  }
+  // 添加聚类图图层
+  initCluster(featureList = []) {
+    const features = this.initFeatureList(featureList);
+    const clusterSource = new Cluster({ source: new VectorSource({ features }) });
+    clusterSource.setDistance(100);
+    clusterSource.setMinDistance(50);
+    const styleCache = {};
+    const clusters = new VectorLayer({
+      source: clusterSource,
+      style: function (feature) {
+        const size = feature.get('features').length;
+        let style = styleCache[size];
+        if (!style) {
+          style = new Style({
+            image: new Circle({ radius: 14, stroke: new Stroke({ color: '#fff' }), fill: new Fill({ color: '#003460' }) }),
+            text: new Text({ textAlign: 'center', textBaseline: 'middle', font: 'bold 14px 微软雅黑', text: size.toString(), fill: new Fill({ color: '#fff' }) }),
+          });
+          styleCache[size] = style;
+        }
+        return style;
+      },
+    });
+    this.map.addLayer(clusters);
+    // 点击feature会放大查看
+    this.map.on('click', (e) => {
+      clusters.getFeatures(e.pixel).then((clickedFeatures) => {
+        if (clickedFeatures.length) {
+          const features = clickedFeatures[0].get('features');
+          if (features.length > 1) {
+            const extent = boundingExtent(features.map((r) => r.getGeometry().getCoordinates()));
+            this.map.getView().fit(extent, { duration: 1000, padding: [50, 50, 50, 50] });
+          }
+        }
+      });
     });
   }
 }
