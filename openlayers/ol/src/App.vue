@@ -3,6 +3,7 @@
     <ol1 v-if="d.showol == 1" />
     <ol2 v-if="d.showol == 2" />
     <ol3 v-if="d.showol == 3" />
+    <ol4 v-if="d.showol == 4" />
   </div>
 </template>
 
@@ -11,9 +12,10 @@ import { ref, reactive, onMounted } from 'vue';
 import ol1 from '@/components/ol1';
 import ol2 from '@/components/ol2';
 import ol3 from '@/components/ol3';
+import ol4 from '@/components/ol4';
 
 const d = reactive({
-  showol: 3,
+  showol: 4,
 });
 </script>
 

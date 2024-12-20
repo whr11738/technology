@@ -1,23 +1,24 @@
 import 'ol/ol.css';
 import { Map, View, Overlay, Feature } from 'ol';
-import Tile from 'ol/layer/Tile';
 import { XYZ, OSM, Cluster } from 'ol/source';
 import { defaults, FullScreen, MousePosition, ScaleLine } from 'ol/control';
 import { fromLonLat } from 'ol/proj';
 import Point from 'ol/geom/Point';
-import { Vector as VectorLayer } from 'ol/layer';
+import { Vector as VectorLayer, Heatmap as HeatmapLayer, Tile as TileLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
 import { Style, Icon, Fill, Stroke, Circle, Text } from 'ol/style';
 import { Translate } from 'ol/interaction';
 import { defaults as defaultInteractions, DragRotateAndZoom } from 'ol/interaction';
 import { boundingExtent } from 'ol/extent';
+import KML from 'ol/format/KML.js';
+import StadiaMaps from 'ol/source/StadiaMaps.js';
 
 export default class olMap {
   map = null;
   source = null;
   vector = null;
   constructor(options) {
-    this.initMap(options);
+    // this.initMap(options);
   }
   // 初始化地图
   initMap(options) {
@@ -25,7 +26,7 @@ export default class olMap {
     source = source ? new XYZ({ url: source }) : new OSM();
     this.map = new Map({
       target: domId,
-      layers: [new Tile({ source })],
+      layers: [new TileLayer({ source })],
       view: new View({ projection: 'EPSG:4326', center: position, minZoom: 0, maxZoom: 18, zoom, constrainResolution: true }),
       controls: defaults().extend([new FullScreen(), new MousePosition(), new ScaleLine()]),
       interactions: defaultInteractions().extend([new DragRotateAndZoom()]),
@@ -146,6 +147,39 @@ export default class olMap {
           }
         }
       });
+    });
+  }
+  // 添加热力图图层
+  initHeatmap() {
+    const vector = new HeatmapLayer({
+      source: new VectorSource({
+        url: 'data/kml/2012_Earthquakes_Mag5.kml',
+        format: new KML({
+          extractStyles: false,
+        }),
+      }),
+      blur: 5,
+      radius: 15,
+      weight: function (feature) {
+        const name = feature.get('name');
+        const magnitude = parseFloat(name.substr(2));
+        return magnitude - 5;
+      },
+    });
+
+    const raster = new TileLayer({
+      source: new StadiaMaps({
+        layer: 'stamen_toner',
+      }),
+    });
+
+    new Map({
+      layers: [raster, vector],
+      target: 'mapDom',
+      view: new View({
+        center: [0, 0],
+        zoom: 2,
+      }),
     });
   }
 }

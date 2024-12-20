@@ -1,9 +1,8 @@
 <template>
-  <!-- ol使用案例 -->
+  <!-- ol使用案例 引入的是_ol 点击弹出dom和可拖动图标 -->
   <div class="w100p h100p">
     <div id="map" class="w100p h100p"></div>
     <div class="pl20 pr20 pt16 pb16 br16 fc bc0" ref="olPop">{{ d.tip }}</div>
-    <div class="w28 h28 br50 bc7 fc c0 hp">{{ d.value }}</div>
   </div>
 </template>
 
@@ -23,7 +22,6 @@ onMounted(() => {
     tipDom: olPop.value,
   };
   mapTool.initMap(options);
-  // mapTool.addOverlay(options);
   mapTool.addOverlay2(options);
   mapTool.showTip(options);
   mapTool.pointermove();
