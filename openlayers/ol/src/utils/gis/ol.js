@@ -9,13 +9,16 @@ import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import { Vector as VectorLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
-import { Style, Icon, Fill, Stroke, Circle } from 'ol/style';
+import { Style, Icon, Fill, Stroke, Circle, Text } from 'ol/style';
 import { Translate } from 'ol/interaction';
 import { defaults as defaultInteractions, DragRotateAndZoom } from 'ol/interaction';
 
 import ico from './ico.ico';
 
 export default class olMap {
+  map = null;
+  source = null;
+  vector = null;
   constructor(options) {
     this.initMap(options);
   }
@@ -29,15 +32,46 @@ export default class olMap {
       interactions: defaultInteractions().extend([new DragRotateAndZoom()]),
     });
   }
-  // 添加标点
-  addLayer(position) {
-    const feature = new Feature({ geometry: new Point(position) });
-    feature.setStyle([new Style({ image: new Circle({ radius: 12, stroke: new Stroke({ color: '#fff' }), fill: new Fill({ color: '#003460' }) }) })]); // 添加标点
-    // feature.setStyle([new Style({ image: new Icon({ anchor: [0, 0], src: ico, offset: [0, 0] }) })]); // 添加图片
-    const source = new VectorSource({});
-    source.addFeatures([feature]);
-    const vector = new VectorLayer({ source });
-    this.map.addLayer(vector);
+  // 添加图层
+  addLayer() {
+    this.source = new VectorSource({});
+    this.vector = new VectorLayer({ source: this.source });
+    this.map.addLayer(this.vector);
+  }
+  // 添加feature 必传:position,id
+  addFeature(options, type = 'dot') {
+    const { position, name, id, data } = options;
+    const feature = new Feature({ geometry: new Point(position), name });
+    // 标点
+    const style1 = [
+      new Style({
+        image: new Circle({ radius: 14, stroke: new Stroke({ color: '#fff' }), fill: new Fill({ color: '#003460' }) }),
+        // text: new Text({ textAlign: 'center', textBaseline: 'middle', font: 'bold 16px 微软雅黑', text: '1', fill: new Fill({ color: '#FFF' }) }),
+      }),
+    ];
+    const style2 = [new Style({ image: new Icon({ anchor: [0, 0], src: ico, offset: [0, 0] }) })]; // 图片
+    feature.setStyle(type == 'dot' ? style1 : style2);
+    feature.setId(id);
+    if (data) feature.setProperties(data); // 设置数据
+    this.source.addFeatures([feature]);
+  }
+  // 根据id获取feature
+  getFeature(featureId) {
+    return this.source.getFeatureById(featureId);
+  }
+  // 根据id获取feature数据
+  getFeatureData(featureId) {
+    const feature = this.source.getFeatureById(featureId);
+    return feature.getProperties();
+  }
+  // 获取feature列表
+  getFeatureList() {
+    return this.source.getFeatures();
+  }
+  // 根据id移除feature
+  removeFeature(featureId) {
+    const feature = this.source.getFeatureById(featureId);
+    this.source.removeFeature(feature);
   }
   // 添加overlay
   addOverlay(id, position, positioning, offset = [0, 0]) {
@@ -61,11 +95,13 @@ export default class olMap {
     return this.map.getOverlays().array_;
   }
   // 点击feature显示弹窗
-  singleclick(overlay) {
+  singleclick(overlay, callback) {
     this.map.on('singleclick', (e) => {
       const feature = this.map.forEachFeatureAtPixel(e.pixel, (feature) => feature);
-      if (feature) overlay.setPosition(feature.getGeometry().getCoordinates());
-      else overlay.setPosition(undefined);
+      if (feature) {
+        overlay.setPosition(feature.getGeometry().getCoordinates());
+        if (callback) callback(feature);
+      } else overlay.setPosition(undefined);
     });
   }
   // 悬浮feature添加样式

@@ -23,11 +23,31 @@ const initMap1 = () => {
   const pos2 = [113.36309041374084, 23.121647418783482];
   const options = { dom: 'mapDom', position: pos1 };
   const map = new olMap(options); // 初始化地图
-  map.addLayer(pos1); // 添加标点1
-  map.addLayer(pos2); // 添加标点2
+  map.addLayer(); // 添加图层
+
+  map.addFeature({
+    position: pos1,
+    id: 1,
+    data: { value: 'feature1' },
+  }); // 添加标点1
+  map.addFeature({
+    position: pos2,
+    id: 2,
+    data: { value: 'feature2' },
+  }); // 添加标点2
+  console.log('feature1', map.getFeatureData(1)); // 获取标点1
+  map.addFeature({ position: pos2, name: 'name', id: 3 }, 'img'); // 添加标点3
+  map.removeFeature(3); // 移除标点3
+
   map.pointermove(); // 鼠标变手
-  const tipDom = map.addOverlay('tipDom', null, 'bottom'); // 添加提示弹窗
-  map.singleclick(tipDom); // 添加点击标点：点击出现提示弹窗
+  const tipDom = map.addOverlay('tipDom', null, 'bottom', [0, 0]); // 添加提示弹窗
+  // 添加点击标点：点击出现提示弹窗
+  map.singleclick(tipDom, (feature) => {
+    if (!feature) return;
+    console.log('feature', feature);
+    const data = map.getFeatureData(feature.id_);
+    d.value = data.value;
+  });
 };
 
 const go = () => {
