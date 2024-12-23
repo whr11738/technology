@@ -1,7 +1,9 @@
 <template>
   <!-- ol热力图 -->
   <div class="w100p h100p">
-    <div id="mapDom" class="w100p h100p"></div>
+    <div id="mapDom" class="w100p h100p pr">
+      <div class="pa w200 br20 h100 bc0 z100 fc o7 fy" style="left: 12px; bottom: 36px">图例提示</div>
+    </div>
   </div>
 </template>
 
