@@ -115,7 +115,9 @@ export default class olMap {
   }
   // 添加聚类图图层
   initCluster(featureList = []) {
-    const features = this.initFeatureList(featureList);
+    const features = featureList.map((i) => {
+      return new Feature(new Point(i));
+    });
     const clusterSource = new Cluster({ source: new VectorSource({ features }) });
     clusterSource.setDistance(100);
     clusterSource.setMinDistance(50);
@@ -150,14 +152,19 @@ export default class olMap {
     });
   }
   // 添加热力图图层
-  initHeatmap(data = []) {
-    const heatmapSource = new VectorSource({ format: new KML({ extractStyles: false }) });
-    data.forEach((i) => {
+  initHeatmap(featureList = []) {
+    const features = featureList.map((i) => {
       const feature = new Feature(new Point(i.position));
       feature.set('weight', i.weight);
-      heatmapSource.addFeature(feature);
+      return feature;
     });
-    const Heatmap = new HeatmapLayer({ source: heatmapSource, blur: 5, radius: 15 });
-    this.map.addLayer(Heatmap);
+    const heatmapSource = new VectorSource({ format: new KML({ extractStyles: false }) });
+    features.forEach((i) => {
+      heatmapSource.addFeature(i);
+    });
+    const heatmap = new HeatmapLayer({ source: heatmapSource });
+    heatmap.setBlur(5);
+    heatmap.setRadius(15);
+    this.map.addLayer(heatmap);
   }
 }
