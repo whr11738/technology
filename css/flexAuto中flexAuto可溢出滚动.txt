@@ -1,14 +1,14 @@
 <!-- 横向 -->
 <div class="h100 w200 f bc3">
   <div class="w100 fc fn">box</div>
-    <div class="fa f ox">
+  <div class="fa f ox">
     <div v-for="i in 10" :key="i" class="h100p w20 fc fn">{{ i }}</div>
   </div>
 </div>
 <!-- 纵向 -->
 <div class="h200 w100 fy bc3">
   <div class="h100 fc fn">box</div>
-    <div class="fa oy">
+  <div class="fa oy">
     <div v-for="i in 10" :key="i" class="w100p h20 fc">{{ i }}</div>
   </div>
 </div>
@@ -16,4 +16,5 @@
 重点：
 1.有些需要flex: none实现正确的宽或高
 2.父盒子要有确定的宽或高
-3.如果父盒子的宽高是通过flex: auto得到，可能需要width: 100%和height: 100%
+3.如果父盒子的宽高是通过flex: auto得到，可能需要width: 100%和height: 100%，如果出现问题，可以尝试width: 0和height: 0
+
