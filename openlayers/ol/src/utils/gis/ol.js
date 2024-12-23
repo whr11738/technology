@@ -18,7 +18,7 @@ export default class olMap {
   source = null;
   vector = null;
   constructor(options) {
-    // this.initMap(options);
+    this.initMap(options);
   }
   // 初始化地图
   initMap(options) {
@@ -150,36 +150,14 @@ export default class olMap {
     });
   }
   // 添加热力图图层
-  initHeatmap() {
-    const vector = new HeatmapLayer({
-      source: new VectorSource({
-        url: 'data/kml/2012_Earthquakes_Mag5.kml',
-        format: new KML({
-          extractStyles: false,
-        }),
-      }),
-      blur: 5,
-      radius: 15,
-      weight: function (feature) {
-        const name = feature.get('name');
-        const magnitude = parseFloat(name.substr(2));
-        return magnitude - 5;
-      },
+  initHeatmap(data = []) {
+    const heatmapSource = new VectorSource({ format: new KML({ extractStyles: false }) });
+    data.forEach((i) => {
+      const feature = new Feature(new Point(i.position));
+      feature.set('weight', i.weight);
+      heatmapSource.addFeature(feature);
     });
-
-    const raster = new TileLayer({
-      source: new StadiaMaps({
-        layer: 'stamen_toner',
-      }),
-    });
-
-    new Map({
-      layers: [raster, vector],
-      target: 'mapDom',
-      view: new View({
-        center: [0, 0],
-        zoom: 2,
-      }),
-    });
+    const Heatmap = new HeatmapLayer({ source: heatmapSource, blur: 5, radius: 15 });
+    this.map.addLayer(Heatmap);
   }
 }
