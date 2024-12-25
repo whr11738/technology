@@ -39,10 +39,9 @@ export default class olMap {
     this.map.addLayer(this.vector);
   }
   // 添加feature 必传:position,id
-  addFeature(options, type = 'dot') {
+  addFeature(options) {
     const { position, name, id, data } = options;
     const feature = new Feature({ geometry: new Point(position), name });
-    // 标点
     const style = [new Style({ image: new Circle({ radius: 14, stroke: new Stroke({ color: '#fff' }), fill: new Fill({ color: '#003460' }) }) })];
     feature.setStyle(style);
     feature.setId(id);
