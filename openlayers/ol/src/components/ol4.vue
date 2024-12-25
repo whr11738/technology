@@ -26,12 +26,11 @@ const initMap1 = () => {
   const map = new olMap(options); // 初始化地图
   map.initHeatmap(data); // 添加热力图图层
 
-  setTimeout(() => {
-    console.log('map', map.map.getView());
-    // map.setCenter([110.82707993169805, 22.681510950594856]);
-    // map.setZoom(10);
-    map.setRotation(45);
-  }, 2000);
+  // setTimeout(() => {
+  //   map.setCenter([113.36309041374084, 23.121647418783482]); // 设置地图中心点
+  //   map.setZoom(14); // 设置地图缩放等级
+  //   map.setRotation(45); // 设置地图旋转角度
+  // }, 2000);
 };
 
 onMounted(() => {
