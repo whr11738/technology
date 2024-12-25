@@ -14,10 +14,10 @@ import KML from 'ol/format/KML.js';
 import StadiaMaps from 'ol/source/StadiaMaps.js';
 
 export default class olMap {
-  map = null;
-  source = null;
-  vector = null;
   constructor(options) {
+    this.map = null;
+    this.source = null;
+    this.vector = null;
     this.initMap(options);
   }
   // 初始化地图
@@ -111,6 +111,24 @@ export default class olMap {
       res.push(new Feature(new Point(i)));
     }
     return res;
+  }
+  // 设置地图中心点
+  setCenter(newCenter) {
+    const view = this.map.getView();
+    // view.setCenter(newCenter);
+    view.animate({ center: newCenter, duration: 1000, easing: (t) => 0.5 * (1 - Math.cos(Math.PI * t)) });
+  }
+  // 设置地图缩放等级
+  setZoom(newZoom) {
+    const view = this.map.getView();
+    // view.setZoom(newZoom);
+    view.animate({ zoom: newZoom, duration: 1000, easing: (t) => 0.5 * (1 - Math.cos(Math.PI * t)) });
+  }
+  // 设置地图旋转角度
+  setRotation(newRotation) {
+    const view = this.map.getView();
+    // view.setRotation(newRotation);
+    view.animate({ rotation: newRotation, duration: 1000, easing: (t) => 0.5 * (1 - Math.cos(Math.PI * t)) });
   }
   // 添加聚类图图层
   initCluster(featureList = []) {

@@ -25,6 +25,13 @@ const initMap1 = () => {
   };
   const map = new olMap(options); // 初始化地图
   map.initHeatmap(data); // 添加热力图图层
+
+  setTimeout(() => {
+    console.log('map', map.map.getView());
+    // map.setCenter([110.82707993169805, 22.681510950594856]);
+    // map.setZoom(10);
+    map.setRotation(45);
+  }, 2000);
 };
 
 onMounted(() => {
