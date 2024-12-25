@@ -42,7 +42,7 @@ export default class olMap {
   addFeature(options) {
     const { position, name, id, data } = options;
     const feature = new Feature({ geometry: new Point(position), name });
-    const style = [new Style({ image: new Circle({ radius: 14, stroke: new Stroke({ color: '#fff' }), fill: new Fill({ color: '#003460' }) }) })];
+    const style = [new Style({ image: new Circle({ radius: 14, stroke: new Stroke({ color: '#fff', width: 2 }), fill: new Fill({ color: '#003460' }) }) })];
     feature.setStyle(style);
     feature.setId(id);
     if (data) feature.setProperties(data); // 设置数据
