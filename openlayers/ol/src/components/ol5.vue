@@ -47,8 +47,8 @@ const initMap = () => {
   const feature1 = olMap.addFeature(map, { id: 1, position: pos1, data: { v: 123 } }); // 添加feature
   const feature2 = olMap.addFeature(map, { id: 2, position: pos2, data: { v: 321 } }); // 添加feature
   console.log(olMap.getFeature(map, 1)); // 获取feature
-  console.log(olMap.getFeatureData(map, 1)); // 获取feature数据
-  console.log(olMap.getFeatureList(map)); // 获取feature数据
+  console.log(olMap.getFeatureData(feature1)); // 获取feature1数据
+  console.log(olMap.getFeatureList(map)); // 获取所有feature
   // olMap.removeFeature(map, 1); // 移除feature
   const tipDom = olMap.addOverlay(map, 'tipDom', null, 'bottom', [0, 0]); // 添加overlay提示弹窗
   // 点击feature1显示overlay
@@ -61,7 +61,7 @@ const initMap = () => {
   });
   // olMap.delOverlay(map, tipDom); // 删除overlay
   console.log(olMap.getOverlayList(map)); // 获取所有overlay
-  olMap.pointermove(map); // 悬浮feature时候鼠标变手
+  olMap.featurePointer(map); // 悬浮feature时候鼠标变手
   // 设置最佳视图
   olMap.bestView(
     map,

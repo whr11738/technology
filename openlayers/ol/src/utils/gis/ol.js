@@ -69,11 +69,8 @@ export const addFeature = (map, options) => {
 };
 // 根据id获取feature
 export const getFeature = (map, featureId) => getDefaultSource(map).getFeatureById(featureId);
-// 根据id获取feature数据
-export const getFeatureData = (map, featureId) => {
-  const feature = getDefaultSource(map).getFeatureById(featureId);
-  return feature.getProperties();
-};
+// 获取feature数据
+export const getFeatureData = (feature) => feature.getProperties();
 // 获取feature列表
 export const getFeatureList = (map) => getDefaultSource(map).getFeatures();
 // 根据id移除feature
@@ -119,7 +116,7 @@ export const delOverlay = (map, overlays) => map.removeOverlay(overlays);
 // 获取所有overlay
 export const getOverlayList = (map) => map.getOverlays().array_;
 // 悬浮feature时候鼠标变手
-export const pointermove = (map) => {
+export const featurePointer = (map) => {
   map.on('pointermove', (e) => {
     if (map.hasFeatureAtPixel(e.pixel)) map.getViewport().style.cursor = 'pointer';
     else map.getViewport().style.cursor = 'inherit';
