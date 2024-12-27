@@ -2,7 +2,7 @@ import 'ol/ol.css';
 import { Map, View, Overlay, Feature } from 'ol';
 import { XYZ, OSM, Cluster } from 'ol/source';
 import { defaults, FullScreen, MousePosition, ScaleLine } from 'ol/control';
-import { fromLonLat } from 'ol/proj';
+import * as proj from 'ol/proj';
 import Point from 'ol/geom/Point';
 import { Vector as VectorLayer, Heatmap as HeatmapLayer, Tile as TileLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
@@ -80,7 +80,7 @@ export default class olMap {
     const marker = new Overlay({
       element: document.getElementById(id),
       positioning,
-      position: position ? fromLonLat(position, 'EPSG:4326') : null,
+      position: position ? proj.fromLonLat(position, 'EPSG:4326') : null,
       offset,
       autoPan: true,
       stopEvent: false,
@@ -138,6 +138,23 @@ export default class olMap {
     const view = this.map.getView();
     // view.setRotation(newRotation);
     view.animate({ rotation: newRotation, duration: 1000, easing: (t) => 0.5 * (1 - Math.cos(Math.PI * t)) });
+  }
+  // 设置最佳视图: 最佳中心点 最佳缩放等级
+  bestView(coords) {
+    if (coords.length === 0) return 0;
+    let minLon = coords[0][0];
+    let minLat = coords[0][1];
+    let maxLon = coords[0][0];
+    let maxLat = coords[0][1];
+    coords.forEach((coord) => {
+      minLon = Math.min(minLon, coord[0]);
+      minLat = Math.min(minLat, coord[1]);
+      maxLon = Math.max(maxLon, coord[0]);
+      maxLat = Math.max(maxLat, coord[1]);
+    });
+    // const bestCenter = [(minLon + maxLon) / 2, (minLat + maxLat) / 2]; // 最佳中心点
+    const view = this.map.getView();
+    view.fit([minLon, minLat, maxLon, maxLat]);
   }
   // 添加聚类图图层
   initCluster(featureList = []) {
