@@ -11,21 +11,14 @@
 import { ref, reactive, onMounted } from 'vue';
 import olMap from '@/utils/gis/ol';
 
-const initMap1 = () => {
-  const pos1 = [113.37310399318999, 23.12297649456611];
-  const pos2 = [113.36309041374084, 23.121647418783482];
-  const pos3 = [113.3734259821404, 23.133270941159424];
-  const pos4 = [113.34658958709501, 23.133356676265155];
-  const pos5 = [113.36527909629699, 23.12802057683809];
-  const pos6 = [113.20608129145079, 23.145935626801837];
-  const posList = [pos1, pos2, pos3, pos4, pos5, pos6];
+const initMap = () => {
   const data = [
-    { position: pos1, weight: 0.2 },
-    { position: pos2, weight: 0.4 },
-    { position: pos3, weight: 0.6 },
-    { position: pos4, weight: 0.8 },
-    { position: pos5, weight: 1 },
-    { position: pos6, weight: 1 },
+    { position: [113.37310399318999, 23.12297649456611], weight: 0.2 },
+    { position: [113.36309041374084, 23.121647418783482], weight: 0.4 },
+    { position: [113.3734259821404, 23.133270941159424], weight: 0.6 },
+    { position: [113.34658958709501, 23.133356676265155], weight: 0.8 },
+    { position: [113.36527909629699, 23.12802057683809], weight: 1 },
+    { position: [113.20608129145079, 23.145935626801837], weight: 1 },
   ];
   const options = {
     domId: 'mapDom',
@@ -35,11 +28,11 @@ const initMap1 = () => {
   };
   const map = new olMap(options); // 初始化地图
   map.initHeatmap(data); // 添加热力图图层
-  map.bestView(posList); // 设置最佳视图
+  map.bestView(data.map((i) => i.position)); // 设置最佳视图
 };
 
 onMounted(() => {
-  initMap1();
+  initMap();
 });
 </script>
 
