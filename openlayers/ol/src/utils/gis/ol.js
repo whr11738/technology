@@ -140,6 +140,22 @@ export const setRotation = (map, newRotation) => {
   // view.setRotation(newRotation);
   view.animate({ rotation: newRotation, duration: 1000, easing: (t) => 0.5 * (1 - Math.cos(Math.PI * t)) });
 };
+// 设置最佳视图: 最佳中心点
+export const bestCenter = (map, coords) => {
+  if (coords.length === 0) return 0;
+  let minLon = coords[0][0];
+  let minLat = coords[0][1];
+  let maxLon = coords[0][0];
+  let maxLat = coords[0][1];
+  coords.forEach((coord) => {
+    minLon = Math.min(minLon, coord[0]);
+    minLat = Math.min(minLat, coord[1]);
+    maxLon = Math.max(maxLon, coord[0]);
+    maxLat = Math.max(maxLat, coord[1]);
+  });
+  const bestCenter = [(minLon + maxLon) / 2, (minLat + maxLat) / 2];
+  setCenter(map, bestCenter);
+};
 // 设置最佳视图: 最佳中心点 最佳缩放等级
 export const bestView = (map, coords) => {
   if (coords.length === 0) return 0;
@@ -187,7 +203,7 @@ export const initCluster = (map, featureList = []) => {
         const features = clickedFeatures[0].get('features');
         if (features.length > 1) {
           const extent = boundingExtent(features.map((r) => r.getGeometry().getCoordinates()));
-          this.map.getView().fit(extent, { duration: 1000, padding: [50, 50, 50, 50] });
+          map.getView().fit(extent, { duration: 1000, padding: [50, 50, 50, 50] });
         }
       }
     });
