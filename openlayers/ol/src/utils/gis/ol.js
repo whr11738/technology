@@ -209,3 +209,5 @@ export const initHeatmap = (map, featureList = []) => {
   heatmap.setRadius(15);
   map.addLayer(heatmap);
 };
+// 移除地图
+export const delMap = (map) => map.dispose();
