@@ -23,11 +23,20 @@ export default class olMap {
   // 初始化地图
   initMap(options) {
     let { domId, position, source, zoom = 15 } = options;
+    position[0] = Number(position[0]);
+    position[1] = Number(position[1]);
     source = source ? new XYZ({ url: source }) : new OSM();
     this.map = new Map({
       target: domId,
       layers: [new TileLayer({ source })],
-      view: new View({ projection: 'EPSG:4326', center: position, minZoom: 0, maxZoom: 18, zoom, constrainResolution: true }),
+      view: new View({
+        projection: 'EPSG:4326', // 支持 EPSG:4326 和 EPSG:3857(默认)
+        center: position,
+        minZoom: 0,
+        maxZoom: 18,
+        zoom,
+        constrainResolution: true,
+      }),
       controls: defaults().extend([new FullScreen(), new MousePosition(), new ScaleLine()]),
       interactions: defaultInteractions().extend([new DragRotateAndZoom()]),
     });
