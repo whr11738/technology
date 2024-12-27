@@ -7,7 +7,7 @@
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue';
-import olMap from '@/utils/gis/ol';
+import olMap from '@/utils/gis/__ol';
 
 const initMap1 = () => {
   const pos1 = [113.37310399318999, 23.12297649456611];

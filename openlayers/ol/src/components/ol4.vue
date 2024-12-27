@@ -9,7 +9,7 @@
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue';
-import olMap from '@/utils/gis/ol';
+import olMap from '@/utils/gis/__ol';
 
 const initMap = () => {
   const data = [
