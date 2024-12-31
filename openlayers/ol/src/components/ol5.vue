@@ -33,10 +33,8 @@ const initMap = () => {
   const pos1 = [113.28082725567143, 23.135220619803032];
   const pos2 = [113.22679325348787, 23.12499828961806];
   const options = {
-    domId: 'mapDom',
-    position: [0, 0],
+    // target: 'mapDom',
     source: 'https://webrd01.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
-    zoom: 0,
   };
   map = olMap.initMap(options); // 初始化地图
   olMap.initHeatmap(map, data1); // 添加热力图图层

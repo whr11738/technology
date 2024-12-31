@@ -15,23 +15,27 @@ import StadiaMaps from 'ol/source/StadiaMaps.js';
 
 // 初始化地图
 export const initMap = (options) => {
-  let { domId, position, source, zoom = 15 } = options;
-  position[0] = Number(position[0]);
-  position[1] = Number(position[1]);
+  let { target = 'mapDom', center = [0, 0], source, zoom = 0, showFullScreen = true, showMousePosition = true, showScaleLine = true } = options;
+  center[0] = Number(center[0]);
+  center[1] = Number(center[1]);
   source = source ? new XYZ({ url: source }) : new OSM();
+  const controlsArr = [];
+  if (showFullScreen) controlsArr.push(new FullScreen());
+  if (showMousePosition) controlsArr.push(new MousePosition());
+  if (showScaleLine) controlsArr.push(new ScaleLine());
   return new Map({
-    target: domId,
+    target,
     layers: [new TileLayer({ source })],
     view: new View({
       projection: 'EPSG:4326', // 支持 EPSG:4326 和 EPSG:3857(默认)
-      center: position,
+      center,
       minZoom: 0,
       maxZoom: 18,
       zoom,
       constrainResolution: true,
     }),
-    controls: defaults().extend([new FullScreen(), new MousePosition(), new ScaleLine()]),
-    interactions: defaultInteractions().extend([new DragRotateAndZoom()]),
+    controls: defaults().extend(controlsArr), // 地图控件
+    interactions: defaultInteractions().extend([new DragRotateAndZoom()]), // 按住Shift旋转地图
   });
 };
 // 获取所有图层
