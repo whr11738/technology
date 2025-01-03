@@ -66,6 +66,9 @@ const initMap = () => {
     data1.map((i) => i.position),
   );
   // setTimeout(() => {
+  //   olMap.delAllLayer(map); // 移除所有图层
+  // }, 3000);
+  // setTimeout(() => {
   //   olMap.delMap(map); // 移除地图
   // }, 3000);
 };

@@ -40,6 +40,13 @@ export const initMap = (options) => {
 };
 // 获取所有图层
 export const getLayerList = (map) => map.getLayers().getArray();
+// 移除所有图层 保留基础地图图层
+export const delAllLayer = (map) => {
+  const layersArray = map.getLayers().getArray().slice();
+  layersArray.forEach((i, _i) => {
+    if (_i !== 0) map.removeLayer(i);
+  });
+};
 // 根据名字获取图层
 export const getLayer = (map, name = 'default') => {
   for (const i of map.getLayers().getArray()) {
@@ -115,7 +122,7 @@ export const featureShowOverlay = (map, feature, overlay, callback) => {
     } else overlay.setPosition(undefined);
   });
 };
-// 删除overlay
+// 移除overlay
 export const delOverlay = (map, overlays) => map.removeOverlay(overlays);
 // 获取所有overlay
 export const getOverlayList = (map) => map.getOverlays().array_;
