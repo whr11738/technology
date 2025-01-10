@@ -1,1 +1,10 @@
-看看本地缓存，清理一下
+1.看看本地缓存，清理一下
+
+2.浏览器有缓存，没有拉取最新的资源
+
+ <!-- 浏览器不缓存 -->
+ <meta http-equiv="pragma" content="no-cache" />
+ <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
+ <!-- 下一行代码：浏览器会在缓存过期后（1小时）重新从服务器验证资源的有效性， -->
+ <!-- <meta http-equiv="cache-control" content="max-age=3600, must-revalidate"> -->
+ <meta http-equiv="expires" content="0" />
