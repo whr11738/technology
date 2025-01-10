@@ -7,7 +7,7 @@ import Point from 'ol/geom/Point';
 import { Vector as VectorLayer, Heatmap as HeatmapLayer, Tile as TileLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
 import { Style, Icon, Fill, Stroke, Circle, Text } from 'ol/style';
-import { Translate } from 'ol/interaction';
+import { Translate, DragPan } from 'ol/interaction';
 import { defaults as defaultInteractions, DragRotateAndZoom } from 'ol/interaction';
 import { boundingExtent } from 'ol/extent';
 import KML from 'ol/format/KML.js';
@@ -23,7 +23,7 @@ export const initMap = (options) => {
   if (showFullScreen) controlsArr.push(new FullScreen());
   if (showMousePosition) controlsArr.push(new MousePosition());
   if (showScaleLine) controlsArr.push(new ScaleLine());
-  return new Map({
+  const map = new Map({
     target,
     layers: [new TileLayer({ source })],
     view: new View({
@@ -36,6 +36,14 @@ export const initMap = (options) => {
     }),
     controls: defaults().extend(controlsArr), // 地图控件
     interactions: defaultInteractions().extend([new DragRotateAndZoom()]), // 按住Shift旋转地图
+  });
+  map.addInteraction(new DragPan()); // 将 DragPan 交互添加到地图中
+  return map;
+};
+// 允许/禁止 拖拽地图
+export const dragMap = (map, draggable = flase) => {
+  map.getInteractions().forEach((interaction) => {
+    if (interaction instanceof DragPan) interaction.setActive(draggable);
   });
 };
 // 获取所有图层
@@ -105,23 +113,50 @@ export const addOverlay = (map, domId, position = 'null', positioning = 'bottom'
 // 点击/悬浮 任意feature显示overlay
 export const showOverlay = (map, options) => {
   const { overlay, callback, method = 'singleclick' } = options; // method 可选 pointermove
+  const overlayDom = overlay.getElement();
+  overlayDom.addEventListener('mouseenter', (e) => {
+    dragMap(map, false); // 鼠标移动进 overlay 时阻止地图拖拽，用于可选取 overlay 中文本
+  });
+  overlayDom.addEventListener('mouseleave', (e) => {
+    dragMap(map, true); // 鼠标移动出 overlay 时允许地图拖拽
+  });
   map.on(method, (e) => {
     const feature = map.forEachFeatureAtPixel(e.pixel, (feature) => feature);
+    const coordinate = e.coordinate; // 获取点击事件的坐标
+    const pixel = map.getPixelFromCoordinate(coordinate);
+    const clickedElement = document.elementFromPoint(pixel[0], pixel[1]); // 获取点击位置的最顶层 DOM 元素
+    const isClickOnOverlay = clickedElement === overlayDom || overlayDom.contains(clickedElement); // 检查点击的元素是否有 overlay
     if (feature) {
       overlay.setPosition(feature.getGeometry().getCoordinates());
       if (callback) callback(feature);
-    } else overlay.setPosition(undefined);
+    } else {
+      if (!isClickOnOverlay) overlay.setPosition(undefined); // 点击 overlay 以外的地方 overlay 消失
+    }
   });
 };
 // 点击/悬浮 某个feature显示overlay
 export const featureShowOverlay = (map, options) => {
   const { feature, overlay, callback, method = 'singleclick' } = options; // method 可选 pointermove
+  const overlayDom = overlay.getElement();
+  overlayDom.addEventListener('mouseenter', (e) => {
+    dragMap(map, false); // 鼠标移动进 overlay 时阻止地图拖拽，用于可选取 overlay 中文本
+  });
+  overlayDom.addEventListener('mouseleave', (e) => {
+    dragMap(map, true); // 鼠标移动出 overlay 时允许地图拖拽
+  });
   map.on(method, (e) => {
     const _feature = map.forEachFeatureAtPixel(e.pixel, (feature) => feature);
+    const coordinate = e.coordinate; // 获取点击事件的坐标
+    const pixel = map.getPixelFromCoordinate(coordinate);
+    const clickedElement = document.elementFromPoint(pixel[0], pixel[1]); // 获取点击位置的最顶层 DOM 元素
+    const isClickOnOverlay = clickedElement === overlayDom || overlayDom.contains(clickedElement); // 检查点击的元素是否有 overlay
+
     if (feature == _feature) {
       overlay.setPosition(feature.getGeometry().getCoordinates());
       if (callback) callback(feature);
-    } else overlay.setPosition(undefined);
+    } else {
+      if (!isClickOnOverlay) overlay.setPosition(undefined); // 点击 overlay 以外的地方 overlay 消失
+    }
   });
 };
 // 移除overlay
