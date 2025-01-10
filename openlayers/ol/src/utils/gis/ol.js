@@ -102,9 +102,10 @@ export const addOverlay = (map, domId, position = 'null', positioning = 'bottom'
   map.addOverlay(marker);
   return marker;
 };
-// 点击任意feature显示overlay
-export const showOverlay = (map, overlay, callback) => {
-  map.on('singleclick', (e) => {
+// 点击/悬浮 任意feature显示overlay
+export const showOverlay = (map, options) => {
+  const { overlay, callback, method = 'singleclick' } = options; // method 可选 pointermove
+  map.on(method, (e) => {
     const feature = map.forEachFeatureAtPixel(e.pixel, (feature) => feature);
     if (feature) {
       overlay.setPosition(feature.getGeometry().getCoordinates());
@@ -112,9 +113,10 @@ export const showOverlay = (map, overlay, callback) => {
     } else overlay.setPosition(undefined);
   });
 };
-// 点击某个feature显示overlay
-export const featureShowOverlay = (map, feature, overlay, callback) => {
-  map.on('singleclick', (e) => {
+// 点击/悬浮 某个feature显示overlay
+export const featureShowOverlay = (map, options) => {
+  const { feature, overlay, callback, method = 'singleclick' } = options; // method 可选 pointermove
+  map.on(method, (e) => {
     const _feature = map.forEachFeatureAtPixel(e.pixel, (feature) => feature);
     if (feature == _feature) {
       overlay.setPosition(feature.getGeometry().getCoordinates());

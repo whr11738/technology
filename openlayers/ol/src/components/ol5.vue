@@ -49,14 +49,22 @@ const initMap = () => {
   console.log(olMap.getFeatureList(map)); // 获取所有feature
   // olMap.removeFeature(map, 1); // 移除feature
   const tipDom = olMap.addOverlay(map, 'tipDom', null, 'bottom', [0, 0]); // 添加overlay提示弹窗
-  // 点击feature1显示overlay
-  // olMap.featureShowOverlay(map, feature1, tipDom, () => {
-  //   console.log('featureShowOverlay');
-  // });
-  // 点击任意点显示Overlay提示弹窗
-  olMap.showOverlay(map, tipDom, () => {
-    console.log('showOverlay');
+  // 悬浮feature1显示overlay
+  olMap.featureShowOverlay(map, {
+    feature: feature1,
+    overlay: tipDom,
+    callback: () => {
+      console.log('featureShowOverlay');
+    },
+    method: 'pointermove',
   });
+  // 点击任意点显示Overlay提示弹窗
+  // olMap.showOverlay(map, {
+  //   overlay: tipDom,
+  //   callback: () => {
+  //     console.log('showOverlay');
+  //   },
+  // });
   // olMap.delOverlay(map, tipDom); // 删除overlay
   console.log(olMap.getOverlayList(map)); // 获取所有overlay
   olMap.featurePointer(map); // 悬浮feature时候鼠标变手
