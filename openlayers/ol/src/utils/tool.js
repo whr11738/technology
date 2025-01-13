@@ -1,4 +1,6 @@
 // #region 对象
+// 对象转数组
+export const objToArr = (obj) => Object.entries(obj).map(([key, value]) => ({ key, value }));
 // 对象转URL
 export const ObjToUrl = (api, obj) => {
   let url = api + '?';
