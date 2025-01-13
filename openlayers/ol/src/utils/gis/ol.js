@@ -42,7 +42,7 @@ export const initMap = (options) => {
   return map;
 };
 // 允许/禁止 拖拽地图
-export const dragMap = (map, draggable = flase) => {
+export const dragMap = (map, draggable = false) => {
   map.getInteractions().forEach((interaction) => {
     if (interaction instanceof DragPan) interaction.setActive(draggable);
   });
@@ -115,10 +115,10 @@ export const addOverlay = (map, domId, position = 'null', positioning = 'bottom'
 export const showOverlay = (map, options) => {
   const { overlay, callback, method = 'singleclick' } = options; // method 可选 pointermove
   const overlayDom = overlay.getElement();
-  overlayDom.addEventListener('mouseenter', (e) => {
+  overlayDom.addEventListener('mouseenter', () => {
     dragMap(map, false); // 鼠标移动进 overlay 时阻止地图拖拽，用于可选取 overlay 中文本
   });
-  overlayDom.addEventListener('mouseleave', (e) => {
+  overlayDom.addEventListener('mouseleave', () => {
     dragMap(map, true); // 鼠标移动出 overlay 时允许地图拖拽
   });
   map.on(method, (e) => {
@@ -142,10 +142,10 @@ export const showOverlay = (map, options) => {
 export const featureShowOverlay = (map, options) => {
   const { feature, overlay, callback, method = 'singleclick' } = options; // method 可选 pointermove
   const overlayDom = overlay.getElement();
-  overlayDom.addEventListener('mouseenter', (e) => {
+  overlayDom.addEventListener('mouseenter', () => {
     dragMap(map, false); // 鼠标移动进 overlay 时阻止地图拖拽，用于可选取 overlay 中文本
   });
-  overlayDom.addEventListener('mouseleave', (e) => {
+  overlayDom.addEventListener('mouseleave', () => {
     dragMap(map, true); // 鼠标移动出 overlay 时允许地图拖拽
   });
   map.on(method, (e) => {
