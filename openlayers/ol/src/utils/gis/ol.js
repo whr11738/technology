@@ -38,6 +38,7 @@ export const initMap = (options) => {
     interactions: defaultInteractions().extend([new DragRotateAndZoom()]), // 按住Shift旋转地图
   });
   map.addInteraction(new DragPan()); // 将 DragPan 交互添加到地图中
+  map.mapDom = document.getElementById(target); // 将地图容器dom也放进去
   return map;
 };
 // 允许/禁止 拖拽地图
@@ -124,7 +125,10 @@ export const showOverlay = (map, options) => {
     const feature = map.forEachFeatureAtPixel(e.pixel, (feature) => feature);
     const coordinate = e.coordinate; // 获取点击事件的坐标
     const pixel = map.getPixelFromCoordinate(coordinate);
-    const clickedElement = document.elementFromPoint(pixel[0], pixel[1]); // 获取点击位置的最顶层 DOM 元素
+    const rect = map.mapDom.getBoundingClientRect(); // 计算地图容器相对于视口的位置
+    const viewportX = pixel[0] + rect.left + window.scrollX; // 将地图的像素坐标转换为视口坐标
+    const viewportY = pixel[1] + rect.top + window.scrollY; // 将地图的像素坐标转换为视口坐标
+    const clickedElement = document.elementFromPoint(viewportX, viewportY); // 使用转换后的坐标获取最顶层的 DOM 元素
     const isClickOnOverlay = clickedElement === overlayDom || overlayDom.contains(clickedElement); // 检查点击的元素是否有 overlay
     if (feature) {
       overlay.setPosition(feature.getGeometry().getCoordinates());
@@ -148,9 +152,12 @@ export const featureShowOverlay = (map, options) => {
     const _feature = map.forEachFeatureAtPixel(e.pixel, (feature) => feature);
     const coordinate = e.coordinate; // 获取点击事件的坐标
     const pixel = map.getPixelFromCoordinate(coordinate);
-    const clickedElement = document.elementFromPoint(pixel[0], pixel[1]); // 获取点击位置的最顶层 DOM 元素
+    const mapDom = document.getElementById('mapDom');
+    const rect = map.mapDom.getBoundingClientRect(); // 计算地图容器相对于视口的位置
+    const viewportX = pixel[0] + rect.left + window.scrollX; // 将地图的像素坐标转换为视口坐标
+    const viewportY = pixel[1] + rect.top + window.scrollY; // 将地图的像素坐标转换为视口坐标
+    const clickedElement = document.elementFromPoint(viewportX, viewportY); // 使用转换后的坐标获取最顶层的 DOM 元素
     const isClickOnOverlay = clickedElement === overlayDom || overlayDom.contains(clickedElement); // 检查点击的元素是否有 overlay
-
     if (feature == _feature) {
       overlay.setPosition(feature.getGeometry().getCoordinates());
       if (callback) callback(feature);
