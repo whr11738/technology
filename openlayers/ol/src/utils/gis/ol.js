@@ -152,7 +152,6 @@ export const featureShowOverlay = (map, options) => {
     const _feature = map.forEachFeatureAtPixel(e.pixel, (feature) => feature);
     const coordinate = e.coordinate; // 获取点击事件的坐标
     const pixel = map.getPixelFromCoordinate(coordinate);
-    const mapDom = document.getElementById('mapDom');
     const rect = map.mapDom.getBoundingClientRect(); // 计算地图容器相对于视口的位置
     const viewportX = pixel[0] + rect.left + window.scrollX; // 将地图的像素坐标转换为视口坐标
     const viewportY = pixel[1] + rect.top + window.scrollY; // 将地图的像素坐标转换为视口坐标
