@@ -176,15 +176,17 @@ export const featurePointer = (map) => {
     else map.getViewport().style.cursor = 'inherit';
   });
 };
-// 设置地图中心点
-export const setCenter = (map, newCenter) => {
+// 设置地图中心点 callback:回调函数
+export const setCenter = (map, newCenter, callback) => {
   const view = map.getView();
   // view.setCenter(newCenter);
-  view.animate({ center: newCenter, duration: 1000, easing: (t) => 0.5 * (1 - Math.cos(Math.PI * t)) });
+  view.animate({ center: newCenter, duration: 1000, easing: (t) => 0.5 * (1 - Math.cos(Math.PI * t)) }, () => callback && callback());
 };
 // 设置地图缩放等级
-export const setZoom = (map, newZoom) => {
+export const setZoom = (map, newZoom = 0) => {
   const view = map.getView();
+  const zoom = view.getZoom();
+  if (zoom == newZoom) return;
   // view.setZoom(newZoom);
   view.animate({ zoom: newZoom, duration: 1000, easing: (t) => 0.5 * (1 - Math.cos(Math.PI * t)) });
 };
