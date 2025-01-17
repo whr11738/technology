@@ -1,4 +1,6 @@
 // #region 对象
+// 对象转数组
+export const objToArr = (obj) => Object.entries(obj).map(([key, value]) => ({ key, value }));
 // 对象转URL
 export const ObjToUrl = (api, obj) => {
   let url = api + '?';
@@ -816,6 +818,30 @@ export const getll = (val) => {
 // #endregion
 
 // #region 工具
+// 颜色转换 __.hexToRgb('#efefef') => rgb(239, 239, 239)
+export const hexToRgb = (hex) => {
+  hex = hex.replace(/^#/, '');
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+  return 'rgb(' + r + ', ' + g + ', ' + b + ')';
+};
+// 颜色转换 __.rgbToHex(239, 239, 239) => #efefef
+export const rgbToHex = (r, g, b) => {
+  let hexR = Math.floor(r).toString(16);
+  let hexG = Math.floor(g).toString(16);
+  let hexB = Math.floor(b).toString(16);
+  hexR = hexR.length === 1 ? '0' + hexR : hexR;
+  hexG = hexG.length === 1 ? '0' + hexG : hexG;
+  hexB = hexB.length === 1 ? '0' + hexB : hexB;
+  return '#' + hexR + hexG + hexB;
+};
+// 获取字符串中括号中的内容 __.getContents('fun(x, y, z);') => ['x', ' y', ' z']
+export const getContents = (inputStr) => {
+  const match = inputStr.match(/\(([^)]+)\)/);
+  if (match && match[1]) return match[1].split(',');
+  return [];
+};
 // 获取页面加载时间
 export const getStartTime = () => window.performance.getEntriesByName('first-contentful-paint')[0].startTime;
 // 文件类型大小判断

@@ -27,12 +27,13 @@
 </template>
 <script setup>
 import { ref, reactive, onMounted, provide } from 'vue';
-import * as __ from '@/utils/tool.js';
+// import * as __ from '@/utils/tool.js';
 import * as i18n from '@/i18n/index';
 import com from '@/components/index';
 import { ElMessage } from 'element-plus';
 import userStore from '@/store/user';
 
+const { __ } = document;
 const { setLang, getLang, t } = i18n;
 
 const comRef = ref(null);

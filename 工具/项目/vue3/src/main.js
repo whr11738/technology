@@ -10,6 +10,9 @@ import * as vant from 'vant';
 import 'vant/lib/index.css';
 import i18n from './i18n/index';
 import { createPinia } from 'pinia';
+import * as __ from '@/utils/tool.js';
+
+document.__ = __;
 
 const app = createApp(App);
 
