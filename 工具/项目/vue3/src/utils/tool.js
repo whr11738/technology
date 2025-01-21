@@ -116,6 +116,8 @@ export const arrDelItem = (arr, key, val) => {
   if (arrPure(arr)) return arr.splice(arrFindIndex(arr, val), 1);
   else return arr.splice(arrFindIndex(arr, key, val), 1);
 };
+// (删) 删除数组中所有(arr)中属性(key)值为(val)的目标，纯数组key传null,不改变原数组
+export const arrDelAllItem = (arr, key, val) => arr.filter((item) => (arrPure(arr) ? item !== val : item[key] !== val));
 // (查) 查找数组(arr)中属性(key)值为(val)的目标的索引，纯数组key传null
 export const arrFindIndex = (arr, key, val) => {
   if (arrPure(arr)) return arr.findIndex((item) => item === val);
