@@ -475,10 +475,11 @@ export const addDom = (fatherDomId, dom) => {
   fatherDom.appendChild(dom);
 };
 // 删除dom
-export const delDom = (fatherDomId, childDomId) => {
-  const fatherDom = document.getElementById(fatherDomId);
-  for (const childDom of fatherDom.childNodes) {
-    if (childDom.id == childDomId) fatherDom.removeChild(childDom);
+export const delDom = (childDomId) => {
+  const childDom = document.getElementById(childDomId);
+  const fatherDom = childDom.parentNode;
+  for (const i of fatherDom.childNodes) {
+    if (i.id == childDomId) fatherDom.removeChild(i);
   }
 };
 // 移动dom 在fatherDomId下将tDomId移动到bDomId前面 moveDom("fatherDom", "dom4", "dom2")

@@ -6,7 +6,7 @@
       <div class="fy fc">
         <div class="tc mb12 fw6">父组件区域</div>
         <div class="mb12">
-          <span>store内容:</span>
+          <span id="xyz">store内容:</span>
           <span>{{ userStore.userInfo.token }},</span>
           <span>{{ userStore.userInfo.activate }},</span>
           <span>{{ userStore.noActivate }}</span>
