@@ -102,10 +102,10 @@ export const removeFeature = (map, featureId) => {
 export const addOverlay = (map, domId, position = 'null', positioning = 'bottom', offset = [0, 0]) => {
   const marker = new Overlay({
     element: document.getElementById(domId),
-    positioning,
-    position: position ? proj.fromLonLat(position, 'EPSG:4326') : null,
-    offset,
-    autoPan: true,
+    positioning, // 定位方式
+    position: position ? proj.fromLonLat(position, 'EPSG:4326') : null, // 位置
+    offset, // 偏移量
+    autoPan: false, //  是否自动平移地图以确保Overlay完全可见
     stopEvent: false,
   });
   map.addOverlay(marker);
@@ -131,6 +131,11 @@ export const showOverlay = (map, options) => {
     const clickedElement = document.elementFromPoint(viewportX, viewportY); // 使用转换后的坐标获取最顶层的 DOM 元素
     const isClickOnOverlay = clickedElement === overlayDom || overlayDom.contains(clickedElement); // 检查点击的元素是否有 overlay
     if (feature) {
+      // overlayDom超出地图边界时自动调整位置
+      const x = overlayDom.clientWidth + viewportX > rect.width ? -1 * overlayDom.clientWidth : 0;
+      const y = overlayDom.clientHeight + viewportY > rect.height ? -1 * overlayDom.clientHeight : 0;
+      overlay.setOffset([x, y]);
+
       overlay.setPosition(feature.getGeometry().getCoordinates());
       if (callback) callback(feature);
     } else {
@@ -158,6 +163,11 @@ export const featureShowOverlay = (map, options) => {
     const clickedElement = document.elementFromPoint(viewportX, viewportY); // 使用转换后的坐标获取最顶层的 DOM 元素
     const isClickOnOverlay = clickedElement === overlayDom || overlayDom.contains(clickedElement); // 检查点击的元素是否有 overlay
     if (feature == _feature) {
+      // overlayDom超出地图边界时自动调整位置
+      const x = overlayDom.clientWidth + viewportX > rect.width ? -1 * overlayDom.clientWidth : 0;
+      const y = overlayDom.clientHeight + viewportY > rect.height ? -1 * overlayDom.clientHeight : 0;
+      overlay.setOffset([x, y]);
+
       overlay.setPosition(feature.getGeometry().getCoordinates());
       if (callback) callback(feature);
     } else {
