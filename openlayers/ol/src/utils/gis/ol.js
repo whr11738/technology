@@ -33,6 +33,7 @@ export const initMap = (options) => {
       maxZoom: 18,
       zoom,
       constrainResolution: true,
+      extent: [-180, -90, 180, 90], // 设置地图的视图范围，限制地图的滚动范围（世界地图不循环）
     }),
     controls: defaults().extend(controlsArr), // 地图控件
     interactions: defaultInteractions().extend([new DragRotateAndZoom()]), // 按住Shift旋转地图
