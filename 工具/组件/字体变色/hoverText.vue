@@ -48,6 +48,9 @@ export default {
       if (!this.hold) this.hover = false;
     },
   },
+  mounted() {
+    this.hover = this.hold;
+  },
 };
 </script>
 
