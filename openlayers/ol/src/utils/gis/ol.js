@@ -2,20 +2,21 @@ import 'ol/ol.css';
 import { Map, View, Overlay, Feature } from 'ol';
 import { XYZ, OSM, Cluster } from 'ol/source';
 import { defaults, FullScreen, MousePosition, ScaleLine } from 'ol/control';
-import * as proj from 'ol/proj';
-import Point from 'ol/geom/Point';
+import { fromLonLat } from 'ol/proj';
+import { Point, Polygon } from 'ol/geom';
+import { circular } from 'ol/geom/Polygon';
 import { Vector as VectorLayer, Heatmap as HeatmapLayer, Tile as TileLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
 import { Style, Icon, Fill, Stroke, Circle, Text } from 'ol/style';
 import { Translate, DragPan } from 'ol/interaction';
 import { defaults as defaultInteractions, DragRotateAndZoom } from 'ol/interaction';
-import { boundingExtent } from 'ol/extent';
+import { boundingExtent, getCenter } from 'ol/extent';
 import KML from 'ol/format/KML.js';
 import StadiaMaps from 'ol/source/StadiaMaps.js';
 
 // 初始化地图
 export const initMap = (options) => {
-  let { target = 'mapDom', center = [0, 0], source, zoom = 0, showFullScreen = true, showMousePosition = true, showScaleLine = true } = options;
+  let { target = 'mapDom', center = [0, 0], source, zoom = 0, showFullScreen = true, showMousePosition = true, showScaleLine = true, loopMap = false } = options;
   center[0] = Number(center[0]);
   center[1] = Number(center[1]);
   source = source ? new XYZ({ url: source }) : new OSM();
@@ -23,21 +24,25 @@ export const initMap = (options) => {
   if (showFullScreen) controlsArr.push(new FullScreen()); // 全屏按钮
   if (showMousePosition) controlsArr.push(new MousePosition()); // 右上角显示坐标
   if (showScaleLine) controlsArr.push(new ScaleLine()); // 比例尺
-  const map = new Map({
+  // 视图配置
+  const viewOptions = {
+    projection: 'EPSG:4326', // 支持 EPSG:4326 和 EPSG:3857(默认)
+    center,
+    minZoom: 0,
+    maxZoom: 18,
+    zoom,
+    constrainResolution: true,
+  };
+  if (!loopMap) viewOptions.extent = [-180, -90, 180, 90]; // 设置地图的视图范围，限制地图的滚动范围（世界地图不循环）
+  // 地图配置
+  const mapOptions = {
     target,
     layers: [new TileLayer({ source })],
-    view: new View({
-      projection: 'EPSG:4326', // 支持 EPSG:4326 和 EPSG:3857(默认)
-      center,
-      minZoom: 0,
-      maxZoom: 18,
-      zoom,
-      constrainResolution: true,
-      extent: [-180, -90, 180, 90], // 设置地图的视图范围，限制地图的滚动范围（世界地图不循环）
-    }),
+    view: new View(viewOptions),
     controls: defaults().extend(controlsArr), // 地图控件
     interactions: defaultInteractions().extend([new DragRotateAndZoom()]), // 按住Shift旋转地图
-  });
+  };
+  const map = new Map(mapOptions);
   map.addInteraction(new DragPan()); // 将 DragPan 交互添加到地图中
   map.mapDom = document.getElementById(target); // 将地图容器dom也放进去
   return map;
@@ -104,7 +109,7 @@ export const addOverlay = (map, domId, position = 'null', positioning = 'bottom'
   const marker = new Overlay({
     element: document.getElementById(domId),
     positioning, // 定位方式
-    position: position ? proj.fromLonLat(position, 'EPSG:4326') : null, // 位置
+    position: position ? fromLonLat(position, 'EPSG:4326') : null, // 位置
     offset, // 偏移量
     autoPan: false, //  是否自动平移地图以确保Overlay完全可见
     stopEvent: false,
@@ -292,5 +297,53 @@ export const initHeatmap = (map, featureList = []) => {
   heatmap.setRadius(15);
   map.addLayer(heatmap);
 };
+// 添加围栏
+export const addArea = (map, options) => {
+  const { positionList, name } = options;
+  const features = [new Feature({ geometry: new Polygon([positionList]) })];
+  const source = new VectorSource({ features });
+  const style = new Style({
+    stroke: new Stroke({
+      color: '#4C99F8', // 边框颜色
+      width: 3, // 边框宽度
+      lineDash: [5], // 边框虚线长度
+    }),
+    fill: new Fill({ color: 'rgba(106, 199, 238,0.4)' }),
+  });
+  const areaLayer = new VectorLayer({ source, style, zIndex: 1 });
+  map.addLayer(areaLayer);
+  // 在范围中心显示名称
+  if (!name) return;
+  const center = getCenter(boundingExtent(positionList)); // 获取范围的中心点坐标
+  const nameDom = document.createElement('div');
+  nameDom.innerHTML = name;
+  nameDom.className = 'nameDom';
+  const nameOverlay = new Overlay({ element: nameDom, position: fromLonLat(center, 'EPSG:4326'), offset: [0, 0], positioning: 'bottom-center' });
+  map.addOverlay(nameOverlay);
+};
+// 添加圆形围栏
+export const addCircleArea = (map, options) => {
+  const { position, radius = 1000, name } = options;
+  const features = [new Feature({ geometry: circular(position, radius) })];
+  const source = new VectorSource({ features });
+  const style = new Style({
+    stroke: new Stroke({
+      color: '#4C99F8', // 边框颜色
+      width: 3, // 边框宽度
+      lineDash: [5], // 边框虚线长度
+    }),
+    fill: new Fill({ color: 'rgba(106, 199, 238,0.4)' }),
+  });
+  const areaLayer = new VectorLayer({ source, style, zIndex: 2 });
+  map.addLayer(areaLayer);
+  // 在范围中心显示名称
+  if (!name) return;
+  const nameDom = document.createElement('div');
+  nameDom.innerHTML = name;
+  nameDom.className = 'nameDom';
+  const nameOverlay = new Overlay({ element: nameDom, position: fromLonLat(position, 'EPSG:4326'), offset: [0, 0], positioning: 'bottom-center' });
+  map.addOverlay(nameOverlay);
+};
+
 // 移除地图
 export const delMap = (map) => map.dispose();

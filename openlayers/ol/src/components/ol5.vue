@@ -68,6 +68,22 @@ const initMap = () => {
   // olMap.delOverlay(map, tipDom); // 删除overlay
   console.log(olMap.getOverlayList(map)); // 获取所有overlay
   olMap.featurePointer(map); // 悬浮feature时候鼠标变手
+  // 画多边形围栏
+  olMap.addArea(map, {
+    name: 'name1',
+    positionList: [
+      [113.30646201780397, 23.146652073008443],
+      [113.337589943999, 23.146652073008443],
+      [113.33392784859383, 23.125846563147967],
+      [113.30829306550653, 23.11281454681366],
+    ],
+  });
+  // 画圆形围栏
+  olMap.addCircleArea(map, {
+    name: 'name2',
+    position: [113.25633689049495, 23.12813287923253],
+    radius: 1000,
+  });
   // 设置最佳视图
   olMap.bestView(
     map,
