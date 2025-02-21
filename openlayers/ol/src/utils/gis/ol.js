@@ -54,7 +54,21 @@ export const dragMap = (map, draggable = false) => {
   });
 };
 // 获取所有图层
-export const getLayerList = (map) => map.getLayers().getArray();
+export const getLayerList = (map) => {
+  const res = map.getLayers().getArray();
+  for (const i of res) {
+    console.log(i.get('type'), i.get('name'), i);
+  }
+  return res;
+};
+// 移除图层 传入key和val,可以根据type或name来移除
+export const delLayer = (map, options) => {
+  const { key, val } = options;
+  const layersArray = map.getLayers().getArray().slice();
+  layersArray.forEach((i, _i) => {
+    if (i.get(key) == val) map.removeLayer(i);
+  });
+};
 // 移除所有图层 保留基础地图图层
 export const delAllLayer = (map) => {
   const layersArray = map.getLayers().getArray().slice();
@@ -69,10 +83,10 @@ export const getLayer = (map, name = 'default') => {
   }
   return null;
 };
-// 添加默认图层 图层名字默认为default
-export const addDefaultLayer = (map, name = 'default') => {
+// 添加默认图层
+export const addDefaultLayer = (map) => {
   const source = new VectorSource({});
-  const layer = new VectorLayer({ source, name });
+  const layer = new VectorLayer({ source, name: 'default', type: '默认图层' });
   map.addLayer(layer);
 };
 // 获取默认图层的source
@@ -253,6 +267,7 @@ export const initCluster = (map, featureList = []) => {
   clusterSource.setMinDistance(50);
   const styleCache = {};
   const clusters = new VectorLayer({
+    type: '聚类图',
     source: clusterSource,
     style: function (feature) {
       const size = feature.get('features').length;
@@ -292,12 +307,12 @@ export const initHeatmap = (map, featureList = []) => {
   features.forEach((i) => {
     heatmapSource.addFeature(i);
   });
-  const heatmap = new HeatmapLayer({ source: heatmapSource });
+  const heatmap = new HeatmapLayer({ type: '热力图', source: heatmapSource });
   heatmap.setBlur(5);
   heatmap.setRadius(15);
   map.addLayer(heatmap);
 };
-// 添加围栏
+// 添加多边形围栏
 export const addArea = (map, options) => {
   const { name, positionList, border = false, line = false } = options;
   const features = [new Feature({ geometry: new Polygon([positionList]) })];
@@ -310,7 +325,7 @@ export const addArea = (map, options) => {
     }),
     fill: new Fill({ color: 'rgba(106, 199, 238,0.4)' }),
   });
-  const areaLayer = new VectorLayer({ source, style, zIndex: 1 });
+  const areaLayer = new VectorLayer({ type: '多边形围栏', name, source, style, zIndex: 1 });
   map.addLayer(areaLayer);
   // 在范围中心显示名称
   if (!name) return;
@@ -334,7 +349,7 @@ export const addCircleArea = (map, options) => {
     }),
     fill: new Fill({ color: 'rgba(106, 199, 238,0.4)' }),
   });
-  const areaLayer = new VectorLayer({ source, style, zIndex: 2 });
+  const areaLayer = new VectorLayer({ type: '圆形围栏', name, source, style, zIndex: 2 });
   map.addLayer(areaLayer);
   // 在范围中心显示名称
   if (!name) return;

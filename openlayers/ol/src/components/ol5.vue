@@ -40,7 +40,6 @@ const initMap = () => {
   olMap.initHeatmap(map, data1); // 添加热力图图层
   olMap.initCluster(map, data2); // 添加聚类图图层
   olMap.addDefaultLayer(map); // 添加默认图层
-  console.log(olMap.getLayerList(map)); // 获取所有图层
   console.log(olMap.getLayer(map, 'default')); // 获取默认图层
   const feature1 = olMap.addFeature(map, { id: 1, position: pos1, data: { v: 123 } }); // 添加feature
   const feature2 = olMap.addFeature(map, { id: 2, position: pos2, data: { v: 321 } }); // 添加feature
@@ -70,7 +69,7 @@ const initMap = () => {
   olMap.featurePointer(map); // 悬浮feature时候鼠标变手
   // 画多边形围栏
   olMap.addArea(map, {
-    name: 'name1',
+    name: 'name',
     border: true,
     positionList: [
       [113.30646201780397, 23.146652073008443],
@@ -91,6 +90,10 @@ const initMap = () => {
     map,
     data1.map((i) => i.position),
   );
+  console.log(olMap.getLayerList(map)); // 获取所有图层
+  setTimeout(() => {
+    olMap.delLayer(map, { key: 'type', val: '圆形围栏' }); // 移除圆形围栏
+  }, 3000);
   // setTimeout(() => {
   //   olMap.delAllLayer(map); // 移除所有图层
   // }, 3000);
