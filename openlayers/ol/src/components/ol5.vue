@@ -71,6 +71,7 @@ const initMap = () => {
   // 画多边形围栏
   olMap.addArea(map, {
     name: 'name1',
+    border: true,
     positionList: [
       [113.30646201780397, 23.146652073008443],
       [113.337589943999, 23.146652073008443],
@@ -80,9 +81,10 @@ const initMap = () => {
   });
   // 画圆形围栏
   olMap.addCircleArea(map, {
-    name: 'name2',
     position: [113.25633689049495, 23.12813287923253],
     radius: 1000,
+    border: true,
+    line: true,
   });
   // 设置最佳视图
   olMap.bestView(

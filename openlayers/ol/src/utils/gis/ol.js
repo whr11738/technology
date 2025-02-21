@@ -299,14 +299,14 @@ export const initHeatmap = (map, featureList = []) => {
 };
 // 添加围栏
 export const addArea = (map, options) => {
-  const { positionList, name } = options;
+  const { name, positionList, border = false, line = false } = options;
   const features = [new Feature({ geometry: new Polygon([positionList]) })];
   const source = new VectorSource({ features });
   const style = new Style({
     stroke: new Stroke({
-      color: '#4C99F8', // 边框颜色
-      width: 3, // 边框宽度
-      lineDash: [5], // 边框虚线长度
+      color: border ? '#4C99F8' : 'rgba(0, 0, 0,0)', // 边框颜色
+      width: 2, // 边框宽度
+      lineDash: [line ? 0 : 5], // 边框虚线长度
     }),
     fill: new Fill({ color: 'rgba(106, 199, 238,0.4)' }),
   });
@@ -323,14 +323,14 @@ export const addArea = (map, options) => {
 };
 // 添加圆形围栏
 export const addCircleArea = (map, options) => {
-  const { position, radius = 1000, name } = options;
+  const { name, position, radius = 1000, border = false, line = false } = options;
   const features = [new Feature({ geometry: circular(position, radius) })];
   const source = new VectorSource({ features });
   const style = new Style({
     stroke: new Stroke({
-      color: '#4C99F8', // 边框颜色
-      width: 3, // 边框宽度
-      lineDash: [5], // 边框虚线长度
+      color: border ? '#4C99F8' : 'rgba(0, 0, 0,0)', // 边框颜色
+      width: 2, // 边框宽度
+      lineDash: [line ? 0 : 5], // 边框虚线长度
     }),
     fill: new Fill({ color: 'rgba(106, 199, 238,0.4)' }),
   });
@@ -344,6 +344,5 @@ export const addCircleArea = (map, options) => {
   const nameOverlay = new Overlay({ element: nameDom, position: fromLonLat(position, 'EPSG:4326'), offset: [0, 0], positioning: 'bottom-center' });
   map.addOverlay(nameOverlay);
 };
-
 // 移除地图
 export const delMap = (map) => map.dispose();
