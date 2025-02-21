@@ -87,7 +87,7 @@ export const getLayer = (map, name = 'default') => {
 // 添加默认图层
 export const addDefaultLayer = (map) => {
   const source = new VectorSource({});
-  const layer = new VectorLayer({ source, name: 'default', type: '默认图层' });
+  const layer = new VectorLayer({ source, name: 'default', type: '默认图层', zIndex: 2 });
   map.addLayer(layer);
 };
 // 获取默认图层的source
@@ -118,6 +118,11 @@ export const getFeatureList = (map) => getDefaultSource(map).getFeatures();
 export const removeFeature = (map, featureId) => {
   const feature = getDefaultSource(map).getFeatureById(featureId);
   getDefaultSource(map).removeFeature(feature);
+};
+// 根据id修改feature位置
+export const changeFeaturePosition = (map, options) => {
+  const { id, position } = options;
+  getFeature(map, id).getGeometry().setCoordinates(position);
 };
 // 添加overlay position为空就是暂时不出现
 export const addOverlay = (map, domId, position = 'null', positioning = 'bottom', offset = [0, 0]) => {
@@ -350,7 +355,7 @@ export const addCircleArea = (map, options) => {
     }),
     fill: new Fill({ color: 'rgba(106, 199, 238,0.4)' }),
   });
-  const areaLayer = new VectorLayer({ type: '圆形围栏', name, source, style, zIndex: 2 });
+  const areaLayer = new VectorLayer({ type: '圆形围栏', name, source, style, zIndex: 1 });
   map.addLayer(areaLayer);
   // 在范围中心显示名称
   if (!name) return;
@@ -363,13 +368,12 @@ export const addCircleArea = (map, options) => {
 // 添加线段
 export const addLine = (map, options) => {
   const { positionList, name } = options;
-  const lineLayer = new VectorLayer({ type: '线段', name, source: new VectorSource() });
+  const lineLayer = new VectorLayer({ type: '线段', name, source: new VectorSource(), zIndex: 1 });
   const feature = { type: 'Feature', geometry: { type: 'LineString', coordinates: positionList } };
   const features = new GeoJSON().readFeature(feature, { featureProjection: map.getView().getProjection() });
   lineLayer.getSource().addFeature(features);
   features.setStyle([new Style({ stroke: new Stroke({ color: 'green', width: 3 }) })]);
   map.addLayer(lineLayer);
-  map.getView().fit(features.getGeometry());
 };
 
 // 移除地图

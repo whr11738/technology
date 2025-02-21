@@ -98,15 +98,12 @@ const initMap = () => {
     data1.map((i) => i.position),
   );
   console.log(olMap.getLayerList(map)); // 获取所有图层
-  // setTimeout(() => {
-  //   olMap.delLayer(map, { key: 'type', val: '圆形围栏' }); // 移除圆形围栏
-  // }, 3000);
-  // setTimeout(() => {
-  //   olMap.delAllLayer(map); // 移除所有图层
-  // }, 3000);
-  // setTimeout(() => {
-  //   olMap.delMap(map); // 移除地图
-  // }, 3000);
+  setTimeout(() => {
+    // olMap.delLayer(map, { key: 'type', val: '圆形围栏' }); // 移除圆形围栏
+    // olMap.delAllLayer(map); // 移除所有图层
+    // olMap.changeFeaturePosition(map, { id: '1', position: [113.27979727693234, 23.120338753761633] }); // 修改feature1位置
+    //   olMap.delMap(map); // 移除地图
+  }, 3000);
 };
 
 onMounted(() => {
