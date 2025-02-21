@@ -85,15 +85,22 @@ const initMap = () => {
     border: true,
     line: true,
   });
+  olMap.addLine(map, {
+    positionList: [
+      [113.24374838777219, 23.120453067995967],
+      [113.27979727693234, 23.120338753761633],
+      [113.25885457846668, 23.14251605013307],
+    ],
+  });
   // 设置最佳视图
   olMap.bestView(
     map,
     data1.map((i) => i.position),
   );
   console.log(olMap.getLayerList(map)); // 获取所有图层
-  setTimeout(() => {
-    olMap.delLayer(map, { key: 'type', val: '圆形围栏' }); // 移除圆形围栏
-  }, 3000);
+  // setTimeout(() => {
+  //   olMap.delLayer(map, { key: 'type', val: '圆形围栏' }); // 移除圆形围栏
+  // }, 3000);
   // setTimeout(() => {
   //   olMap.delAllLayer(map); // 移除所有图层
   // }, 3000);

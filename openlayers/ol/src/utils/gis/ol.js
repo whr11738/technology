@@ -13,6 +13,7 @@ import { defaults as defaultInteractions, DragRotateAndZoom } from 'ol/interacti
 import { boundingExtent, getCenter } from 'ol/extent';
 import KML from 'ol/format/KML.js';
 import StadiaMaps from 'ol/source/StadiaMaps.js';
+import { GeoJSON } from 'ol/format';
 
 // 初始化地图
 export const initMap = (options) => {
@@ -359,5 +360,17 @@ export const addCircleArea = (map, options) => {
   const nameOverlay = new Overlay({ element: nameDom, position: fromLonLat(position, 'EPSG:4326'), offset: [0, 0], positioning: 'bottom-center' });
   map.addOverlay(nameOverlay);
 };
+// 添加线段
+export const addLine = (map, options) => {
+  const { positionList, name } = options;
+  const lineLayer = new VectorLayer({ type: '线段', name, source: new VectorSource() });
+  const feature = { type: 'Feature', geometry: { type: 'LineString', coordinates: positionList } };
+  const features = new GeoJSON().readFeature(feature, { featureProjection: map.getView().getProjection() });
+  lineLayer.getSource().addFeature(features);
+  features.setStyle([new Style({ stroke: new Stroke({ color: 'green', width: 3 }) })]);
+  map.addLayer(lineLayer);
+  map.getView().fit(features.getGeometry());
+};
+
 // 移除地图
 export const delMap = (map) => map.dispose();
