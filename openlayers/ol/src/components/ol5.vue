@@ -15,6 +15,7 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue';
 import * as olMap from '@/utils/gis/ol';
+import ico from '@/utils/gis/ico.ico';
 
 let map = null;
 const initMap = () => {
@@ -42,7 +43,7 @@ const initMap = () => {
   olMap.addDefaultLayer(map); // 添加默认图层
   console.log(olMap.getLayer(map, 'default')); // 获取默认图层
   const feature1 = olMap.addFeature(map, { id: 1, position: pos1, data: { v: 123 } }); // 添加feature
-  const feature2 = olMap.addFeature(map, { id: 2, position: pos2, data: { v: 321 } }); // 添加feature
+  const feature2 = olMap.addFeature(map, { id: 2, position: pos2, data: { v: 321 }, img: ico }); // 使用图片添加feature
   console.log(olMap.getFeature(map, 1)); // 获取feature
   console.log(olMap.getFeatureData(feature1)); // 获取feature1数据
   console.log(olMap.getFeatureList(map)); // 获取所有feature

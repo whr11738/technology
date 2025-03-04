@@ -99,9 +99,11 @@ export const getDefaultSource = (map) => {
 };
 // 添加feature options必传:position,id
 export const addFeature = (map, options) => {
-  const { position, id, name, data } = options;
+  const { position, id, name, data, img } = options;
   const feature = new Feature({ geometry: new Point(position), name });
-  const style = [new Style({ image: new Circle({ radius: 14, stroke: new Stroke({ color: '#fff', width: 2 }), fill: new Fill({ color: '#003460' }) }) })];
+  let style = null;
+  if (img) style = new Style({ image: new Icon({ src: img, anchor: [0.5, 1], scale: 1 }) });
+  else style = new Style({ image: new Circle({ radius: 14, stroke: new Stroke({ color: '#fff', width: 2 }), fill: new Fill({ color: '#003460' }) }) });
   feature.setStyle(style);
   feature.setId(id);
   if (data) feature.setProperties(data); // 设置数据
