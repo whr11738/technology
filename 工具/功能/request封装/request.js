@@ -1,45 +1,45 @@
 // 适配环境axios，需要提前配置环境文件
-import axios from 'axios'
+import axios from 'axios';
 
-const env = process.env.NODE_ENV //环境 development production test
+const env = process.env.NODE_ENV; //环境 development production test
 // 域名列表
 const areaList = {
   general: {
     development: 'http://general-notice-dev.pay-blox.com:40027',
     test: 'https://general-notice-test.pay-blox.com',
-    production: 'http://general-notice.pay-blox.com'
+    production: 'http://general-notice.pay-blox.com',
   },
   wifi: {
     development: 'http://universal-api-h5-dev.pay-blox.com:40027',
     test: 'universal-api-h5-test.pay-blox.com:40027/',
-    production: 'universal-api-h5.pay-blox.com'
-  }
-}
+    production: 'universal-api-h5.pay-blox.com',
+  },
+};
 
 // axios.defaults.baseURL = ''  //正式
 // post请求头
-axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
+axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 // 允许跨域携带cookie信息
-axios.defaults.withCredentials = true
+axios.defaults.withCredentials = true;
 // 设置超时
-axios.defaults.timeout = 5000
+axios.defaults.timeout = 5000;
 
 // 请求拦截
 axios.interceptors.request.use(
   (config) => {
-    return config
+    return config;
   },
   (error) => {
-    return Promise.reject(error)
-  }
-)
+    return Promise.reject(error);
+  },
+);
 // 响应拦截
 axios.interceptors.response.use(
   (response) => {
     if (response.status === 200) {
-      return Promise.resolve(response)
+      return Promise.resolve(response);
     } else {
-      return Promise.reject(response)
+      return Promise.reject(response);
     }
   },
   // 服务器状状态码错误处理
@@ -48,15 +48,15 @@ axios.interceptors.response.use(
       switch (error.response.status) {
         // 401: 未登录
         case 401:
-          break
+          break;
 
         // 其他错误，直接抛出错误提示
         default:
       }
     }
-    return Promise.reject(error.response)
-  }
-)
+    return Promise.reject(error.response);
+  },
+);
 
 /**
  * post方法，对应post请求
@@ -65,21 +65,21 @@ axios.interceptors.response.use(
  */
 const post = (url, data, area) => {
   return new Promise((resolve, reject) => {
-    let urlArea = ''
-    if (area) urlArea = areaList[area][env]
+    let urlArea = '';
+    if (area) urlArea = areaList[area][env];
     axios({
       method: 'post',
       url: urlArea + url,
-      data
+      data,
     })
       .then((res) => {
-        resolve(res.data)
+        resolve(res.data);
       })
       .catch((err) => {
-        reject(err)
-      })
-  })
-}
+        reject(err);
+      });
+  });
+};
 
 /**
  * get方法，对应get请求，自动过滤列表数据
@@ -88,22 +88,22 @@ const post = (url, data, area) => {
  */
 const get = (url, data, area) => {
   return new Promise((resolve, reject) => {
-    let urlArea = ''
-    if (area) urlArea = areaList[area][env]
+    let urlArea = '';
+    if (area) urlArea = areaList[area][env];
     axios({
       method: 'get',
       url: urlArea + url,
-      params: data
+      params: data,
     })
       .then((res) => {
         // 过滤数据
-        resolve(res.data)
+        resolve(res.data);
       })
       .catch((err) => {
-        reject(err)
-      })
-  })
-}
+        reject(err);
+      });
+  });
+};
 
 // 请求封装
-export { post, get }
+export { post, get };
