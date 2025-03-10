@@ -722,6 +722,8 @@ export const translateHTML = (html) =>
     .replace(/}/g, '')
     .replace(/\\/g, '')
     .replace(/position:fixed/g, 'position:relative');
+// JS字符串转HTML字符串
+export const jsToHtml = (text) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;').replace(/\n/g, '<br>');
 // #endregion
 
 // #region 数据
