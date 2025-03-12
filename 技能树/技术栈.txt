@@ -3,15 +3,16 @@ Web前端开发技术：HTML、CSS、JavaScript、TypeScript、jQuery
 桌面应用程序框架：Electron
 版本控制工具：GitLab、GitHub、git
 包管理工具：webpack、vite
-数据交互：Ajax、Axios
+数据交互：Ajax、Axios、WebSocket、JSON
 环境：NodeJS
 Web开发框架：koa
 预处理语言：Less、Sass
-UI框架：ElementUI、Ant Design、Arco Design
+UI框架：ElementUI、Ant Design、Arco Design、Ant Design
 图表库：ECharts
 图标库：iconfont
 轮播图库：swiper
 富文本编辑器：wangEditor
-浏览器缓存:indexedDB、storage、cookie
-微前端:qiankun
-低代码:JEECG
+地图库：OpenLayers
+浏览器缓存：indexedDB、storage、cookie
+微前端：qiankun
+低代码：JEECG
