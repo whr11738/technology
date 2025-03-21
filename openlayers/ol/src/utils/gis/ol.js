@@ -15,6 +15,23 @@ import KML from 'ol/format/KML.js';
 import StadiaMaps from 'ol/source/StadiaMaps.js';
 import { GeoJSON } from 'ol/format';
 
+// const { Map, View, Overlay, Feature } = ol;
+// const { XYZ, OSM, Cluster } = ol.source;
+// const { FullScreen, MousePosition, ScaleLine } = ol.control;
+// const { defaults } = ol.control.defaults;
+// const { fromLonLat } = ol.proj;
+// const { Point, Polygon } = ol.geom;
+// const { circular } = ol.geom.Polygon;
+// const { Vector: VectorLayer, Heatmap: HeatmapLayer, Tile: TileLayer } = ol.layer;
+// const { Vector: VectorSource } = ol.source;
+// const { Style, Icon, Fill, Stroke, Circle, Text } = ol.style;
+// const { Translate, DragPan } = ol.interaction;
+// const { DragRotateAndZoom } = ol.interaction;
+// const { defaults: defaultInteractions } = ol.interaction.defaults;
+// const { boundingExtent, getCenter } = ol.extent;
+// const KML = ol.format.KML.js;
+// const { GeoJSON } = ol.format;
+
 // 初始化地图
 export const initMap = (options) => {
   let { target = 'mapDom', center = [0, 0], source, zoom = 0, showFullScreen = true, showMousePosition = true, showScaleLine = true, loopMap = false } = options;
