@@ -103,18 +103,18 @@ export const arrSlice = (arr, start, end) => arr.slice(start, end + 1);
 // 是纯数组
 export const arrPure = (arr) => !typeTool.isObject(arr[0]);
 // (增) 在数组(arr)索引(index)位置后面插入item
-export const arrAddIndex = (arr, index, item) => arr.splice(index + 1, 0, item);
+export const arrAddIndex = (arr, index, item) => arr.splice(index + 1, 0, item); // 改变原数组
 // (增) 在数组(arr)中属性(key)值为(val)的目标后面插入item，纯数组key传null
 export const arrAddItem = (arr, key, val, item) => {
-  if (arrPure(arr)) return arr.splice(arrFindIndex(arr, val) + 1, 0, item);
-  else return arr.splice(arrFindIndex(arr, key, val) + 1, 0, item);
+  if (arrPure(arr)) return arr.splice(arrFindIndex(arr, null, val) + 1, 0, item); // 改变原数组
+  else return arr.splice(arrFindIndex(arr, key, val) + 1, 0, item); // 改变原数组
 };
 // (删) 根据索引(index)删除数组(arr)中目标
 export const arrDelIndex = (arr, index) => arr.splice(index, 1);
 // (删) 删除数组(arr)中属性(key)值为(val)的目标，纯数组key传null
 export const arrDelItem = (arr, key, val) => {
-  if (arrPure(arr)) return arr.splice(arrFindIndex(arr, val), 1);
-  else return arr.splice(arrFindIndex(arr, key, val), 1);
+  if (arrPure(arr)) return arr.splice(arrFindIndex(arr, null, val), 1); // 改变原数组
+  else return arr.splice(arrFindIndex(arr, key, val), 1); // 改变原数组
 };
 // (删) 删除数组中所有(arr)中属性(key)值为(val)的目标，纯数组key传null,不改变原数组
 export const arrDelAllItem = (arr, key, val) => arr.filter((item) => (arrPure(arr) ? item !== val : item[key] !== val));

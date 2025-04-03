@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>倒计时时钟</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        transition: all 1s;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #2f363e;
+      }
+      #time {
+        display: flex;
+        gap: 40px;
+        color: #fff;
+      }
+      #time .circle {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #time .circle svg {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        transform: rotate(270deg);
+      }
+      #time .circle svg circle {
+        width: 100%;
+        height: 100%;
+        fill: transparent;
+        stroke: #191919;
+        stroke-width: 4;
+        transform: translate(5px, 5px);
+      }
+      #time .circle svg circle:nth-child(2) {
+        stroke: var(--clr);
+        stroke-dasharray: 440;
+      }
+      #time div {
+        position: absolute;
+        text-align: center;
+        font-weight: 500;
+        font-size: 1.5em;
+      }
+      #time div .tip {
+        position: absolute;
+        font-size: 0.35em;
+        font-weight: lighter;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      #time .ap {
+        position: relative;
+        font-size: 1em;
+        transform: translateY(-20px);
+      }
+      .dots {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+      }
+      .dots::before {
+        content: '';
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: var(--clr);
+        border-radius: 50%;
+        box-shadow: 0 0 20px var(--clr), 0 0 60px var(--clr);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="time">
+      <div class="circle" style="--clr: #ff2972">
+        <div class="dots hr-dot"></div>
+        <svg>
+          <circle cx="70" cy="70" r="70"></circle>
+          <circle cx="70" cy="70" r="70" id="hh"></circle>
+        </svg>
+        <div id="hours">00</div>
+      </div>
+      <div class="circle" style="--clr: #fee800">
+        <div class="dots min-dot"></div>
+        <svg>
+          <circle cx="70" cy="70" r="70"></circle>
+          <circle cx="70" cy="70" r="70" id="mm"></circle>
+        </svg>
+        <div id="minutes">00</div>
+      </div>
+      <div class="circle" style="--clr: #04fc43">
+        <div class="dots sec-dot"></div>
+        <svg>
+          <circle cx="70" cy="70" r="70"></circle>
+          <circle cx="70" cy="70" r="70" id="ss"></circle>
+        </svg>
+        <div id="seconds">00</div>
+      </div>
+    </div>
+
+    <script>
+      const getEndTime = (hour, minute) => {
+        const now = new Date();
+        const targetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), parseInt(hour), parseInt(minute));
+        if (targetTime < now) targetTime.setDate(targetTime.getDate() + 1);
+        return targetTime.getTime();
+      };
+      const endTime = getEndTime('17', '40'); // 设置目标时间为17:40
+
+      let hours = document.querySelector('#hours');
+      let minutes = document.querySelector('#minutes');
+      let seconds = document.querySelector('#seconds');
+
+      let hh = document.querySelector('#hh');
+      let mm = document.querySelector('#mm');
+      let ss = document.querySelector('#ss');
+
+      let hr_dot = document.querySelector('.hr-dot');
+      let min_dot = document.querySelector('.min-dot');
+      let sec_dot = document.querySelector('.sec-dot');
+
+      function updateCountdown() {
+        const currentTime = new Date().getTime();
+        let remainingTime = endTime - currentTime;
+
+        // 如果倒计时结束
+        if (remainingTime <= 0) {
+          hours.innerHTML = "00\n<div class='tip'>HOURS</div>";
+          minutes.innerHTML = "00\n<div class='tip'>MINUTES</div>";
+          seconds.innerHTML = "00\n<div class='tip'>SECONDS</div>";
+
+          hh.style.strokeDashoffset = 440;
+          mm.style.strokeDashoffset = 440;
+          ss.style.strokeDashoffset = 440;
+
+          return;
+        }
+
+        // 计算剩余的小时、分钟、秒
+        const h = Math.floor(remainingTime / (1000 * 60 * 60));
+        const m = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+        // 更新显示
+        hours.innerHTML = `${h}`.padStart(2, '0') + "\n<div class='tip'>HOURS</div>";
+        minutes.innerHTML = `${m}`.padStart(2, '0') + "\n<div class='tip'>MINUTES</div>";
+        seconds.innerHTML = `${s}`.padStart(2, '0') + "\n<div class='tip'>SECONDS</div>";
+
+        // 更新进度条
+        hh.style.strokeDashoffset = 440 - (440 * h) / 8; // 8小时最大值
+        mm.style.strokeDashoffset = 440 - (440 * m) / 60;
+        ss.style.strokeDashoffset = 440 - (440 * s) / 60;
+
+        // 更新圆点位置
+        hr_dot.style.transform = `rotate(${h * 45}deg)`; // 360/8=45
+        min_dot.style.transform = `rotate(${m * 6}deg)`;
+        sec_dot.style.transform = `rotate(${s * 6}deg)`;
+      }
+
+      // 立即执行一次，然后每秒更新
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+    </script>
+  </body>
+</html>
