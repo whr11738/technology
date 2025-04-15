@@ -152,6 +152,10 @@ export const arrSort = (arr, key, direction = 'up') => {
     else return arr.slice().sort((i, _i) => _i[key] - i[key]);
   }
 };
+// (滤) 将数组(arr)中属性(key)为val的对象过滤出来，仅支持对象数组 filterArr(arr, 'y', '123') => [{ x: 1, y: '123', z: 666 }]
+export const filterArr = (arr, key, val) => arr.filter((item) => item[key] == val);
+// (滤) 将数组中的对象根据obj过滤出来，obj为条件，仅支持对象数组 filterArr2(arr, { x: 2, y: '321' }) => [{ x: 2, y: '321', z: 666 }]
+export const filterArr2 = (arr, obj) => arr.filter((item) => Object.keys(obj).every((key) => item[key] == obj[key]));
 // 保留响应式给数组赋值
 export const copyArr = (arr, target) => {
   arr.length = 0;
