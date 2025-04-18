@@ -827,6 +827,13 @@ export const getll = (val) => {
 // #endregion
 
 // #region 工具
+// vue中页面跳转封装
+export const go = (data) => {
+  const { router, newPage = true, path, query = null } = data;
+  if (!router || !path) return;
+  if (newPage) window.open(router.resolve({ path, query }).href, '_blank');
+  else router.push({ path, query });
+};
 // 颜色转换 __.hexToRgb('#efefef') => rgb(239, 239, 239)
 export const hexToRgb = (hex) => {
   hex = hex.replace(/^#/, '');
@@ -1073,7 +1080,7 @@ export const fakeApi = (page = 1, size = 10, total = 30) =>
         res.nextPage = false;
       }
       resolve(res);
-    }, 2000);
+    }, 500);
   });
 // 寻找丢失的数字 [0,1,2,3,5]=>4  [5,1,2,4,0]=>3  [1,2,3]=>0
 export const findMissingNumber = (arr) => {
