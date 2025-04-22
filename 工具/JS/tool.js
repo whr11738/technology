@@ -156,6 +156,8 @@ export const arrSort = (arr, key, direction = 'up') => {
 export const filterArr = (arr, key, val) => arr.filter((item) => item[key] == val);
 // (滤) 将数组中的对象根据obj过滤出来，obj为条件，仅支持对象数组 filterArr2(arr, { x: 2, y: '321' }) => [{ x: 2, y: '321', z: 666 }]
 export const filterArr2 = (arr, obj) => arr.filter((item) => Object.keys(obj).every((key) => item[key] == obj[key]));
+// (滤) 从filterArr2迭代，匹配不需要完成相同，有包含也算 filterArr3(arr, { y: '2' }) => [{ y: '321' }]
+export const filterArr3 = (arr, obj) => arr.filter((item) => Object.keys(obj).every((key) => item[key] == obj[key]));
 // 保留响应式给数组赋值
 export const copyArr = (arr, target) => {
   arr.length = 0;
