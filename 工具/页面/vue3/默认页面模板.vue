@@ -22,7 +22,7 @@ const d = reactive({
 });
 const fun = async () => {};
 // 跳转封装
-export const go = (data) => {
+const go = (data) => {
   const { router, newPage = true, path, query = null } = data;
   if (!router || !path) return;
   if (newPage) window.open(router.resolve({ path, query }).href, '_blank');
