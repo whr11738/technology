@@ -1,3 +1,6 @@
+<!-- 默认页面模板 -->
+<!-- 适用环境 vue3 Antd2.x-->
+<!-- 留意样式引入和国际化 -->
 <template>
   <div class="w100p h100p fy">
     <a-card class="fy">
@@ -92,7 +95,7 @@
   </div>
 </template>
 <script setup>
-import { ref, reactive, onMounted, defineProps, defineEmits, defineExpose, watch } from 'vue';
+import { ref, reactive, onMounted, defineProps, defineEmits, defineExpose, watch, computed, nextTick, provide, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 import router from '@/router';
 import { useRouter, useRoute } from 'vue-router';

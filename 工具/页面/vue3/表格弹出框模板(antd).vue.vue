@@ -1,5 +1,5 @@
 <!-- 表格弹出框模板 -->
-<!-- 适用环境 vue3 Antd -->
+<!-- 适用环境 vue3 Antd2.x -->
 <!-- 留意样式引入和国际化 -->
 
 <!-- 父组件html -->
@@ -48,37 +48,37 @@ const modalConfirm = (params) => {
   </div>
 </template>
 <script setup>
-import { ref, reactive, onMounted, defineProps, defineEmits, defineExpose, watch } from "vue";
-import {} from "@/utils/tool.js";
+import { ref, reactive, onMounted, defineProps, defineEmits, defineExpose, watch, computed, nextTick, provide, inject } from 'vue';
+import {} from '@/utils/tool.js';
 
-const props = defineProps(["modalConfirm", "visible"]);
-const emits = defineEmits(["update:visible"]);
+const props = defineProps(['modalConfirm', 'visible']);
+const emits = defineEmits(['update:visible']);
 const formRef = ref();
 const d = reactive({
   weekList: [
-    { label: "星期一", value: 1 },
-    { label: "星期二", value: 2 },
-    { label: "星期三", value: 3 },
-    { label: "星期四", value: 4 },
-    { label: "星期五", value: 5 },
-    { label: "星期六", value: 6 },
-    { label: "星期日", value: 7, disabled: true },
+    { label: '星期一', value: 1 },
+    { label: '星期二', value: 2 },
+    { label: '星期三', value: 3 },
+    { label: '星期四', value: 4 },
+    { label: '星期五', value: 5 },
+    { label: '星期六', value: 6 },
+    { label: '星期日', value: 7, disabled: true },
   ],
   loading: false,
   form: {},
 });
 const checkFun = async (rule, value) => {
   if (d.form.age > 0) return Promise.resolve();
-  else if (!d.form.age <= 0) return Promise.reject("年龄必须大于0");
-  else return Promise.reject("此项必填");
+  else if (!d.form.age <= 0) return Promise.reject('年龄必须大于0');
+  else return Promise.reject('此项必填');
 };
 const rules = {
-  name: [{ required: true, message: "此项必填", trigger: "blur" }],
-  age: [{ required: true, trigger: "blur", validator: checkFun }],
+  name: [{ required: true, message: '此项必填', trigger: 'blur' }],
+  age: [{ required: true, trigger: 'blur', validator: checkFun }],
 };
 // 改变显示状态
 const updateVisible = (v) => {
-  emits("update:visible", v);
+  emits('update:visible', v);
 };
 // 表单确认
 const confirm = () => {
@@ -95,12 +95,12 @@ const confirm = () => {
 };
 const init = () => {
   d.form = {
-    name: "",
+    name: '',
     age: null,
     week: [6, 7],
-    desc: "",
+    desc: '',
     open: false,
-    state: "",
+    state: '',
     time: null,
   };
 };
@@ -108,10 +108,10 @@ watch(
   () => props.visible,
   () => {
     init(); // 显示或关闭时初始化表单
-  }
+  },
 );
 onMounted(() => {
-  console.log("props", props);
+  console.log('props', props);
 });
 defineExpose({ d });
 </script>

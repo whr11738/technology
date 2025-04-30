@@ -1,5 +1,5 @@
 <!-- antd 组件模板 -->
-<!-- antd版本 2.x -->
+<!-- 适用环境 vue3 Antd2.x-->
 <!-- <com v-model:visible="d.comVisible"></com> -->
 <template>
   <div>
@@ -7,7 +7,7 @@
   </div>
 </template>
 <script setup>
-import { ref, reactive, onMounted, defineProps, defineEmits, defineExpose, watch } from 'vue';
+import { ref, reactive, onMounted, defineProps, defineEmits, defineExpose, watch, computed, nextTick, provide, inject } from 'vue';
 const { __ } = document;
 import { useI18n } from 'vue-i18n';
 
