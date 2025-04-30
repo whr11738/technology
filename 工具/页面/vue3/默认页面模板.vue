@@ -2,17 +2,18 @@
 <!-- 适用环境 vue3 -->
 <!-- 留意样式引入和国际化 -->
 <template>
-  <div class="w100p h100p fc">1</div>
+  <div class="w100p h100p fc">{{ now }}</div>
 </template>
 <script setup>
 import { ref, reactive, onMounted, defineProps, defineEmits, defineExpose, watch, computed, nextTick, provide, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
-import router from '@/router';
 import { useRouter, useRoute } from 'vue-router';
 
 const { __ } = document;
 const route = useRoute();
+const router = useRouter();
 const { t } = useI18n();
+
 const props = defineProps(['']);
 const emits = defineEmits(['']);
 
@@ -23,7 +24,7 @@ const d = reactive({
 const fun = async () => {};
 // 跳转封装
 const go = (data) => {
-  const { router, newPage = true, path, query = null } = data;
+  const { newPage = true, path, query = null } = data;
   if (!router || !path) return;
   if (newPage) window.open(router.resolve({ path, query }).href, '_blank');
   else router.push({ path, query });
@@ -43,6 +44,7 @@ const init = () => {
 };
 onMounted(() => {
   console.log('props', props);
+  init();
 });
 provide('father_d', d); // 向子组件传递d，子组件获取:const father_d = inject('father_d');
 defineExpose({ d }); // 向父组件传递d
