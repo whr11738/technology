@@ -44,6 +44,7 @@ const init = () => {
 };
 onMounted(() => {
   console.log('props', props);
+  console.log('query', route.query);
   init();
 });
 provide('father_d', d); // 向子组件传递d，子组件获取:const father_d = inject('father_d');
