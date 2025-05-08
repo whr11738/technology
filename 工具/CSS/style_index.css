@@ -163,8 +163,8 @@
 /* #region 动画 */
 /* 过渡动画效果 */
 .transition,
-.a {
-  transition: all 1s;
+.t {
+  transition: all 0.3s ease;
 }
 
 /* 渐入动画效果 */
