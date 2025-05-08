@@ -89,6 +89,18 @@ export const initArrObj = (arr, tag, val = '') => {
 // #region 数组
 // 数组转字符串
 export const arrToStr = (val, tag = ';') => val.join(tag);
+// 删除数组中空内容,不改变原数组  cleanArray([null, undefined, '', ' ', {}, []]) => []
+export const cleanArray = (arr) => {
+  return arr.filter((item) => {
+    if (item == null) return false;
+    if (typeof item === 'string' && item.trim() === '') return false;
+    if (typeof item === 'object') {
+      if (Array.isArray(item)) return item.length > 0;
+      return Object.keys(item).length > 0;
+    }
+    return true;
+  });
+};
 // 数组转对象
 export const arrToObj = (arr) => {
   const res = {};
