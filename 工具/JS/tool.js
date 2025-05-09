@@ -843,10 +843,19 @@ export const getll = (val) => {
 // #region 工具
 // vue中页面跳转封装
 export const go = (data) => {
-  const { router, newPage = true, path, query = null } = data;
-  if (!router || !path) return;
-  if (newPage) window.open(router.resolve({ path, query }).href, '_blank');
-  else router.push({ path, query });
+  if (typeof data === 'string') {
+    window.location.href = `${window.location.origin}/#${data}`;
+    return;
+  }
+  const { router = null, newPage = true, path, query = null } = data;
+  if (!path) return;
+  if (router) {
+    const route = { path, query };
+    newPage ? window.open(router.resolve(route).href, '_blank') : router.push(route);
+  } else {
+    const url = `${window.location.origin}/#${path}${query ? setRouteObj(query) : ''}`;
+    newPage ? window.open(url) : (window.location.href = url);
+  }
 };
 // 颜色转换 __.hexToRgb('#efefef') => rgb(239, 239, 239)
 export const hexToRgb = (hex) => {
