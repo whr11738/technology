@@ -844,17 +844,17 @@ export const getll = (val) => {
 // vue中页面跳转封装
 export const go = (data) => {
   if (typeof data === 'string') {
-    window.location.href = `${window.location.origin}/#${data}`;
+    window.open(`${window.location.origin}/#${data}`, '_self');
     return;
   }
   const { router = null, newPage = true, path, query = null } = data;
   if (!path) return;
   if (router) {
     const route = { path, query };
-    newPage ? window.open(router.resolve(route).href, '_blank') : router.push(route);
+    window.open(router.resolve(route).href, newPage ? '_blank' : '_self');
   } else {
     const url = `${window.location.origin}/#${path}${query ? setRouteObj(query) : ''}`;
-    newPage ? window.open(url) : (window.location.href = url);
+    window.open(url, newPage ? '_blank' : '_self');
   }
 };
 // 颜色转换 __.hexToRgb('#efefef') => rgb(239, 239, 239)
