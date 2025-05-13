@@ -336,6 +336,8 @@ setInterval((domName = 'o0', animationName = 'fade-move') => {
 /* 偏平圆弧*/
 /* <div style="height: 70px;width:100vw;clip-path: ellipse(50% 100% at 50% 100%);background:aqua"></div> */
 /* <div style="height: 70px;width:100vw;clip-path: ellipse(100% 100% at 50% 0%);background:aqua"></div> */
+/* 分割线*/
+/* <div class="w100p h1" style="background: #eaecf0"></div> */
 /* 边框阴影*/
 .yy {
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.08), 0 1px 12px -2px rgba(0, 0, 0, 0.06), 0 4px 8px 0 rgba(0, 0, 0, 0.04);
