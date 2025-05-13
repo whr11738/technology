@@ -340,7 +340,12 @@ setInterval((domName = 'o0', animationName = 'fade-move') => {
 .yy {
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.08), 0 1px 12px -2px rgba(0, 0, 0, 0.06), 0 4px 8px 0 rgba(0, 0, 0, 0.04);
 }
-
+/* 毛玻璃背景*/
+.mbl {
+  background-color: rgba(255, 255, 255, 0.3); /* 半透明背景 */
+  backdrop-filter: blur(10px); /* 模糊效果 */
+  -webkit-backdrop-filter: blur(10px); /* 兼容Safari */
+}
 /* #endregion */
 
 /* #region 初始化 * */
