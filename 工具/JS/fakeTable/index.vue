@@ -72,7 +72,7 @@ const init = () => {
 };
 
 // 取 获取本地数组
-export const getdata = () => {
+const getdata = () => {
   const data = [
     { id: __.getRandom(8), name: '术语1' },
     { id: __.getRandom(8), name: '术语2' },
@@ -91,13 +91,13 @@ export const getdata = () => {
   return __.storage.get('fakeData');
 };
 // 存 更新本地数组
-export const setData = (arr) => __.storage.set('fakeData', arr);
+const setData = (arr) => __.storage.set('fakeData', arr);
 /*
   增 item插入到数组前面，示例 changeData({ id: __.getRandom(8), name: 'name' }, 'add');
   删 依据item中id删除，示例 changeData({ id: 12345678 }, 'del')
   改 依据item中id更新数组中对应条目，示例 changeData({ id: 12345678, name: 'name' }, 'edit');
 */
-export const changeData = (item, type) => {
+const changeData = (item, type) => {
   const fakeData = getdata();
   if (type == 'add') fakeData.unshift(item);
   if (type == 'del') __.arrDelItem(fakeData, 'id', item.id);
@@ -106,7 +106,7 @@ export const changeData = (item, type) => {
   getList(); // 刷新页面表格
 };
 // 查 从本地数组分页查询
-export const searchData = (pageNo = 1, pageSize = 10) => {
+const searchData = (pageNo = 1, pageSize = 10) => {
   const fakeData = getdata();
   const res = {};
   const start = (pageNo - 1) * pageSize;

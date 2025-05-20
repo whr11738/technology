@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-modal :visible="visible" :title="props.in.id ? '编辑' : '增加'" @ok="confirm" @update:visible="updateVisible" :confirm-loading="d.loading" okText="确认" cancelText="取消">
+    <a-modal :visible="visible" :title="props.in?.id ? '编辑' : '增加'" @ok="confirm" @update:visible="updateVisible" :confirm-loading="d.loading" okText="确认" cancelText="取消">
       <a-form ref="formRef" :model="d.form" :rules="rules" :label-col="{ sm: { span: 4 } }" :wrapper-col="{ sm: { span: 20 } }">
         <a-form-item label="名称" name="name">
           <a-input v-model:value.trim="d.form.name" placeholder="请输入"></a-input>
