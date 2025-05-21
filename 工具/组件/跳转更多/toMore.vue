@@ -1,10 +1,10 @@
-<!-- 点击以跳转更多的文字组件组件 -->
+<!-- 点击以跳转更多的文字组件 -->
 <!-- html
   <to-more go="/gx/facility" :query="{ type: '军事基地' }"></to-more>
 -->
 <template>
   <div class="hp" style="display: flex; align-items: center" @click="togo(go, type, query)">
-    <div style="font-size: 14px; margin-right: 4px; color: #c2daff">更多</div>
+    <div style="font-size: 14px; margin-right: 4px; color: #1890ff">更多</div>
     <img src="./more.svg" />
   </div>
 </template>
