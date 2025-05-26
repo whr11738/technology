@@ -13,9 +13,9 @@ const delFun = (item) => console.log('item', item);
         <div class="fy">
           <div>确认删除？</div>
           <div class="f mt12">
-            <a-button @click="d.visible = false">取消</a-button>
+            <a-button @click="d.visible = false" :size="!title && 'small'">取消</a-button>
             <div class="fa" style="min-width: 20px"></div>
-            <a-button type="primary" @click="del" danger>删除</a-button>
+            <a-button type="primary" @click="del" danger :size="!title && 'small'">删除</a-button>
           </div>
         </div>
       </template>
