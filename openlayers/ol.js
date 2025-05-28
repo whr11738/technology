@@ -32,6 +32,18 @@ import { GeoJSON } from 'ol/format';
 // const KML = ol.format.KML.js;
 // const { GeoJSON } = ol.format;
 
+// 地图瓦片
+// window.mapSource = 'https://webrd01.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}'; // 只显示国内
+// window.mapSource = 'http://canary.tm.trsdsj.cn/tmMap/map/baidumaps/roadmap10_12/{z}/{x}/{y}.png'; // 百度
+// window.mapSource = 'https://ggmap.tmapi.trsdsj.cn/tiles/{z}/{x}/{y}.jpg'; // 谷歌1
+// window.mapSource = 'https://ggm.tmapi.trsdsj.cn/tiles/{z}/{x}/{y}.jpg'; // 谷歌2
+// window.mapSource = 'https://ggsm.tmapi.trsdsj.cn/tiles/{z}/{x}/{y}.jpg'; // 谷歌卫星
+// window.mapSource = 'https://webrd04.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=7&x={x}&y={y}&z={z}'; // 高德矢量底图
+// window.mapSource = 'https://webst01.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}'; // 高德卫星影像
+// window.mapSource = 'https://webst04.is.autonavi.com/appmaptile?style=8&x={x}&y={y}&z={z}'; // 高德路网注记
+// window.mapSource = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'; // 免费卫星地图瓦片
+// window.mapSource = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'; // 免费地图瓦片
+
 // 初始化地图
 export const initMap = (options) => {
   let { target = 'mapDom', center = [0, 0], source, zoom = 0, showFullScreen = true, showMousePosition = true, showScaleLine = true, loopMap = false } = options;
@@ -64,6 +76,12 @@ export const initMap = (options) => {
   map.addInteraction(new DragPan()); // 将 DragPan 交互添加到地图中
   map.mapDom = document.getElementById(target); // 将地图容器dom也放进去
   return map;
+};
+// 切换瓦片
+export const changeSource = (map, newUrl) => {
+  const layer = map.getLayers().item(0);
+  const source = layer.getSource();
+  source.setUrl(newUrl);
 };
 // 允许/禁止 拖拽地图
 export const dragMap = (map, draggable = false) => {
@@ -143,6 +161,34 @@ export const changeFeaturePosition = (map, options) => {
   const { id, position } = options;
   getFeature(map, id).getGeometry().setCoordinates(position);
 };
+// 给feature添加文字
+export const addFeatureText = (feature, text) => {
+  const currentStyle = feature.getStyle();
+  const textStyle = new Text({
+    text,
+    font: '12px Arial', // 字体样式
+    fill: new Fill({ color: 'black' }), // 文字颜色
+    // stroke: new Stroke({ color: 'white', width: 1 }), // 文字描边
+    textAlign: 'center', // 水平对齐方式
+    textBaseline: 'bottom', // 垂直对齐方式
+    offsetX: 0, // 水平偏移
+    offsetY: -30, // 垂直偏移
+  });
+  feature.setStyle(new Style({ text: textStyle, ...(currentStyle?.getImage() ? { image: currentStyle.getImage() } : {}) }));
+};
+// 删除feature的文字
+export const delFeatureText = (feature) => {
+  const currentStyle = feature.getStyle();
+  const newStyleObj = new Style({
+    image: currentStyle.getImage && currentStyle.getImage(),
+    fill: currentStyle.getFill && currentStyle.getFill(),
+    stroke: currentStyle.getStroke && currentStyle.getStroke(),
+    circle: currentStyle.getCircle && currentStyle.getCircle(),
+    zIndex: currentStyle.getZIndex && currentStyle.getZIndex(),
+  });
+  feature.setStyle(newStyleObj);
+};
+
 // 添加overlay position为空就是暂时不出现
 export const addOverlay = (map, domId, position = 'null', positioning = 'bottom', offset = [0, 0]) => {
   const marker = new Overlay({

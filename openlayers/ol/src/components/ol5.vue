@@ -48,6 +48,7 @@ const initMap = () => {
   console.log(olMap.getFeatureData(feature1)); // 获取feature1数据
   console.log(olMap.getFeatureList(map)); // 获取所有feature
   // olMap.removeFeature(map, 1); // 移除feature
+  olMap.addFeatureText(feature1, 'text');
   const tipDom = olMap.addOverlay(map, 'tipDom', null, 'bottom', [0, 0]); // 添加overlay提示弹窗
   // 悬浮feature1显示overlay
   olMap.featureShowOverlay(map, {
