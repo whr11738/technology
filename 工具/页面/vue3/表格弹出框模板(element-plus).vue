@@ -24,11 +24,11 @@
         </el-form-item>
         <!-- 查询 -->
         <el-form-item>
-          <el-button type="primary" @click="init">{{ "查询" }}</el-button>
+          <el-button type="primary" @click="init">{{ '查询' }}</el-button>
         </el-form-item>
         <!-- 重置 -->
         <el-form-item>
-          <el-button type="primary" @click="reset">{{ "重置" }}</el-button>
+          <el-button type="primary" @click="reset">{{ '重置' }}</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -41,17 +41,17 @@
         <el-table-column label="操作" prop="userId" align="center" min-width="90">
           <template #default="{ row }">
             <!-- 详情 -->
-            <el-button type="text" @click="clickDet(row)">{{ "详情" }}</el-button>
+            <el-button type="text" @click="clickDet(row)">{{ '详情' }}</el-button>
             <!-- 修改 -->
-            <el-button type="text" @click="clickEdit(row)">{{ "修改" }}</el-button>
+            <el-button type="text" @click="clickEdit(row)">{{ '修改' }}</el-button>
             <!-- 删除 -->
-            <el-button type="text" @click="clickDel(row)">{{ "删除" }}</el-button>
+            <el-button type="text" @click="clickDel(row)">{{ '删除' }}</el-button>
           </template>
         </el-table-column>
       </el-table>
       <div class="w100 f" style="margin-top: 20px">
         <div class="fa"></div>
-        <span class="" style="">{{ 总数 + ": " + d.pagination.total }}</span>
+        <span class="" style="">{{ 总数 + ': ' + d.pagination.total }}</span>
         <el-pagination
           style="margin-top: 20px"
           background
@@ -61,16 +61,15 @@
           v-model="d.pagination.current"
           :page-size="d.pagination.pageSize"
           :total="d.pagination.total"
-          @current-change="nextPage"
-        >
+          @current-change="nextPage">
         </el-pagination>
       </div>
     </el-card>
   </el-dialog>
 </template>
 <script setup>
-import "@/assets/css/baseStyle.css";
-import { onMounted, reactive } from "vue";
+import { ref, reactive, onMounted, defineProps, defineEmits, defineExpose, watch, computed, nextTick, provide, inject } from 'vue';
+import '@/assets/css/baseStyle.css';
 // import * as api from "@/api/";
 // import * as tool from "@/utils/baseTool";
 

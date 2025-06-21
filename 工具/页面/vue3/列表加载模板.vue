@@ -33,7 +33,7 @@
   </div>
 </template>
 <script setup>
-import { ref, reactive, onMounted, provide } from 'vue';
+import { ref, reactive, onMounted, defineProps, defineEmits, defineExpose, watch, computed, nextTick, provide, inject } from 'vue';
 import * as __ from '@/utils/tool.js';
 
 const d = reactive({

@@ -1,0 +1,476 @@
+/* @import url(./styles_css.css); */
+/* @import url(./styles_less.less); */
+
+/* #region flex弹性盒子 f */
+.flex,
+.f {
+  display: flex;
+}
+.flex-none,
+.fn {
+  flex: none;
+}
+.flex-auto,
+.fa {
+  flex: auto;
+}
+.flex-around {
+  display: flex;
+  justify-content: space-around;
+}
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+.flex-center,
+.fc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flex-x-center,
+.fxc {
+  display: flex;
+  justify-content: center;
+}
+.flex-y-center,
+.fyc {
+  display: flex;
+  align-items: center;
+}
+.flex-column,
+.fy {
+  display: flex;
+  flex-direction: column;
+}
+.flex-wrap,
+.fw {
+  display: flex;
+  flex-wrap: wrap;
+}
+.flex-start,
+.fs {
+  display: flex;
+  justify-content: flex-start;
+}
+.flex-end,
+.fe {
+  display: flex;
+  justify-content: flex-end;
+}
+/* #endregion */
+
+/* #region grid布局 g */
+.g {
+  display: grid;
+}
+/* #endregion */
+
+/* #region 字体 e */
+.ul {
+  text-decoration: underline;
+}
+.tc {
+  text-align: center;
+}
+.e {
+  /* 字数溢出省略(单行) */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.ellipsis {
+  /* 字数溢出省略(多行) */
+  /* 必须结合的属性 ，将对象作为弹性伸缩盒子模型显示 */
+  display: -webkit-box;
+  /* 可以用来多行文本的情况下，用省略号“…”隐藏超出范围的文本  */
+  text-overflow: ellipsis;
+  overflow: hidden;
+  /* 第几行显示缩略符号 */
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+/* #endregion */
+
+/* #region 指针 h */
+.cursor-pointer:hover,
+.hp:hover {
+  cursor: pointer;
+}
+.cursor-default:hover,
+.hd:hover {
+  cursor: default;
+}
+.select-none,
+.hn {
+  /* 指针无法选取 */
+  user-select: none;
+}
+/* #endregion */
+
+/* #region 溢出 o */
+.hide,
+.oh {
+  overflow: hidden;
+}
+.scroll-auto,
+.oa {
+  overflow-x: auto;
+  overflow-y: auto;
+}
+.scroll-x-auto,
+.ox {
+  overflow-x: auto;
+}
+.scroll-y-auto,
+.oy {
+  overflow-y: auto;
+}
+/* #endregion */
+
+/* #region 定位 p */
+.absolute,
+.pa {
+  position: absolute;
+}
+.relative,
+.pr {
+  position: relative;
+}
+.fixed,
+.pf {
+  position: fixed;
+}
+.center,
+.pc {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+/* #endregion */
+
+/* #region 盒子类型 b */
+.border-box,
+.bb {
+  box-sizing: border-box;
+}
+/* #endregion */
+
+/* #region 动画 */
+/* 过渡动画效果 */
+.transition,
+.a {
+  transition: all 1s;
+}
+
+/* 渐入动画效果 */
+/*
+// domName：dom有的class，要有透明度为0  animationName：动画名称
+import { domInViewport, findString } from '@/utils/baseTool.js'
+setInterval((domName = 'o0', animationName = 'fade-move') => {
+  const domList = document.getElementsByClassName(domName)
+  if (domList.length === 0) return
+  for (const dom of domList) {
+    if (domInViewport(dom) && findString(dom.className, animationName).length <= 1)
+      dom.className = dom.className + ' ' + animationName
+  }
+}, 100) 
+*/
+@keyframes top-move {
+  0% {
+    transform: translate(0, 75%) scaleY(0.75);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}
+.fade-move {
+  /* 动画名称 */
+  animation-name: top-move;
+  /* 动画时间 */
+  animation-duration: 1s;
+  /* 动画开始前等待时间 */
+  animation-delay: 0s;
+  /* 循环次数 infinite 无限循环*/
+  animation-iteration-count: 1;
+  /* 反向播放  reverse 反向*/
+  animation-direction: normal;
+  /* 不播放时状态  */
+  animation-fill-mode: both;
+}
+/* 渐入渐出 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+/*顺时针旋转*/
+@keyframes changeright {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.rotate-right {
+  animation: changeright 1s linear infinite;
+}
+/*逆时针旋转*/
+@keyframes changeleft {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-180deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+.rotate-left {
+  animation: changeleft 1s linear infinite;
+}
+/*彩色下划线*/
+.colored-underline {
+  background: linear-gradient(to right, #ec695c, #61c454) no-repeat right bottom;
+  background-size: 0 2px;
+  transition: background-size 1300ms;
+}
+.colored-underline:hover {
+  background-position-x: left;
+  background-size: 100% 2px;
+}
+
+/* #endregion */
+
+/* #region 滚动条 */
+.no-scroll-bar ::-webkit-scrollbar {
+  /* 隐藏滚动条 */
+  display: none;
+}
+.scrollbar ::-webkit-scrollbar {
+  width: 5px;
+  height: 10px;
+}
+.scrollbar ::-webkit-scrollbar-track-piece {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+}
+.scrollbar ::-webkit-scrollbar-thumb:vertical {
+  height: 5px;
+  background-color: rgba(125, 125, 125, 0.7);
+  border-radius: 6px;
+}
+.scrollbar ::-webkit-scrollbar-thumb:horizontal {
+  width: 5px;
+  background-color: rgba(125, 125, 125, 0.7);
+  border-radius: 6px;
+}
+/* #endregion */
+
+/* #region 组件 */
+/* 按钮 */
+.ele-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 96px;
+  height: 38px;
+  background-color: rgb(64, 158, 255);
+  border: 1px solid;
+  color: white;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+}
+.ele-btn:hover {
+  background-color: rgb(102, 177, 255);
+}
+.ele-btn:active {
+  background-color: rgb(58, 142, 230);
+}
+/* 输入框 */
+.ele-input {
+  width: 178px;
+  height: 40px;
+  border: 1px solid rgb(220, 223, 230);
+  border-radius: 4px;
+  font-size: 14px;
+  padding: 0 15px;
+  cursor: pointer;
+  outline: none;
+  resize: none;
+}
+.ele-input:hover {
+  border: 1px solid rgb(192, 196, 204);
+}
+.ele-input:focus {
+  border: 1px solid rgb(64, 158, 255);
+}
+.ele-input::-webkit-input-placeholder {
+  color: rgb(192, 196, 204);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+/* 虚线 需要给一个高度 有需求可以加透明度*/
+/* <div class="dotted" style="height: 1px; opacity: 0.2"></div> */
+.dotted {
+  background-image: linear-gradient(to right, #000 35%, rgba(255, 255, 255, 0) 0%); /* 35%设置虚线点x轴上的长度 */
+  background-position: bottom; /* top配置上边框位置的虚线 */
+  background-size: 10px 1px; /* 第一个参数设置虚线点的间距；第二个参数设置虚线点y轴上的长度 */
+  background-repeat: repeat-x;
+}
+/* 偏平圆弧*/
+/* <div style="height: 70px;width:100vw;clip-path: ellipse(50% 100% at 50% 100%);background:aqua"></div> */
+/* <div style="height: 70px;width:100vw;clip-path: ellipse(100% 100% at 50% 0%);background:aqua"></div> */
+/* #endregion */
+
+/* #region 初始化 * */
+/* 简约 */
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font-weight: normal;
+  vertical-align: baseline;
+}
+html,
+body {
+  width: 100%;
+}
+/* 复杂 */
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+/* #endregion */

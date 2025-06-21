@@ -45,14 +45,14 @@
   </el-dialog>
 </template>
 <script setup>
-import "@/assets/css/baseStyle.css";
-import { onMounted, reactive, ref, defineProps } from "vue";
+import '@/assets/css/baseStyle.css';
+import { ref, reactive, onMounted, defineProps, defineEmits, defineExpose, watch, computed, nextTick, provide, inject } from 'vue';
 
 const defaultRulesRef = {
   required: true,
   validator: async (_rule, value) => {
-    if (value === "" || !value) {
-      throw new Error("此项必填");
+    if (value === '' || !value) {
+      throw new Error('此项必填');
     }
   },
 };
@@ -72,17 +72,17 @@ const data = reactive({
   },
   options: [
     {
-      label: "类型1",
+      label: '类型1',
       value: 1,
     },
     {
-      label: "类型2",
+      label: '类型2',
       value: 2,
     },
   ],
   form: {
-    name: "",
-    desc: "",
+    name: '',
+    desc: '',
     number: 0,
     type: 1,
     yes: 0,
@@ -91,7 +91,7 @@ const data = reactive({
 });
 const formRef = ref();
 const onSubmit = async () => {
-  console.log("onSubmit");
+  console.log('onSubmit');
   console.log(data.form);
   const valid = await formRef.value.validate();
   console.log(valid);

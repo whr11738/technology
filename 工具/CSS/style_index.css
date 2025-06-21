@@ -73,11 +73,16 @@
 .tc {
   text-align: center;
 }
+.wn {
+  /* 字数溢出不换行 */
+  white-space: nowrap;
+}
 .e {
   /* 字数溢出省略(单行) */
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  /* word-break: keep-all; */
 }
 .ellipsis {
   /* 字数溢出省略(多行) */
@@ -159,8 +164,8 @@
 /* #region 动画 */
 /* 过渡动画效果 */
 .transition,
-.a {
-  transition: all 1s;
+.t {
+  transition: all 0.3s ease;
 }
 
 /* 渐入动画效果 */
@@ -319,7 +324,7 @@ setInterval((domName = 'o0', animationName = 'fade-move') => {
 }
 .ele-input::-webkit-input-placeholder {
   color: rgb(192, 196, 204);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 /* 虚线 需要给一个高度 有需求可以加透明度*/
 /* <div class="dotted" style="height: 1px; opacity: 0.2"></div> */
@@ -332,6 +337,18 @@ setInterval((domName = 'o0', animationName = 'fade-move') => {
 /* 偏平圆弧*/
 /* <div style="height: 70px;width:100vw;clip-path: ellipse(50% 100% at 50% 100%);background:aqua"></div> */
 /* <div style="height: 70px;width:100vw;clip-path: ellipse(100% 100% at 50% 0%);background:aqua"></div> */
+/* 分割线*/
+/* <div class="w100p h1" style="background: #eaecf0"></div> */
+/* 边框阴影*/
+.yy {
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.08), 0 1px 12px -2px rgba(0, 0, 0, 0.06), 0 4px 8px 0 rgba(0, 0, 0, 0.04);
+}
+/* 毛玻璃背景*/
+.mbl {
+  background-color: rgba(255, 255, 255, 0.3); /* 半透明背景 */
+  backdrop-filter: blur(10px); /* 模糊效果 */
+  -webkit-backdrop-filter: blur(10px); /* 兼容Safari */
+}
 /* #endregion */
 
 /* #region 初始化 * */
@@ -466,7 +483,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 table {

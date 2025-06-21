@@ -1,15 +1,17 @@
 // #region 对象
+// 对象转数组
+export const objToArr = (obj) => Object.entries(obj).map(([key, value]) => ({ key, value }));
+// 对象转URL
+export const ObjToUrl = (api, obj) => {
+  let url = api + '?';
+  for (const i in obj) {
+    url += `${i}=${obj[i]}&`;
+  }
+  url = url.substring(0, url.length - 1);
+  return url;
+};
 // 复制对象/数组
 export const copyObj = (obj) => JSON.parse(JSON.stringify(obj));
-// 数组转对象
-export const arrToObj = (arr) => {
-  const res = {};
-  for (const i in arr) {
-    const num = `${parseInt(i) + 1}`;
-    res[num] = arr[i];
-  }
-  return res;
-};
 // 遍历一个对象包括里面的所有属性，以下类型会被遍历出来 Number String Boolean undefined，如 getObjKey({ a: 1, b: { c: '2', d: { e: true, f: { g: undefined } } } });
 export const getObjKey = (obj) => {
   for (let key in obj) {
@@ -82,53 +84,73 @@ export const initArrObj = (arr, tag, val = '') => {
   }
   return arr;
 };
-// 对象转URL
-export const ObjToUrl = (api, obj) => {
-  let url = api + '?';
-  for (const i in obj) {
-    url += `${i}=${obj[i]}&`;
-  }
-  url = url.substring(0, url.length - 1);
-  return url;
-};
 // #endregion
 
 // #region 数组
+// 数组转字符串
+export const arrToStr = (val, tag = ';') => val.join(tag);
+// 数组转对象
+export const arrToObj = (arr) => {
+  const res = {};
+  for (const i in arr) {
+    const num = `${parseInt(i) + 1}`;
+    res[num] = arr[i];
+  }
+  return res;
+};
+// 截取数组索引start至end，包含start和end，不改变原数组 arrSlice([1, 2, 3, 4], 1, 2) => [2,3]
+export const arrSlice = (arr, start, end) => arr.slice(start, end + 1);
+// 是纯数组
+export const arrPure = (arr) => !typeTool.isObject(arr[0]);
 // (增) 在数组(arr)索引(index)位置后面插入item
-export const arrAddIndex = (index, item) => arr.splice(index + 1, 0, item);
-// (增) 在数组(arr)中属性(key)值为val的目标后面插入item
-export const arrAddItem = (arr, key, val, item) => arr.splice(arrFindIndex(arr, key, val) + 1, 0, item);
+export const arrAddIndex = (arr, index, item) => arr.splice(index + 1, 0, item); // 改变原数组
+// (增) 在数组(arr)中属性(key)值为(val)的目标后面插入item，纯数组key传null
+export const arrAddItem = (arr, key, val, item) => {
+  if (arrPure(arr)) return arr.splice(arrFindIndex(arr, null, val) + 1, 0, item); // 改变原数组
+  else return arr.splice(arrFindIndex(arr, key, val) + 1, 0, item); // 改变原数组
+};
 // (删) 根据索引(index)删除数组(arr)中目标
 export const arrDelIndex = (arr, index) => arr.splice(index, 1);
-// (删) 删除数组(arr)中属性(key)值为val的目标
-export const arrDelItem = (arr, key, val) => arr.splice(arrFindIndex(arr, key, val), 1);
-// (查) 查找数组(arr)中属性(key)值为val的目标的索引
-export const arrFindIndex = (arr, key, val) => arr.findIndex((item) => item[key] === val);
-// (查) 查找数组(arr)中属性(key)值为val的目标
+// (删) 删除数组(arr)中属性(key)值为(val)的目标，纯数组key传null
+export const arrDelItem = (arr, key, val) => {
+  if (arrPure(arr)) return arr.splice(arrFindIndex(arr, null, val), 1); // 改变原数组
+  else return arr.splice(arrFindIndex(arr, key, val), 1); // 改变原数组
+};
+// (删) 删除数组中所有(arr)中属性(key)值为(val)的目标，纯数组key传null,不改变原数组
+export const arrDelAllItem = (arr, key, val) => arr.filter((item) => (arrPure(arr) ? item !== val : item[key] !== val));
+// (查) 查找数组(arr)中属性(key)值为(val)的目标的索引，纯数组key传null
+export const arrFindIndex = (arr, key, val) => {
+  if (arrPure(arr)) return arr.findIndex((item) => item === val);
+  else return arr.findIndex((item) => item[key] === val);
+};
+// (查) 查找对象数组(arr)中属性(key)值为(val)的目标
 export const arrFindItem = (arr, key, val) => {
   const i = arr.findIndex((item) => item[key] === val);
   return i === -1 ? null : arr[i];
 };
-// (查) 查找数组(arr)中属性(key)值为val的目标的属性（goal）的值
+// (查) 查找对象数组(arr)中属性(key)值为(val)的目标的属性(goal)的值
 export const arrFind = (arr, key, val, goal) => {
   const i = arr.findIndex((item) => item[key] === val);
   return i === -1 ? null : arr[i][goal];
 };
-// (查) 查找数组中是否存在val
-export const arrHave = (arr, val) => arr.indexOf(val) !== -1;
-// (查) 查找对象数组中是否存在item
-export const arrHaveItem = (arr, item) => {
-  let res = false;
-  for (const i of arr) {
-    if (JSON.stringify(i) === JSON.stringify(item)) res = true;
+// (查) 查找数组中是否存在(item)
+export const arrHave = (arr, item) => {
+  if (arrPure(arr)) return arr.indexOf(item) !== -1;
+  else {
+    for (const i of arr) if (JSON.stringify(i) === JSON.stringify(item)) return true;
+    return false;
   }
-  return res;
 };
-// (排) 对数组(arr)根据(sortKey)属性排序,direction为up是升序排序，否则降序排序,该方法不改变原数组
-export const arrSort = (arr, sortKey, direction = 'up') => {
+// (排) 对数组(arr)根据(key)属性排序,direction为up是升序排序，否则降序排序，该方法不改变原数组，纯数组key传null
+export const arrSort = (arr, key, direction = 'up') => {
   if (!arr.length) return [];
-  if (direction == 'up') return arr.slice().sort((i, _i) => i[sortKey] - _i[sortKey]);
-  else return arr.slice().sort((i, _i) => _i[sortKey] - i[sortKey]);
+  if (arrPure(arr)) {
+    if (direction == 'up') return arr.slice().sort((i, _i) => i - _i);
+    else return arr.slice().sort((i, _i) => _i - i);
+  } else {
+    if (direction == 'up') return arr.slice().sort((i, _i) => i[key] - _i[key]);
+    else return arr.slice().sort((i, _i) => _i[key] - i[key]);
+  }
 };
 // 保留响应式给数组赋值
 export const copyArr = (arr, target) => {
@@ -159,15 +181,13 @@ export const uniqueObjArr = (arr, uniId) => {
   const res = new Map();
   return arr.filter((item) => !res.has(item[uniId]) && res.set(item[uniId], 1));
 };
-// 数组转字符串
-export const arrToStr = (val, tag = ';') => val.join(tag);
-// 字符串转数组
-export const strToArr = (str, tag = '') => str.split(tag);
 // #endregion
 
 // #region 字符串
 // 字符串转数字
 export const strToNum = (val) => parseInt(val, 10);
+// 字符串转数组
+export const strToArr = (str, tag = '') => str.split(tag);
 // 字符串转对象（兼容是否有花括号）
 export const strToObj = (val) => {
   let res = {};
@@ -180,8 +200,8 @@ export const strToObj = (val) => {
   }
   return res;
 };
-// 数字转字符串
-export const numToStr = (val) => `${val}`;
+// 截取字符串索引start至end，包含start和end，不改变原字符串 strSlice('1234', 1, 2) => '23'
+export const strSlice = (str, start, end) => str.slice(start, end + 1);
 // 首字母大写,其余小写
 export const titleCase = (str) => {
   const newStr = str.toLowerCase();
@@ -264,6 +284,8 @@ export const getMediaTag = (data) => {
 // #endregion
 
 // #region 数字
+// 数字转字符串
+export const numToStr = (val) => `${val}`;
 // 返回小数保留后几位后的数字(四舍五入)
 export const initNum = (num, len) => {
   if (decimalLen(num) >= len) {
@@ -288,6 +310,26 @@ export const isIntNum = (val) => {
 // #endregion
 
 // #region 时间
+// 秒数转化为时分秒
+export const formatSeconds = (value) => {
+  let second = parseInt(value);
+  let minute = 0;
+  let hour = 0;
+  if (second >= 60) {
+    minute = parseInt(second / 60);
+    second = parseInt(second % 60);
+    if (minute >= 60) {
+      hour = parseInt(minute / 60);
+      minute = parseInt(minute % 60);
+    }
+  }
+  const getZero = (v) => (v < 10 ? '0' + v : v);
+  const h = getZero(parseInt(hour));
+  const m = getZero(parseInt(minute));
+  const s = getZero(parseInt(second));
+  const result = `${h}:${m}:${s}`;
+  return result;
+};
 // 时间工具 参数(时间戳,时间格式替换)
 export const dateTool = (data, replace) => {
   let newDate = new Date();
@@ -422,26 +464,6 @@ export const getDateList = (start, end) => {
   }
   return dateList;
 };
-// 秒数转化为时分秒
-export const formatSeconds = (value) => {
-  let second = parseInt(value);
-  let minute = 0;
-  let hour = 0;
-  if (second >= 60) {
-    minute = parseInt(second / 60);
-    second = parseInt(second % 60);
-    if (minute >= 60) {
-      hour = parseInt(minute / 60);
-      minute = parseInt(minute % 60);
-    }
-  }
-  const getZero = (v) => (v < 10 ? '0' + v : v);
-  const h = getZero(parseInt(hour));
-  const m = getZero(parseInt(minute));
-  const s = getZero(parseInt(second));
-  const result = `${h}:${m}:${s}`;
-  return result;
-};
 // #endregion
 
 // #region dom
@@ -455,10 +477,11 @@ export const addDom = (fatherDomId, dom) => {
   fatherDom.appendChild(dom);
 };
 // 删除dom
-export const delDom = (fatherDomId, childDomId) => {
-  const fatherDom = document.getElementById(fatherDomId);
-  for (const childDom of fatherDom.childNodes) {
-    if (childDom.id == childDomId) fatherDom.removeChild(childDom);
+export const delDom = (childDomId) => {
+  const childDom = document.getElementById(childDomId);
+  const fatherDom = childDom.parentNode;
+  for (const i of fatherDom.childNodes) {
+    if (i.id == childDomId) fatherDom.removeChild(i);
   }
 };
 // 移动dom 在fatherDomId下将tDomId移动到bDomId前面 moveDom("fatherDom", "dom4", "dom2")
@@ -546,7 +569,7 @@ export const domInViewport = (el) => {
 export const scrollView = (id) => {
   document.querySelector(`#${id}`).scrollIntoView({ behavior: 'smooth' });
 };
-// 使溢出滚动的div滚动到指定位置
+// 使溢出滚动的div滚动到指定位置 nextTick(() => { divScroll(getDom('domName'),0,'bottom') })
 export const divScroll = (el, val = 0, topOrBottom = 'top') => {
   if (!el) return;
   let { scrollHeight, offsetHeight } = el;
@@ -686,9 +709,44 @@ export const notEmpty = (value) => value !== null && value !== undefined && valu
 export const notEmptyArrObj = (data) => !!(Array.isArray(data) ? data.length : Object.keys(data).length);
 // 内容非空 不是 null undefined "" {} []
 export const fullData = (data) => (typeTool.isArray(data) || typeTool.isObject(data) ? notEmptyArrObj(data) : notEmpty(data));
+// html转义 v-html="translateHTML(html)"
+export const translateHTML = (html) =>
+  String(html || '')
+    .replace(/&#39;/g, `'`)
+    .replace(/&apos;/g, `'`)
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/{/g, '')
+    .replace(/}/g, '')
+    .replace(/\\/g, '')
+    .replace(/position:fixed/g, 'position:relative');
+// JS字符串转HTML字符串
+export const jsToHtml = (text) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;').replace(/\n/g, '<br>');
 // #endregion
 
 // #region 数据
+// 地址路径转对象
+export const getRouteObj = (url) => {
+  const routeObj = {};
+  const queryStr = url.split('?')[1];
+  if (queryStr) {
+    const queryArr = queryStr.split('&');
+    queryArr.forEach((i) => {
+      routeObj[i.split('=')[0]] = i.split('=')[1];
+    });
+  }
+  return routeObj;
+};
+// 对象转地址路径
+export const setRouteObj = (data) => {
+  let res = '?';
+  for (const i in data) {
+    res = res + i + '=' + data[i] + '&';
+  }
+  return res.slice(0, -1);
+};
 // 初始化选择器
 export const initOptions = (arr, label, value) => arr.map((i) => ({ label: i[label], value: i[value] || i[label] }));
 // 初始化选择器 使用纯对象
@@ -747,26 +805,6 @@ export const initRequestDataLimit = (requestData, indexArray, formData) => {
   });
   return result;
 };
-// 地址路径转对象
-export const getRouteObj = (url) => {
-  const routeObj = {};
-  const queryStr = url.split('?')[1];
-  if (queryStr) {
-    const queryArr = queryStr.split('&');
-    queryArr.forEach((i) => {
-      routeObj[i.split('=')[0]] = i.split('=')[1];
-    });
-  }
-  return routeObj;
-};
-// 对象转地址路径
-export const setRouteObj = (data) => {
-  let res = '?';
-  for (const i in data) {
-    res = res + i + '=' + data[i] + '&';
-  }
-  return res.slice(0, -1);
-};
 // 格式化流量数据
 export const getll = (val) => {
   let size = null;
@@ -785,6 +823,30 @@ export const getll = (val) => {
 // #endregion
 
 // #region 工具
+// 颜色转换 __.hexToRgb('#efefef') => rgb(239, 239, 239)
+export const hexToRgb = (hex) => {
+  hex = hex.replace(/^#/, '');
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+  return 'rgb(' + r + ', ' + g + ', ' + b + ')';
+};
+// 颜色转换 __.rgbToHex(239, 239, 239) => #efefef
+export const rgbToHex = (r, g, b) => {
+  let hexR = Math.floor(r).toString(16);
+  let hexG = Math.floor(g).toString(16);
+  let hexB = Math.floor(b).toString(16);
+  hexR = hexR.length === 1 ? '0' + hexR : hexR;
+  hexG = hexG.length === 1 ? '0' + hexG : hexG;
+  hexB = hexB.length === 1 ? '0' + hexB : hexB;
+  return '#' + hexR + hexG + hexB;
+};
+// 获取字符串中括号中的内容 __.getContents('fun(x, y, z);') => ['x', ' y', ' z']
+export const getContents = (inputStr) => {
+  const match = inputStr.match(/\(([^)]+)\)/);
+  if (match && match[1]) return match[1].split(',');
+  return [];
+};
 // 获取页面加载时间
 export const getStartTime = () => window.performance.getEntriesByName('first-contentful-paint')[0].startTime;
 // 文件类型大小判断
