@@ -1,0 +1,7 @@
+查看代理
+git config --global --get http.proxy
+git config --global --get https.proxy
+
+重置代理
+git config --global --unset http.proxy
+git config --global --unset https.proxy
