@@ -312,6 +312,15 @@ export const initNum = (num, len) => {
     return num;
   }
 };
+// 返回数字一定有小数后两位(四舍五入)
+export const initNumHas2 = (num) => {
+  const numStr = num.toString();
+  if (numStr.includes('.')) {
+    const [intPart, decPart] = numStr.split('.');
+    if (decPart.length < 2) return `${intPart}.${decPart.padEnd(2, '0')}`;
+    else return numStr;
+  } else return `${numStr}.00`;
+};
 // 返回小数长度
 export const decimalLen = (num) => {
   const numInstr = num + '';
