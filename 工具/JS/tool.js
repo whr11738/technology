@@ -853,7 +853,9 @@ export const getll = (val) => {
 // vue中页面跳转封装
 export const go = (data) => {
   if (typeof data === 'string') {
-    window.open(`${window.location.origin}/#${data}`, '_self');
+    // window.open(`${window.location.origin}/#${data}`, '_self');
+    const getBaseURL = (input) => input.substring(0, input.lastIndexOf('/'));
+    window.open(getBaseURL(window.location.href) + data, '_self');
     return;
   }
   const { router = null, newPage = true, path, query = null } = data;
